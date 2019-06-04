@@ -64,7 +64,7 @@
   get_url:
     url: "{{ vault_zip_url }}"
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
-    checksum: "sha256:{{ vault_sha256.stdout }}"
+    checksum: "sha256:{{ vault_sha256.results }}"
     timeout: "42"
   become: false
   run_once: true
