@@ -44,9 +44,11 @@
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_user }}"
     mode: 0755
+  become: true
+  become_user: root
   when: mongodb_systemlog_destination == "file"
 
-- name: Check than logfile exists
+- name: Check that logfile exists
   stat: path={{ mongodb_systemlog_path }}
   register: logfile_stat
   when: mongodb_systemlog_destination == "file"
