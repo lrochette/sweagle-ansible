@@ -23,5 +23,5 @@
 
 - name: Display Java version
   debug:
-    msg: "{{ java_result.stdout }}"
+    msg: "{{ java_result }}"
   tags: jdk
