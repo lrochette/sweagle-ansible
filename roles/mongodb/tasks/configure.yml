@@ -73,6 +73,9 @@
     setype: 'mongod_var_lib_t'
     recurse: true
     follow: true
+  become: true
+  become_user: root
+
 
 - name: Configure mongodb
   template:
