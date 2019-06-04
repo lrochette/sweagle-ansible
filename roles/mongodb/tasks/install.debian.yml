@@ -67,6 +67,8 @@
   when: ansible_service_mgr == "systemd"
   notify:
     - reload systemd
+  become: true
+  become_user: root
 
 - name: Add symlink for systemd
   file: src=/lib/systemd/system/mongodb.service dest=/etc/systemd/system/multi-user.target.wants/mongodb.service state=link
