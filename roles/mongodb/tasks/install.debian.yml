@@ -52,11 +52,15 @@
     name: "{{ mongodb_package }}{% if (mongodb_version | length > 3) %}={{ mongodb_version }}{% endif %}"
     state: "{{ mongodb_package_state }}"
     update_cache: true
+  become: true
+  become_user: root
 
 - name: Install numactl package
   apt:
     name: numactl
     state: present
+  become: true
+  become_user: root
 
 - name: Add systemd configuration if present
   copy: src=mongodb.service dest=/lib/systemd/system/mongodb.service owner=root group=root mode=0644
@@ -73,6 +77,8 @@
 - name: Install PyMongo package
   apt:
     name: python-pymongo
+  become: true
+  become_user: root
   when: not mongodb_pymongo_from_pip
 
 - name: Install PIP
@@ -80,6 +86,8 @@
     pkg:
       - python-dev
       - python-pip
+  become: true
+  become_user: root
   when: mongodb_pymongo_from_pip | bool
 
 - name: Install PyMongo from PIP
