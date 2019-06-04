@@ -1,10 +1,13 @@
 ---
+## Prerequisite
+## be sure ansible.cfg knows your inventory folder
+# more /etc/ansible/ansible.cfg
 ## Test with
-# ansible-playbook all-in-one --check
+# ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
 - hosts: localhost
   tasks:
     - debug: msg="Install Prerequisites"
   roles:
     - jdk
-#    - mysql
-#    - elasticsearch
+    - mysql
+    - elasticsearch
