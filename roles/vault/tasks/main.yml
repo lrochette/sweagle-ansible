@@ -18,7 +18,7 @@
 
   - name: Copy vault config to server
     template:
-      src: /templates/vaultconfig.hcl.j2
+      src: ./templates/vaultconfig.hcl.j2
       dest: /etc/opt/vault/vaultconfig.hcl
     become: true
 
