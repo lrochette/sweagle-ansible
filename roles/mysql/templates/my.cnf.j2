@@ -9,9 +9,9 @@
 !includedir /etc/mysql/mysql.conf.d/
 
 [client]
-user = {{ mysql_user | default(mysql_default_user) }}
+user = {{ mysql_user | default('root') }}
 password = {{ mysql_password }}
 
 [mysqld]
-port = {{ mysql_port | default(mysql_default_port) }}
+port = {{ mysql_port | default(3306) }}
 default-authentication-plugin= {{ mysql_authentication_plugin }}
