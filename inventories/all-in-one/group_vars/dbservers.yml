@@ -4,6 +4,4 @@ mysql_port: 3306
 mysql_user: root
 mysql_password: root
 
-mongodb_version: "3.6"
-
 vault_backend: mysql
