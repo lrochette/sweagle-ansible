@@ -1,7 +1,6 @@
 ---
 ## Test with
-# ansible-playbook all-in-one.yaml --check
-
+# ansible-playbook all-in-one --check
 - hosts: localhost
   tasks:
     - debug: msg="Install Prerequisites"
