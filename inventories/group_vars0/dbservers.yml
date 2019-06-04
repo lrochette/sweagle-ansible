@@ -1,0 +1,6 @@
+---
+# Variables for DB SERVERS in DEV environment
+mysql_user: root
+mysql_password: root
+
+mysql_port: 3306

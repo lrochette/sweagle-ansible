@@ -1,5 +1,8 @@
 ---
-- hosts: localhost
+## Test with
+# ansible-playbook all-in-one.yaml --check
+
+- hosts: ./inventories/all-in-one.yaml
   tasks:
     - debug: msg="Install Prerequisites"
   roles:

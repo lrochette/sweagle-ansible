@@ -1,0 +1,45 @@
+---
+# Variables for CORE SERVERS in DEV environment
+# List of libraries (jar files) to install in Tomcat lib/ directory
+tomcat_libraries: []
+
+# List of application WARs to deploy on the Tomcat server
+tomcat_deploy_wars: []
+
+######################################
+#####    TOMCAT CONFIGURATION
+######################################
+tomcat_roles:
+  - admin-gui
+  - manager-gui
+  - manager-status
+  - manager-script
+  - manager-jmx
+
+# Tomcat users
+# List of structs of the form:
+# - name: USERNAME
+#   password: PASSWORD
+#   roles:
+#     - ROLE1
+#     - ROLE2
+tomcat_users:
+  - name: tomcat
+    password: tomcat
+    roles:
+      - admin-gui
+      - manager-gui
+
+tomcat_port: 8080
+tomcat_ssl_port: 8443
+
+tomcat_catalina_home_dir: /usr/share/tomcat8
+tomcat_catalina_base_dir: /var/lib/tomcat8
+tomcat_config_dir: /etc/tomcat8
+
+# Unix account used for tomcat service and files
+tomcat_user: 'tomcat8'
+tomcat_group: 'tomcat8'
+
+tomcat_memory_size: 1024m
+tomcat_memory_permsize: 128m
