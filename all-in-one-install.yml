@@ -11,6 +11,7 @@
 - hosts: dbservers
   roles:
     - mysql
+    - mongodb
     - elasticsearch
 
 - hosts: webservers
