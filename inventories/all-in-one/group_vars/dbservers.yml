@@ -8,3 +8,5 @@ mysql_password: root
 mongodb_package: mongodb
 
 vault_backend: mysql
+vault_server: "127.0.0.1"
+vault_port: 8200
