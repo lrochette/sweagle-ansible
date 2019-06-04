@@ -11,3 +11,4 @@
     - jdk
     - mysql
     - elasticsearch
+    - nginx
