@@ -17,7 +17,9 @@
     become: true
 
   - name: Copy vault config to server
-    copy: src=vaultconfig.hcl dest=/etc/opt/vault/
+    template:
+      src: /templates/vaultconfig.hcl.j2
+      dest: /etc/opt/vault/vaultconfig.hcl
     become: true
 
   - name: Copy vault service to server
