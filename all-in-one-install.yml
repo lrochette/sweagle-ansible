@@ -4,11 +4,15 @@
 # more /etc/ansible/ansible.cfg
 ## Test with
 # ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
-- hosts: localhost
-  tasks:
-    - debug: msg="Install Prerequisites"
+- hosts: all
   roles:
     - jdk
+
+- hosts: dbservers
+  roles:
     - mysql
     - elasticsearch
+
+- hosts: webservers
+  roles:
     - nginx
