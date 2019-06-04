@@ -1,0 +1,17 @@
+---
+
+# Keystore passphrase (as to be the same for the keystore and the private key)
+tomcat_keystore_passphrase: 'changeit'
+
+# Keystore alias for the certifiage
+tomcat_keystore_cert_alias: 'tomcat'
+
+
+# Default connector port
+tomcat_default_port: 8080
+# Default redirect port
+tomcat_default_port_ssl: 8443
+# Tomcat memory size
+tomcat_memory_size: 1024m
+# Tomcat memory PermSize
+tomcat_memory_permsize: 128m

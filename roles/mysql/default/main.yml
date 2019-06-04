@@ -1,0 +1,5 @@
+---
+# Default values for MYSQL parameters
+mysql_default_user: root
+
+mysql_default_port: 3306

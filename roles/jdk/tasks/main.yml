@@ -1,0 +1,22 @@
+---
+  # Install JDK
+  - name: Install jdk 1.8
+    package:
+      name: openjdk-8-jdk
+      state: present
+    become: true
+    become_user: root
+    tags: jdk
+
+  - name: Check Java version
+    command: java -version
+    register: java_version
+    # Use the changed_when parameter so that this task doesn't appear as a changed status
+    changed_when: false
+    tags: jdk
+
+  - name: Display java version
+    debug:
+      # Return just the first line of java -version
+      msg: "{{ java_version.stderr_lines[0] }}"
+    tags: jdk

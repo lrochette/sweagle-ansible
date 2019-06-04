@@ -1,0 +1,4 @@
+---
+
+mysql_authentication_plugin: mysql_native_password
+mysql_config_dir: /etc/mysql

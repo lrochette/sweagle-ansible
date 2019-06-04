@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks:
+    - debug: msg="Install Prerequisites"
+  roles:
+    - jdk
+#    - mysql
+#    - elasticsearch

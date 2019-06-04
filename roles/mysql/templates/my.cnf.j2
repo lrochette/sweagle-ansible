@@ -1,0 +1,17 @@
+#
+# The MySQL database server configuration file.
+#
+# You can copy this to one of:
+# - "/etc/mysql/my.cnf" to set global options,
+# - "~/.my.cnf" to set user-specific options.
+
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+
+[client]
+user = {{ mysql_user | default(mysql_default_user) }}
+password = {{ mysql_password }}
+
+[mysqld]
+port = {{ mysql_port | default(mysql_default_port) }}
+default-authentication-plugin= {{ mysql_authentication_plugin }}

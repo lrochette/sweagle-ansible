@@ -1,0 +1,9 @@
+---
+# Variables for ALL SERVERS in DEV environment
+ansible_user: dfinas
+ansible_ssh_pass: dfinas
+ansible_become_pass: dfinas
+
+ansible_home_dir: /home/dfinas/Documents/sweagle_demo/ansible
+
+demo: supercars

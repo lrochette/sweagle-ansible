@@ -1,0 +1,26 @@
+---
+
+    - name: "Ensures {{ jenkins_home }}/jobs/supercars_demo dir exists"
+      file:
+        path: "{{ jenkins_home }}/jobs/supercars_demo"
+        owner: "{{ jenkins_process_user }}"
+        group: "{{ jenkins_process_group }}"
+        state: directory
+        force: no
+      become: true
+      become_user: root
+
+    - name: Create supercars job in jenkins
+      template:
+        src: "{{ ansible_home_dir }}/roles/demo_supercars/templates/config.xml.j2"
+        dest: "{{ jenkins_home }}/jobs/supercars_demo/config.xml"
+        owner: "{{ jenkins_process_user }}"
+        group: "{{ jenkins_process_group }}"
+        mode: 0644
+        # don't erase existing project if already exists
+        force: no
+      notify:
+        - restart jenkins
+      become: true
+      become_user: root
+      tags: supercars, jenkins

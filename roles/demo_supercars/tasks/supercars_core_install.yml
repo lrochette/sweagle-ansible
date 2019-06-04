@@ -1,0 +1,12 @@
+---
+# Task to deploy CORE part of supercars app
+    - name: Deploy supercars war to tomcat
+      copy:
+        src: "{{ supercars_war_source_dir }}/{{ supercars_war_filename }}"
+        dest: "{{ tomcat_catalina_base_dir }}/webapps/{{ supercars_war_filename }}"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_group }}"
+        mode: 0755
+      become: true
+      become_user: root
+      tags: supercars, tomcat

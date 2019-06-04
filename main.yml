@@ -1,0 +1,23 @@
+---
+# Install TOMCAT
+    - name: Install Tomcat 8 + Admin
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - tomcat8
+        - tomcat8-admin
+      become: true
+      become_user: root
+      tags: tomcat
+
+    - name: Configure Tomcat Users
+      template:
+        src: "{{ ansible_home_dir }}/roles/tomcat/templates/tomcat-users.xml.j2"
+        dest: "{{ tomcat_config_dir }}/tomcat-users.xml"
+        group: tomcat8
+        mode: preserve
+      become: true
+      become_user: root
+      notify: "{{ 'Restart tomcat'  if ansible_virtualization_type != 'docker' else 'Restart tomcat in docker' }}"
+      tags: tomcat

@@ -1,0 +1,4 @@
+---
+- hosts: dbservers, coreservers
+  roles:
+    - demo_supercars

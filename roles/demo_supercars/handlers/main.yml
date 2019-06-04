@@ -1,0 +1,8 @@
+---
+
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: restarted
+  become: true
+  become_user: root

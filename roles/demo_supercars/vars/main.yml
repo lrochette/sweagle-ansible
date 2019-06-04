@@ -1,0 +1,9 @@
+---
+supercars_root_dir: /home/dfinas/Documents/sweagle_demo/supercars
+
+supercars_mysql_user: supercars
+supercars_mysql_password: supercars
+supercars_mysql_install_script: "{{supercars_root_dir}}/src/main/resources/db/mysql.sql"
+
+supercars_war_filename: "Cars_Sample_App.war"
+supercars_war_source_dir: "{{supercars_root_dir}}/target"

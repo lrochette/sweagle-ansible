@@ -1,0 +1,14 @@
+---
+# Handler to handle MYSQL tier notifications
+
+- name: Restart mysql
+  service:
+    name: mysql
+    state: restarted
+  become: true
+  become_user: root    
+  tags: mysql
+
+- name: Restart iptables
+  service: name=iptables state=restarted
+  tags: mysql
