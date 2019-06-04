@@ -14,3 +14,14 @@
     # Use the changed_when parameter so that this task doesn't appear as a changed status
     changed_when: false
     tags: jdk
+
+   - name: Fetch Java version
+     shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+     changed_when: False
+     register: java_result
+     tags: jdk
+
+   - name: Display Java version
+     debug:
+       msg: "{{ java_result.stdout }}"
+     tags: jdk
