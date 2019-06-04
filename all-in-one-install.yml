@@ -2,7 +2,7 @@
 ## Test with
 # ansible-playbook all-in-one.yaml --check
 
-- hosts: ./inventories/all-in-one.yaml
+- hosts: localhost
   tasks:
     - debug: msg="Install Prerequisites"
   roles:
