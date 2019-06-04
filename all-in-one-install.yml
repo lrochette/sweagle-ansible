@@ -12,6 +12,7 @@
   roles:
     - mysql
     - mongodb
+    - vault
     - elasticsearch
 
 - hosts: webservers
