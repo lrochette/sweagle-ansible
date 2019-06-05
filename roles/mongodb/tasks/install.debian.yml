@@ -2,18 +2,21 @@
 - name: Establish some role-related facts
   set_fact:
     mongodb_major_version: "{{ mongodb_version[0:3] }}"
+  tags: mongodb
 
 - name: Disable transparent huge pages on systemd systems
   include_tasks: disable_transparent_hugepages.yml
   when:
     - mongodb_disable_transparent_hugepages | bool
     - ansible_service_mgr == "systemd"
+  tags: mongodb
 
 - name: Add APT key
   apt_key:
     keyserver: "{{ mongodb_apt_keyserver }}"
     id: "{{ mongodb_apt_key_id[mongodb_major_version] }}"
   when: mongodb_package == 'mongodb-org'
+  tags: mongodb
 
 - name: Fail when used wrong mongodb_version variable with Debian Stretch
   fail:
@@ -22,6 +25,7 @@
     - mongodb_package == 'mongodb-org'
     - (mongodb_major_version != '3.6' and mongodb_major_version != '4.0')
     - ansible_distribution_release == 'stretch'
+  tags: mongodb
 
 - name: Fail when used wrong mongodb_version variable with Ubuntu 18.04
   fail:
@@ -30,6 +34,7 @@
     - mongodb_package == 'mongodb-org'
     - mongodb_major_version != '4.0'
     - ansible_distribution_release == "bionic"
+  tags: mongodb
 
 - name: Fail when used wrong mongodb_version variable
   fail:
@@ -37,6 +42,7 @@
   when: (mongodb_package == 'mongodb-org' and
         (mongodb_version is not defined
          or mongodb_repository[mongodb_major_version] is not defined))
+  tags: mongodb
 
 - name: Add APT repository
   apt_repository:
@@ -46,6 +52,7 @@
   loop_control:
     loop_var: version_item
   when: mongodb_package == 'mongodb-org'
+  tags: mongodb
 
 - name: Install MongoDB package
   apt:
@@ -54,6 +61,7 @@
     update_cache: true
   become: true
   become_user: root
+  tags: mongodb
 
 - name: Install numactl package
   apt:
@@ -69,12 +77,14 @@
   when: ansible_service_mgr == "systemd"
   notify:
     - reload systemd
+  tags: mongodb
 
 - name: Add symlink for systemd
   file: src=/lib/systemd/system/mongodb.service dest=/etc/systemd/system/multi-user.target.wants/mongodb.service state=link
   when: ansible_service_mgr == "systemd"
   notify:
     - reload systemd
+  tags: mongodb
 
 - name: Install PyMongo package
   apt:
@@ -91,6 +101,7 @@
   become: true
   become_user: root
   when: mongodb_pymongo_from_pip | bool
+  tags: mongodb
 
 - name: Install PyMongo from PIP
   pip:
@@ -98,3 +109,4 @@
     state: "{{ mongodb_pymongo_pip_version is defined | ternary('present', 'latest') }}"
     version: "{{ mongodb_pymongo_pip_version | default(omit) }}"
   when: mongodb_pymongo_from_pip | bool
+  tags: mongodb

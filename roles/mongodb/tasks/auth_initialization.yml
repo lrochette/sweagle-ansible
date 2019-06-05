@@ -9,9 +9,12 @@
   notify:
     - mongodb restart
     - wait when mongodb is started on localhost
+  tags: mongodb
+
 
 - name: Flush all handlers at this point
   meta: flush_handlers
+  tags: mongodb
 
 - name: create administrative user siteRootAdmin
   mongodb_user:
@@ -27,6 +30,7 @@
       password: "{{ mongodb_root_admin_password }}",
       roles: "root"
       }
+  tags: mongodb
   no_log: true
 
 - name: create administrative user siteUserAdmin
@@ -45,6 +49,7 @@
       password: "{{ mongodb_user_admin_password }}",
       roles: "userAdminAnyDatabase"
       }
+  tags: mongodb
   no_log: true
 
 - name: create backup user "backupuser"
@@ -63,6 +68,7 @@
       password: "{{ mongodb_root_backup_password }}",
       roles: "backup,clusterMonitor"
       }
+  tags: mongodb
   no_log: true
 
 - name: Move back mongod.conf
@@ -75,6 +81,8 @@
   notify:
     - mongodb restart
     - wait when mongodb is started
+  tags: mongodb
 
 - name: Flush all handlers at this point
   meta: flush_handlers
+  tags: mongodb

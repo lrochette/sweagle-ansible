@@ -10,7 +10,6 @@
 #ex to do only mySQL: ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "mysql"
 #ex to do only sweagle: ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "sweagle"
 
-
 - hosts: all
   roles:
     - system
