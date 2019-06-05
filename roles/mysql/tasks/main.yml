@@ -1,6 +1,6 @@
 ---
 # Install MYSQL
-- name: Install mysql
+- name: Install MySQL server
   package:
     name: mysql-server
     state: present
@@ -8,7 +8,23 @@
   become_user: root
   tags: mysql
 
-- name: Configure Mysql
+- name: Install MySQL client
+  package:
+    name: mysql-client
+    state: present
+  become: true
+  become_user: root
+  tags: mysql
+
+- name: Install MySQL common
+  package:
+    name: mysql-common
+    state: present
+  become: true
+  become_user: root
+  tags: mysql
+
+- name: Configure MySQL
   template:
     src: "{{ ansible_home_dir }}/roles/mysql/templates/my.cnf.j2"
     dest: "{{ mysql_config_dir }}/my.cnf"
