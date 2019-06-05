@@ -77,7 +77,7 @@
 
 - name: make shell scripts in "{{ sweagle_core_installation_folder }}/scripts" executable
   file:
-    dest: "{{ sweagle_core_installation_folder }}/scripts/*.sh"
+    dest: "{{ sweagle_core_installation_folder }}/scripts"
     mode: a+x
   tags: [ sweagle-core, sweagle ]
 
