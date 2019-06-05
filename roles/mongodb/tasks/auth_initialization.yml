@@ -13,22 +13,6 @@
 - name: Flush all handlers at this point
   meta: flush_handlers
 
-- name: create administrative user siteUserAdmin
-  mongodb_user:
-    database: admin
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    update_password: "{{ mongodb_user_update_password }}"
-    roles: "{{ item.roles }}"
-    login_port: "{{ mongodb_net_port }}"
-  with_items:
-    - {
-      name: "{{ mongodb_user_admin_name }}",
-      password: "{{ mongodb_user_admin_password }}",
-      roles: "userAdminAnyDatabase"
-      }
-  no_log: true
-
 - name: create administrative user siteRootAdmin
   mongodb_user:
     database: admin
@@ -45,6 +29,24 @@
       }
   no_log: true
 
+- name: create administrative user siteUserAdmin
+  mongodb_user:
+    database: admin
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    update_password: "{{ mongodb_user_update_password }}"
+    roles: "{{ item.roles }}"
+    login_user: "{{ mongodb_root_admin_name }}"
+    login_password: "{{ mongodb_root_admin_password }}"
+    login_port: "{{ mongodb_net_port }}"
+  with_items:
+    - {
+      name: "{{ mongodb_user_admin_name }}",
+      password: "{{ mongodb_user_admin_password }}",
+      roles: "userAdminAnyDatabase"
+      }
+  no_log: true
+
 - name: create backup user "backupuser"
   mongodb_user:
     database: admin
@@ -52,6 +54,8 @@
     password: "{{ item.password }}"
     update_password: "{{ mongodb_user_update_password }}"
     roles: "{{ item.roles }}"
+    login_user: "{{ mongodb_root_admin_name }}"
+    login_password: "{{ mongodb_root_admin_password }}"
     login_port: "{{ mongodb_net_port }}"
   with_items:
     - {
