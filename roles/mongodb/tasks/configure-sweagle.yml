@@ -52,4 +52,4 @@
     dest: /etc/mongod.conf
   become: true
   tags: [ mongodb, sweagle, sweagle-mongodb ]
-  notify: mongodb reload
+  notify: mongodb restart
