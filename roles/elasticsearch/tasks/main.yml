@@ -50,8 +50,9 @@
   tags: [ elasticsearch ]
 
 - name: Make sure elasticsearch is started
-  become: yes
   service: name=elasticsearch state=started enabled=yes
+  become: true
+  become_user: root
   when: es_start_service
   tags: [ elasticsearch ]
 
