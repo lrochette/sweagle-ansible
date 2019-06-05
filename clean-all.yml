@@ -32,3 +32,7 @@
   become: true
   ignore_errors: yes
   tags: uninstall
+
+- name: Finish message
+    debug:
+      msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."

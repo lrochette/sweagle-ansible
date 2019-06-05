@@ -4,7 +4,6 @@
     name: wheel
     state: present
   become: true
-  become_user: root
   tags: [ sweagle-core, sweagle, system ]
 
 #- name: Allow 'wheel' group to have passwordless sudo
