@@ -29,18 +29,12 @@
 - name: create MongoDB SWEAGLE user
   mongodb_user:
     database: "{{ mongodb_user }}"
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
+    name: "{{ sweagle_mongo_user }}"
+    password: "{{ sweagle_mongo_password }}"
     update_password: "{{ mongodb_user_update_password }}"
-    roles: "{{ item.roles }}"
+    roles:
+      - { db: "{{ mongodb_user }}", role: "readWrite" }
     login_port: "{{ mongodb_net_port }}"
-  with_items:
-    - {
-      name: "{{ sweagle_mongo_user }}",
-      password: "{{ sweagle_mongo_password }}",
-      roles:
-        - { db: "{{ mongodb_user }}", role: "readWrite" }
-      }
   no_log: true
 
 
