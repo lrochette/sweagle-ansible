@@ -4,6 +4,7 @@
       name: unzip
       update_cache: yes
     become: true
+    tags: vault
 
   - name: Download and install vault binary
     unarchive:
@@ -11,20 +12,24 @@
       dest: /usr/bin/
       remote_src: True
     become: true
+    tags: vault
 
   - name: Create vault config directory
     file: state=directory path=/etc/opt/vault/
     become: true
+    tags: vault
 
   - name: Copy vault config to server
     template:
       src: vaultconfig.hcl.j2
       dest: /etc/opt/vault/vaultconfig.hcl
     become: true
+    tags: vault
 
   - name: Copy vault service to server
     copy: src=vault.service dest=/usr/lib/systemd/system/vault.service
     become: true
+    tags: vault
 
   - name: Start vault service
     systemd:
@@ -32,9 +37,11 @@
       name: vault
       daemon_reload: yes
     become: true
+    tags: vault
 
   - pause:
       seconds: 15
+    tags: vault
 
   - name: Initialize the vault
     command: vault operator init
@@ -42,8 +49,10 @@
     environment:
       VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
     ignore_errors: true
+    tags: vault
 # for the moment, ignore if vault is already initialized
 # in the future, test it before to init only if needed
 
   - debug: msg="{{ keys }}"
+    tags: vault
 # in the future, store keys in a file
