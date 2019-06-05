@@ -10,7 +10,7 @@
 - name: Find temporary root password
   shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
   register: mysql_root_password_temp
-  tags: [mysql, sweagle, sweagle-mysql
+  tags: [mysql, sweagle, sweagle-mysql]
 
 - debug:
     msg: "{{ mysql_root_password_temp.stdout }}"
