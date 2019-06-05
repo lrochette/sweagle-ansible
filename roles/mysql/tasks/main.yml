@@ -13,6 +13,11 @@
   become_user: root
   tags: mysql
 
+#List of packages for CentOS
+#    - mysql-community-server
+#    - mysql-community-client
+#    - MySQL-python
+
 - name: Configure MySQL
   template:
     src: "my.cnf.j2"
