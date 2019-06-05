@@ -69,6 +69,7 @@
     state: present
   become: true
   become_user: root
+  tags: mongodb
 
 - name: Add systemd configuration if present
   copy: src=mongodb.service dest=/lib/systemd/system/mongodb.service owner=root group=root mode=0644
@@ -92,6 +93,7 @@
   become: true
   become_user: root
   when: not mongodb_pymongo_from_pip
+  tags: mongodb
 
 - name: Install PIP
   apt:
