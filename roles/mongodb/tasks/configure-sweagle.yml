@@ -8,6 +8,7 @@
 - name: Get list of MongoDB user
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
+  ignore_errors: true
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
 #- debug: var=mongo_users
