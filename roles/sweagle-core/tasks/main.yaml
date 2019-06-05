@@ -1,40 +1,47 @@
 ---
-- name: Create sweagle user "{{sweagle_user }}"
+- name: Create sweagle user "{{sweagle_system_user }}"
   user:
     name: sweagle
     state: present
     groups: wheel
     system: yes
+
 - name: Create Sweagle installation folder "{{ sweagle_installation_folder }}"
   file:
     path: "{{ sweagle_installation_folder }}"
     state: directory
-    owner: "{{ sweagle_user }}"
-    group: "{{ sweagle_group }}"
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
     mode: 0775
+
 - name: Unzip package "full_{{ sweagle_version }}.zip"
   unarchive:
     src: "full_{{ sweagle_version}}.zip"
     dest: /tmp
+
 - name: copy content to installation folder
   synchronize:
     src: "/tmp/{{ sweagle_version }}/full/"
     dest: "{{ sweagle_installation_folder }}"
   delegate_to: "{{ inventory_hostname }}"
+
 - name: configure sweagle application.yml
   template:
     src: "{{ sweagle_version }}/application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
+
 - name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
     regexp: '\d+\.\d+\.\d+'
     replace: "{{ sweagle_version }}"
+
 - name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
+
 - name: set ownership in "{{ sweagle_installation_folder }}"
   file:
     dest: "{{ sweagle_installation_folder }}"
-    owner: "{{ sweagle_user }}"
-    group: "{{ sweagle_group }}"
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
     recurse: yes
