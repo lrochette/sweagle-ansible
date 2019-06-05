@@ -4,7 +4,7 @@
     state: started
   become: true
 
-- name: Check SWEAGLE user exists
+- name: Get list of MongoDB user
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
 
@@ -14,10 +14,11 @@
 #   register: getusers
 #   changed_when: false
 
-- debug:
+- name: Check MongoDB SWEAGLE user exists
+  debug:
     msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
   register: user_output
-  when: item.stdout.find("{{ sweagle_mongo_user }}") == -1
+  when: item.stdout.find("sweagle") == -1
   with_items: '{{ mongo_users.results }}'
   ignore_errors: true
 
@@ -33,7 +34,7 @@
     - admin
   when: user_output.rc != 0
 
-- name: create MongoDB SWEAGLE user
+- name: Create MongoDB SWEAGLE user
   mongodb_user:
     database: "{{ sweagle_mongo_db }}"
     name: "{{ sweagle_mongo_user }}"
