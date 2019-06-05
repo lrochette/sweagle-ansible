@@ -36,13 +36,14 @@
   become_user: root
   tags: [ sweagle-core, sweagle, system ]
 
-- name: Create SWEAGLE installation folder "{{ sweagle_installation_folder }}"
+- name: Create installation folder "{{ sweagle_installation_folder }}"
   file:
     path: "{{ sweagle_installation_folder }}"
     state: directory
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     mode: 0775
+  become: true
   tags: [ sweagle-core, sweagle, system ]
 
 - name: Unzip package "full_{{ sweagle_version }}.zip"
