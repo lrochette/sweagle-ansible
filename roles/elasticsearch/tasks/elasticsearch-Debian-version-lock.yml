@@ -4,3 +4,4 @@
   dpkg_selections:
     name: "{{ es_package_name }}"
     selection: "hold"
+  tags: elasticsearch

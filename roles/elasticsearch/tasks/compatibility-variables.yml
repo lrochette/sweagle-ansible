@@ -18,20 +18,23 @@
     es_other_package_name: "elasticsearch-oss"
     es_other_repo_name: "{{ 'oss-' + es_major_version }}"
     es_other_apt_url: "deb {{ es_repo_base }}/packages/{{ 'oss-' + es_major_version }}/apt stable main"
+  tags: elasticsearch
 
 - name: Detect if es_version is before X-Pack was open and included
   set_fact:
     es_open_xpack: false
   when: "es_version is version_compare('6.3.0', '<')"
+  tags: elasticsearch
 
 - name: If this is an older version we need to install X-Pack as a plugin and use a different users command
   set_fact:
     es_install_xpack: true
     es_xpack_users_command: "x-pack/users"
     es_xpack_conf_subdir: "/x-pack"
-  when: 
+  when:
     - not es_open_xpack
     - es_enable_xpack
+  tags: elasticsearch
 
 - name: Use the oss repo and package if xpack is not being used
   set_fact:
@@ -43,3 +46,4 @@
   when:
     - es_open_xpack
     - not es_enable_xpack
+  tags: elasticsearch

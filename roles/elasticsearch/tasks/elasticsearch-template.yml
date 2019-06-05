@@ -6,12 +6,14 @@
     state: directory
     owner: "{{ es_user }}"
     group: "{{ es_group }}"
+  tags: elasticsearch
 
 - name: Copy templates to elasticsearch
   copy: src={{ item }} dest=/etc/elasticsearch/templates owner={{ es_user }} group={{ es_group }}
   register: load_templates
   with_fileglob:
     - "{{ es_templates_fileglob | default('') }}"
+  tags: elasticsearch
 
 - name: Install templates
   uri:
@@ -26,3 +28,4 @@
   with_fileglob:
     - "{{ es_templates_fileglob | default('') }}"
   run_once: True
+  tags: elasticsearch

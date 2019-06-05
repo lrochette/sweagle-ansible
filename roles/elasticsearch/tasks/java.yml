@@ -2,15 +2,18 @@
 
 - name: set fact java_state to present
   set_fact: java_state="present"
+  tags: elasticsearch
 
 - name: set fact java_state to latest
   set_fact: java_state="latest"
   when: update_java == true
+  tags: elasticsearch
 
 - name: RedHat - Ensure Java is installed
   become: yes
   yum: name={{ java }} state={{java_state}}
   when: ansible_os_family == 'RedHat'
+  tags: elasticsearch
 
 - name: Get the installed java path
   shell: "update-alternatives --display java | grep '^/' | awk '{print $1}' | grep 1.8.0 | head -1"
@@ -20,6 +23,7 @@
   changed_when: False
   check_mode: no
   when: ansible_os_family == 'RedHat'
+  tags: elasticsearch
 
 - name: correct java version selected
   alternatives:
@@ -27,17 +31,20 @@
     path: "{{ java_full_path.stdout }}"
     link: /usr/bin/java
   when: ansible_os_family == 'RedHat' and java_full_path is defined
+  tags: elasticsearch
 
 - name: Refresh java repo
   become: yes
   apt: update_cache=yes
   changed_when: false
   when: ansible_os_family == 'Debian'
+  tags: elasticsearch
 
 - name: Debian - Ensure Java is installed
   become: yes
   apt: name={{ java }} state={{java_state}}
   when: ansible_os_family == 'Debian'
+  tags: elasticsearch
 
 - name: register open_jdk version
   shell: java -version 2>&1 | grep OpenJDK
@@ -45,6 +52,7 @@
   ignore_errors: yes
   changed_when: false
   check_mode: no
+  tags: elasticsearch
 
 #https://github.com/docker-library/openjdk/issues/19 - ensures tests pass due to java 8 broken certs
 - name: refresh the java ca-certificates
@@ -52,3 +60,4 @@
   command: /var/lib/dpkg/info/ca-certificates-java.postinst configure
   when: ansible_distribution == 'Ubuntu' and open_jdk.rc == 0
   changed_when: false
+  tags: elasticsearch

@@ -9,6 +9,7 @@
     name: "{{ es_group }}"
     system: yes
     gid: "{{ es_group_id }}"
+  tags: elasticsearch
 
 - name: Ensure optional elasticsearch user is created with the correct id.
   become: yes
@@ -22,3 +23,4 @@
     createhome: no
     uid: "{{ es_user_id }}"
     group: "{{ es_group }}"
+  tags: elasticsearch
