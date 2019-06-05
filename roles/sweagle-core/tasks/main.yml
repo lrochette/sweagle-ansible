@@ -3,7 +3,7 @@
   user:
     name: sweagle
     state: present
-    groups: wheel
+    groups: sudo
     system: yes
   tags: [ sweagle-core, sweagle, system ]
 
