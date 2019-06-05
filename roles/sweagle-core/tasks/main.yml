@@ -4,7 +4,9 @@
     name: wheel
     state: present
   become: true
+  become_user: root
   tags: [ sweagle-core, sweagle, system ]
+  ignore_errors: true
 
 #- name: Allow 'wheel' group to have passwordless sudo
 #  lineinfile:
@@ -28,7 +30,7 @@
   user:
     name: "{{sweagle_system_user }}"
     state: present
-    groups: wheel
+    groups: "wheel,{{ sweagle_system_group }},sudo"
     system: yes
   become: true
   become_user: root
