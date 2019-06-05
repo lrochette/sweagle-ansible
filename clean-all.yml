@@ -1,41 +1,43 @@
 ---
-- name: "Remove all installed libs"
-  package:
-    pkg: "{{ item }}"
-    state: absent
-  with_items:
-    - elasticsearch
-    - mysql-server
-    - mysql-client
-    - mysql-common
-    - nginx
-    - openjdk-8-jdk
-    - python-mysqldb
-    - screen
-    - telnet
-    - jq
-    - "{{ mongodb_package }}"
-  become: true
-  ignore_errors: yes
-  tags: uninstall
+- hosts: localhost
+  tasks:
+    - name: "Remove all installed libs"
+      package:
+        pkg: "{{ item }}"
+        state: absent
+      with_items:
+        - elasticsearch
+        - mysql-server
+        - mysql-client
+        - mysql-common
+        - nginx
+        - openjdk-8-jdk
+        - python-mysqldb
+        - screen
+        - telnet
+        - jq
+        - "{{ mongodb_package }}"
+      become: true
+      ignore_errors: yes
+      tags: uninstall
 
-- name: "Clean all installed folder"
-  file:
-    state: absent
-    path: "{{ item }}/"
-  with_items:
-    - "{{ es_data_dirs }}"
-    - "{{ es_log_dir }}"
-    - "{{ sweagle_installation_folder }}"
-    - "/var/log/mongodb"
-    - "{{ mongodb_storage_dbpath }}"
-    - "/var/log/mysql"
-    - "/var/log/nginx"
-    - "/etc/opt/vault"
-  become: true
-  ignore_errors: yes
-  tags: uninstall
+    - name: "Clean all installed folder"
+      file:
+        state: absent
+        path: "{{ item }}/"
+      with_items:
+        - "{{ es_data_dirs }}"
+        - "{{ es_log_dir }}"
+        - "{{ sweagle_installation_folder }}"
+        - "/var/log/mongodb"
+        - "{{ mongodb_storage_dbpath }}"
+        - "/var/log/mysql"
+        - "/var/log/nginx"
+        - "/etc/opt/vault"
+      become: true
+      ignore_errors: yes
+      tags: uninstall
 
-- name: "Finish message"
-  debug:
-    msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."
+    - name: "Finish message"
+      debug:
+        msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."
