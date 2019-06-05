@@ -5,6 +5,7 @@
     state: present
     groups: sudo
     system: yes
+  become: true
   tags: [ sweagle-core, sweagle, system ]
 
 - name: Create Sweagle installation folder "{{ sweagle_installation_folder }}"
