@@ -1,7 +1,8 @@
-- name: Start MongoDB Server
+- name: Check or Start MongoDB Server
   systemd:
     name: "{{ mongodb_daemon_name }}"
     state: started
+  become: true
 
 - name: Check SWEAGLE user exists
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
