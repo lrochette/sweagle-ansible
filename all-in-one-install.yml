@@ -29,7 +29,6 @@
     - vault
     - sweagle
 
-
 - hosts: webservers
   roles:
     - nginx

@@ -1,14 +1,17 @@
 ---
 - name: Create service for SWEAGLE scriptexecutor
   shell: " {{ sweagle_installation_folder }}/scripts/createService.sh sweagleScriptExecutor {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar 4000m"
+  become: true
   tags: [ sweagle, sweagle-scriptexecutor ]
 
 - name: Create service for SWEAGLE core
   shell: " {{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/scriptExecutor scriptExecutor-{{ sweagle_version }}.jar 2000m"
+  become: true
   tags: [ sweagle, sweagle-core ]
 
 - name: Create service for SWEAGLE taskrunner
   shell: " {{ sweagle_installation_folder }}/scripts/createService.sh sweagleTaskRunner {{ sweagle_installation_folder }}/bin/taskRunner taskRunner-1.0.0.jar 1000m"
+  become: true
   tags: [ sweagle, sweagle-taskrunner ]
 
 - name: Enable and start SWEAGLE service
@@ -16,6 +19,7 @@
     name: "{{ item }}"
     state: started
     enabled: yes
+  become: true
   with_items:
     - sweagleScriptExecutor
     - sweagleCore
