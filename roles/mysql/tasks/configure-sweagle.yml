@@ -41,6 +41,7 @@
   with_items:
     - mdm
     - vault
+  become: true
   tags: [mysql, sweagle, sweagle-mysql]
 
 - name: Grant all privileges on SWEAGLE MySQL schemas to "{{ sweagle_mysql_user }}"
@@ -56,4 +57,5 @@
   with_items:
     - mdm
     - vault
+  become: true
   tags: [mysql, sweagle, sweagle-mysql]
