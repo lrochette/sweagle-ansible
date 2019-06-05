@@ -10,28 +10,26 @@
 
 - debug: var=mongo_users
 
-#- name: Check if some user is not there already - try to get user list as anonymous
-#   shell: /bin/mongo --eval 'db.getUsers()' admin
-#   ignore_errors: true
-#   register: getusers
-#   changed_when: false
-
-- name: Check MongoDB SWEAGLE user exists
-  debug:
-    msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
+- name: Extract user
+  shell: echo "{{ mongo_users.stdout }}" | grep "{{ sweagle_mongo_db }}"."{{ sweagle_mongo_user }}"
   register: user_output
-  when: item.stdout.find("sweagle") == -1
-  with_items: '{{ mongo_users }}'
   ignore_errors: true
+
+#- name: Check MongoDB SWEAGLE user exists
+#  debug:
+#    msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
+#  register: user_output
+#  when: item.stdout.find("sweagle") == -1
+#  with_items: '{{ mongo_users }}'
+#  ignore_errors: true
+
+- debug:
+    msg: var=user_output
 
 - debug:
     msg: "user_output= {{ user_output }}"
 
 
-#- name: Extract user
-#  shell: echo "{{ mongo_users.results }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
-#  register: user_output
-#  ignore_errors: true
 
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo --eval 'db.getSiblingDB("{{ item }}")'
