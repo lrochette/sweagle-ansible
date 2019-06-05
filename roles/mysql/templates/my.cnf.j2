@@ -9,8 +9,8 @@
 !includedir /etc/mysql/mysql.conf.d/
 
 [client]
-user = {{ mysql_user | default('root') }}
-password = {{ mysql_password }}
+user = {{ mysql_root_user | default('root') }}
+password = {{ mysql_root_password }}
 
 [mysqld]
 port = {{ mysql_port | default(3306) }}

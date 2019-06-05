@@ -1,0 +1,47 @@
+--
+
+- name: Make sure MySQL service is running
+  systemd:
+    state: started
+    name: mysqld
+  become: true
+  tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Find temporary root password
+  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
+  register: mysql_root_password_temp
+  tags: [mysql, sweagle, sweagle-mysql
+
+- debug:
+    msg: "{{ mysql_root_password_temp.stdout }}"
+  tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Set new root password
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
+  tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Create SWEAGLE MySQL schemas"
+  mysql_db:
+    name: "{{ item }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  with_items:
+    - mdm
+    - vault
+  tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Grant all privileges on SWEAGLE MySQL schemas to "{{ sweagle_mysql_user }}"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mdm_user }}"
+    password: "{{ sweagle_mysql_password }}"
+    priv: "{{ item }}.*:ALL"
+    append_privs: true
+    host: '%'
+    state: present
+  with_items:
+    - mdm
+    - vault
+  tags: [mysql, sweagle, sweagle-mysql]

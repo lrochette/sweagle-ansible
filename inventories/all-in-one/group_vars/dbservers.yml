@@ -1,14 +1,21 @@
 ---
-# Variables for DB SERVERS in DEV environment
+# Variables for DB SERVERS
+###################################################
+###   MYSQL
+###################################################
 mysql_port: 3306
 # MySQL root user and password
-mysql_user: root
-mysql_password: root
+mysql_root_user: root
+mysql_root_password: root
 
+###################################################
+###   MONGODB
+###################################################
 # Package name to use for Ubuntu
 mongodb_package: mongodb
 mongodb_version: "3.6"
 
+mongodb_net_bindip: 127.0.0.1                    # Comma separated list of ip addresses to listen on
 mongodb_net_port: 27017
 mongodb_security_authorization: "enabled"
 
