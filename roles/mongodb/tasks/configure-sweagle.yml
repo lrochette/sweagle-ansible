@@ -8,28 +8,12 @@
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
 
-- debug: var=mongo_users
+#- debug: var=mongo_users
 
 - name: Extract user
   shell: echo "{{ mongo_users.stdout }}" | grep "{{ sweagle_mongo_db }}"."{{ sweagle_mongo_user }}"
   register: user_output
   ignore_errors: true
-
-#- name: Check MongoDB SWEAGLE user exists
-#  debug:
-#    msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
-#  register: user_output
-#  when: item.stdout.find("sweagle") == -1
-#  with_items: '{{ mongo_users }}'
-#  ignore_errors: true
-
-- debug:
-    msg: var=user_output
-
-- debug:
-    msg: "user_output= {{ user_output }}"
-
-
 
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo --eval 'db.getSiblingDB("{{ item }}")'
@@ -47,8 +31,6 @@
     roles:
       - { db: "{{ mongodb_user }}", role: "readWrite" }
     login_port: "{{ mongodb_net_port }}"
-  no_log: true
-
 
 
 #- name: Create MongoDB SWEAGLE Users
