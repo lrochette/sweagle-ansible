@@ -1,6 +1,6 @@
 es_version: "6.6.2"
 es_data_dirs:
-  - "{{ sweagle_installation_folder }}/elasticsearch"
+  - "/opt/elasticsearch/data"
 es_config:
   cluster.name: "{{ sweagle_elasticsearch_cluster }}"
   discovery.seed_hosts: "localhost:{{ sweagle_elasticsearch_transport_port }}"

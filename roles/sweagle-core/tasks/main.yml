@@ -26,7 +26,7 @@
   become: true
   tags: [ sweagle-core, sweagle, system ]
 
-- name: Create sweagle user "{{sweagle_system_user }}"
+- name: Create SWEAGLE user "{{sweagle_system_user }}"
   user:
     name: "{{sweagle_system_user }}"
     state: present
@@ -36,9 +36,9 @@
   become_user: root
   tags: [ sweagle-core, sweagle, system ]
 
-- name: Create Sweagle installation folder "{{ sweagle_core_installation_folder }}"
+- name: Create SWEAGLE installation folder "{{ sweagle_installation_folder }}"
   file:
-    path: "{{ sweagle_core_installation_folder }}"
+    path: "{{ sweagle_installation_folder }}"
     state: directory
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
@@ -54,36 +54,48 @@
 - name: copy content to installation folder
   synchronize:
     src: "/tmp/{{ sweagle_version }}/full/"
-    dest: "{{ sweagle_core_installation_folder }}"
+    dest: "{{ sweagle_installation_folder }}"
   delegate_to: "{{ inventory_hostname }}"
   tags: [ sweagle-core, sweagle ]
 
-- name: configure sweagle application.yml
+- name: configure SWEAGLE core application.yml
   template:
-    src: "{{ sweagle_version }}/application.yml.j2"
-    dest: "{{ sweagle_core_installation_folder }}/bin/core/application.yml"
+    src: "{{ sweagle_version }}/core-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
   tags: [ sweagle-core, sweagle ]
 
-- name: set correct version in "{{ sweagle_core_installation_folder }}/appRelease.settings"
+- name: configure SWEAGLE scriptexecutor application.yml
+  template:
+    src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
+  tags: [ sweagle-core, sweagle ]
+
+- name: configure SWEAGLE taskrunner application.yml
+  template:
+    src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
+  tags: [ sweagle-core, sweagle ]
+
+- name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
-    path: "{{ sweagle_core_installation_folder }}/scripts/config/appRelease.settings"
+    path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
     regexp: '\d+\.\d+\.\d+'
     replace: "{{ sweagle_version }}"
   tags: [ sweagle-core, sweagle ]
 
-#- name: make shell scripts in "{{ sweagle_core_installation_folder }}/scripts" executable
-#  shell: "chmod +x {{sweagle_core_installation_folder }}/scripts/*.sh"
+#- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
+#  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]
 
-- name: make shell scripts in "{{ sweagle_core_installation_folder }}/scripts" executable
+- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   file:
-    dest: "{{ sweagle_core_installation_folder }}/scripts"
+    dest: "{{ sweagle_installation_folder }}/scripts"
     mode: a+x
   tags: [ sweagle-core, sweagle ]
 
-- name: set ownership in "{{ sweagle_core_installation_folder }}"
+- name: set ownership in "{{ sweagle_installation_folder }}"
   file:
-    dest: "{{ sweagle_core_installation_folder }}"
+    dest: "{{ sweagle_installation_folder }}"
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     recurse: yes
