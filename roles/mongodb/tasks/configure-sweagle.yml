@@ -30,6 +30,7 @@
     update_password: "{{ mongodb_user_update_password }}"
     roles:
       - { db: "{{ mongodb_user }}", role: "readWrite" }
+    login_database: "admin"
     login_user: "{{ mongodb_root_admin_name }}"
     login_password: "{{ mongodb_root_admin_password }}"
     login_port: "{{ mongodb_net_port }}"
