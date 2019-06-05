@@ -1,0 +1,66 @@
+server:
+  port: "{{ sweagle_core_port }}" #this is the core port
+  tomcat: #this is for the HTTPS part
+    remote_ip_header: x-forwarded-for
+    protocol_header: x-forwarded-proto
+
+logging:
+  file: "{{ sweagle_installation_folder }}/logs/sweagle_core.log"
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://{{ sweagle_mysql_server }}:{{ sweagle_mysql_server }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
+    username: "{{ sweagle_mysql_user }}"
+    password: "{{ sweagle_mysql_password}}"
+  data:
+    mongodb:
+      #host: localhost
+      #port: 27017
+      #database: sweagle
+      #username: mongoSweagleUser
+      #password: yourPassword
+      #authentication-database: sweagle
+      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@localhost:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource=admin&retryWrites=true"
+  mail:
+    host: smtp-auth.mailprotect.be
+    username: no-reply@sweagle.expert
+    password: mailUserPassword
+    protocol: smtp
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+
+sweagle:
+  mail:
+    enabled: true
+    from: no-reply@sweagle.expert
+
+elasticsearch:
+  enabledAtStartup: true #in case elastic is not running, switch to false to start without reporting
+  cluster-name: "{{ sweagle_elasticsearch_cluster }}"
+  url: "localhost"
+  port: "{{ sweagle_elasticsearch_transport_port }}"
+
+vault:
+  servers: "{{ sweagle_vault_server }}:{{ sweagle_vault_port }}" #comma seperated list for other vault servers
+  token: 869cd5f1-18f1-0e5f-5561-21e17ad28f73
+  scheme: http
+  enabled: false
+
+executor:
+  enabled: true
+  protocol: http
+  servers: "localhost:{{ sweagle_scriptexecutor_port }}"
+  parse-url: api/v1/script-executor/parse
+  validate-url: api/v1/script-executor/validate
+  replace-url: api/v1/script-executor/replace
+
+cache:
+ members: localhost:5701 #comma seperated list of the other cache members
+ port: 5701 #optional
+ portCount: 100 #optional
