@@ -7,6 +7,12 @@
   shell: mongo {{ mongodb_user }} --eval 'db.getUsers()'
   register: mongo_users
 
+#- name: Check if some user is not there already - try to get user list as anonymous
+#   shell: /bin/mongo --eval 'db.getUsers()' admin
+#   ignore_errors: true
+#   register: getusers
+#   changed_when: false
+
 - debug:
     msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
   register: user_output
