@@ -7,10 +7,17 @@
   shell: mongo {{ mongodb_user }} --eval 'db.getUsers()'
   register: mongo_users
 
-- name: Extract user
-  shell: echo "{{ mongo_users.results }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
+- debug:
+    msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
   register: user_output
+  when: item.stdout.find("{{ sweagle_mongo_user }}") == -1
+  with_items: '{{ mongo_users.results }}'
   ignore_errors: true
+
+#- name: Extract user
+#  shell: echo "{{ mongo_users.results }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
+#  register: user_output
+#  ignore_errors: true
 
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo --eval 'db.getSiblingDB("{{ item }}")'
@@ -19,6 +26,24 @@
     - admin
   when: user_output.rc != 0
 
-- name: Create MongoDB SWEAGLE Users
-  shell: mongo {{ mongodb_user }} --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ mongodb_user }}"}]}))'
-  when: user_output.rc != 0
+- name: create MongoDB SWEAGLE user
+  mongodb_user:
+    database: "{{ mongodb_user }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    update_password: "{{ mongodb_user_update_password }}"
+    roles: "{{ item.roles }}"
+    login_port: "{{ mongodb_net_port }}"
+  with_items:
+    - {
+      name: "{{ sweagle_mongo_user }}",
+      password: "{{ sweagle_mongo_password }}",
+      roles: [{ role:"readWrite", db:"{{ mongodb_user }}"}]
+      }
+  no_log: true
+
+
+
+#- name: Create MongoDB SWEAGLE Users
+#  shell: mongo {{ mongodb_user }} --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ mongodb_user }}"}]}))'
+#  when: user_output.rc != 0
