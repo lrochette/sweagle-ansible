@@ -8,6 +8,8 @@
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
 
+- debug: var=mongo_users
+
 #- name: Check if some user is not there already - try to get user list as anonymous
 #   shell: /bin/mongo --eval 'db.getUsers()' admin
 #   ignore_errors: true
@@ -19,8 +21,12 @@
     msg: "Mongo users config {{ item.item }} does not contain user {{ sweagle_mongo_user }}"
   register: user_output
   when: item.stdout.find("sweagle") == -1
-  with_items: '{{ mongo_users.results }}'
+  with_items: '{{ mongo_users }}'
   ignore_errors: true
+
+- debug:
+    msg: "user_output= {{ user_output }}"
+
 
 #- name: Extract user
 #  shell: echo "{{ mongo_users.results }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
