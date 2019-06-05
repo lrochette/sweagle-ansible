@@ -19,7 +19,7 @@ mongodb_net_bindip: 127.0.0.1                    # Comma separated list of ip ad
 mongodb_net_port: "{{ sweagle_mongo_port }}"
 mongodb_security_authorization: "disabled"
 
-mongodb_storage_dbpath: "/opt/SWEAGLE/mongo"
+mongodb_storage_dbpath: "{{ sweagle_installation_folder }}/mongo"
 
 mongodb_user_admin_name: sweagle
 mongodb_user_admin_password: sweagle
