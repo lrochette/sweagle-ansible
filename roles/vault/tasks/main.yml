@@ -41,5 +41,9 @@
     register: keys
     environment:
       VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    ignore_errors: true
+# for the moment, ignore if vault is already initialized
+# in the future, test it before to init only if needed
 
   - debug: msg="{{ keys }}"
+# in the future, store keys in a file
