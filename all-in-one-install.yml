@@ -27,7 +27,7 @@
   roles:
     - jdk
     - vault
-    - sweagle-core
+    - sweagle
 
 
 - hosts: webservers

@@ -68,13 +68,13 @@
   template:
     src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
-  tags: [ sweagle-core, sweagle ]
+  tags: [ sweagle-scriptexecutor, sweagle ]
 
 - name: configure SWEAGLE taskrunner application.yml
   template:
     src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
-  tags: [ sweagle-core, sweagle ]
+  tags: [ sweagle-taskrunner, sweagle ]
 
 - name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
