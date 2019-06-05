@@ -1,6 +1,9 @@
 ---
+#vault_installation_folder: "/opt/vault"
 vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.1.2', true) }}"
+
 vault_server: "127.0.0.1"
 vault_port: 8200
 
+vault_backend: "mysql"
 vault_backend_db: "vault"

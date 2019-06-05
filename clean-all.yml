@@ -1,7 +1,22 @@
 ---
 - hosts: localhost
   tasks:
-    - name: "Remove all installed libs"
+    - name: Stop and disable all services"
+      service:
+        name: "{{ item }}"
+        state: stoped
+        enabled: no
+      with_items:
+        - elasticsearch
+        - mongodb
+        - mysqld
+        - nginx
+        - sweagleScriptExecutor
+        - sweagleCore
+        - sweagleTaskRunner
+        - vault
+
+    - name: Remove all installed packages
       package:
         pkg: "{{ item }}"
         state: absent
@@ -21,23 +36,26 @@
       ignore_errors: yes
       tags: uninstall
 
-    - name: "Clean all installed folder"
+    - name: Clean all installed folder
       file:
         state: absent
         path: "{{ item }}/"
       with_items:
         - "{{ es_data_dirs }}"
         - "{{ es_log_dir }}"
-        - "{{ sweagle_installation_folder }}"
-        - "/var/log/mongodb"
+        - "/etc/opt/vault"
+        - "/etc/elasticsearch"
+        - "/etc/vault.d"
         - "{{ mongodb_storage_dbpath }}"
+        - "{{ sweagle_installation_folder }}"
+        - "/usr/bin/vault"
+        - "/var/log/mongodb"
         - "/var/log/mysql"
         - "/var/log/nginx"
-        - "/etc/opt/vault"
       become: true
       ignore_errors: yes
       tags: uninstall
 
-    - name: "Finish message"
+    - name: Finish message
       debug:
         msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."

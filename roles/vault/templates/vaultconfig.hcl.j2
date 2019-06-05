@@ -1,5 +1,5 @@
 storage "mysql" {
-address = "localhost:3306"
+address = "localhost:{{ sweagle_mysql_port }}"
 username = "{{ sweagle_mysql_user }}"
 password = "{{ sweagle_mysql_password }}"
 database = "{{ vault_backend_db | default('vault') }}"
