@@ -1,4 +1,4 @@
-- name: Remove all packages
+- name: "Remove all packages"
   package:
     pkg: "{{ item }}"
     state: absent
@@ -18,7 +18,7 @@
   ignore_errors: yes
   tags: uninstall
 
-- name: Clean all installed folder
+- name: "Clean all installed folder"
   file:
     state: absent
     path: "{{ item }}/"
@@ -35,6 +35,6 @@
   ignore_errors: yes
   tags: uninstall
 
-- name: Finish message
+- name: "Finish message"
   debug:
     msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."
