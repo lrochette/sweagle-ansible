@@ -15,6 +15,7 @@
         - sweagleCore
         - sweagleTaskRunner
         - vault
+      become: true
 
     - name: Remove all installed packages
       package:
