@@ -8,7 +8,7 @@ mysql_password: root
 # Package name to use for Ubuntu
 mongodb_package: mongodb
 mongodb_version: "3.6"
-mongodb_security_authorization: enabled
+mongodb_security_authorization: disabled
 mongodb_user: sweagle
 
 mongodb_storage_dbpath: /opt/SWEAGLE/mongo

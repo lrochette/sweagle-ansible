@@ -1,6 +1,6 @@
 - name: Start MongoDB Server
   systemd:
-    name: mongod
+    name: "{{ mongodb_daemon_name }}"
     state: started
 
 - name: Check SWEAGLE user exists
