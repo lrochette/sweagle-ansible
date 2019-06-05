@@ -8,7 +8,7 @@
   register: mongo_users
 
 - name: Extract user
-  shell: echo "{{ mongo_users.stdout }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
+  shell: echo "{{ mongo_users.results }}" | grep "{{ mongodb_user }}"."{{ sweagle_mongo_user }}"
   register: user_output
   ignore_errors: true
 
