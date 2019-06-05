@@ -37,4 +37,4 @@
 
 - name: Include SWEAGLE configuration.yml
   include: configure-sweagle.yml
-  tags: mysql
+  tags: [ mysql, sweagle, sweagle-mysql ]

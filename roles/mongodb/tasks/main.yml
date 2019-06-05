@@ -21,7 +21,7 @@
 
 - name: Include SWEAGLE configuration.yml
   include: configure-sweagle.yml
-  tags: [mongodb]
+  tags: [ mongodb, sweagle, sweagle-mongodb ]
 
 - name: Include replication and auth configuration
   include: replication_init_auth.yml
