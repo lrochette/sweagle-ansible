@@ -5,7 +5,7 @@
     state: present
     groups: wheel
     system: yes
-  tags: [ sweagle-core, system ]
+  tags: [ sweagle-core, sweagle, system ]
 
 - name: Create Sweagle installation folder "{{ sweagle_installation_folder }}"
   file:
@@ -14,37 +14,37 @@
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     mode: 0775
-  tags: [ sweagle-core, system ]
+  tags: [ sweagle-core, sweagle, system ]
 
 - name: Unzip package "full_{{ sweagle_version }}.zip"
   unarchive:
     src: "full_{{ sweagle_version}}.zip"
     dest: /tmp
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
 
 - name: copy content to installation folder
   synchronize:
     src: "/tmp/{{ sweagle_version }}/full/"
     dest: "{{ sweagle_installation_folder }}"
   delegate_to: "{{ inventory_hostname }}"
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
 
 - name: configure sweagle application.yml
   template:
     src: "{{ sweagle_version }}/application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
 
 - name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
     regexp: '\d+\.\d+\.\d+'
     replace: "{{ sweagle_version }}"
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
 
 - name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
 
 - name: set ownership in "{{ sweagle_installation_folder }}"
   file:
@@ -52,4 +52,4 @@
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     recurse: yes
-  tags: [ sweagle-core ]
+  tags: [ sweagle-core, sweagle ]
