@@ -38,7 +38,8 @@
     - {
       name: "{{ sweagle_mongo_user }}",
       password: "{{ sweagle_mongo_password }}",
-      roles: [{ role:"readWrite", db:"{{ mongodb_user }}"}]
+      roles:
+        - { db: "{{ mongodb_user }}", role: "readWrite" }
       }
   no_log: true
 
