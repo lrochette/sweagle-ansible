@@ -23,9 +23,11 @@
     state: absent
     path: "{{ item }}/"
   with_items:
+    - "{{ es_data_dirs }}"
+    - "{{ es_log_dir }}"
     - "{{ sweagle_installation_folder }}"
-    - "/var/log/elasticsearch"
     - "/var/log/mongodb"
+    - "{{ mongodb_storage_dbpath }}"
     - "/var/log/mysql"
     - "/var/log/nginx"
     - "/etc/opt/vault"
