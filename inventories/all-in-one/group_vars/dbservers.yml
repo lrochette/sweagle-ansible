@@ -10,7 +10,7 @@ mongodb_package: mongodb
 mongodb_version: "3.6"
 
 mongodb_net_port: 27017
-mongodb_security_authorization: "disabled"
+mongodb_security_authorization: "enabled"
 
 mongodb_storage_dbpath: "/opt/SWEAGLE/mongo"
 
