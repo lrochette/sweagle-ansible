@@ -1,4 +1,5 @@
-- name: "Remove all packages"
+---
+- name: "Remove all installed libs"
   package:
     pkg: "{{ item }}"
     state: absent
