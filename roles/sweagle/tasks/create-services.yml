@@ -25,3 +25,8 @@
     - sweagleCore
     - sweagleTaskRunner
   tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]
+
+  - name: Wait for services to start
+    pause:
+      seconds: 30
+    tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]

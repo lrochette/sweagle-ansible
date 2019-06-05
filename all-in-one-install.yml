@@ -18,6 +18,10 @@
   roles:
     - mysql
     - mongodb
+## check mongo connection
+#mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
+
+
 
 - hosts: indexservers
   roles:

@@ -10,16 +10,16 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://{{ sweagle_mysql_server }}:{{ sweagle_mysql_server }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://{{ sweagle_mysql_server }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
     username: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password}}"
   data:
     mongodb:
       #host: localhost
-      #port: 27017
-      #database: sweagle
-      #username: mongoSweagleUser
-      #password: yourPassword
+      #port: {{ sweagle_mongo_port }}
+      #database: {{ sweagle_mongo_db }}
+      #username: {{ sweagle_mongo_user }}
+      #password: {{ sweagle_mongo_password }}
       #authentication-database: sweagle
       uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@localhost:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource=admin&retryWrites=true"
   mail:

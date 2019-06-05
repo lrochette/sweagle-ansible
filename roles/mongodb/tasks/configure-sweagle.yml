@@ -45,3 +45,10 @@
   shell: mongo {{ sweagle_mongo_db }} --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ sweagle_mongo_db }}"}]}))'
   tags: [ mongodb, sweagle, sweagle-mongodb ]
   when: user_output.rc != 0
+
+- name: Copy SWEAGLE mongod.conf
+  template:
+    src: "sweagle-mongod.conf.j2"
+    dest: /etc/mongod.conf
+  tags: [ mongodb, sweagle, sweagle-mongodb ]
+  notify: mongodb reload
