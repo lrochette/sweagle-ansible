@@ -106,6 +106,7 @@
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     recurse: yes
+  become: true
   tags: [ sweagle-core, sweagle ]
 
 - name: create SWEAGLE core services
