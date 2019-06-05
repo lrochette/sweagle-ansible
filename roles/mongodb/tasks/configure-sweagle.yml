@@ -3,10 +3,12 @@
     name: "{{ mongodb_daemon_name }}"
     state: started
   become: true
+  tags: mongodb
 
 - name: Get list of MongoDB user
   shell: mongo "{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
+  tags: mongodb
 
 #- debug: var=mongo_users
 
@@ -14,28 +16,32 @@
   shell: echo "{{ mongo_users.stdout }}" | grep "{{ sweagle_mongo_db }}"."{{ sweagle_mongo_user }}"
   register: user_output
   ignore_errors: true
+  tags: mongodb
 
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo --eval 'db.getSiblingDB("{{ item }}")'
   with_items:
     - "{{ sweagle_mongo_db }}"
     - admin
+  tags: mongodb
   when: user_output.rc != 0
 
-- name: Create MongoDB SWEAGLE user
-  mongodb_user:
-    database: "{{ sweagle_mongo_db }}"
-    name: "{{ sweagle_mongo_user }}"
-    password: "{{ sweagle_mongo_password }}"
-    update_password: "{{ mongodb_user_update_password }}"
-    roles:
-      - { db: "{{ mongodb_user }}", role: "readWrite" }
-    login_database: "admin"
-    login_user: "{{ mongodb_root_admin_name }}"
-    login_password: "{{ mongodb_root_admin_password }}"
-    login_port: "{{ mongodb_net_port }}"
+#- name: Create MongoDB SWEAGLE user
+#  mongodb_user:
+#    database: "{{ sweagle_mongo_db }}"
+#    name: "{{ sweagle_mongo_user }}"
+#    password: "{{ sweagle_mongo_password }}"
+#    update_password: "{{ mongodb_user_update_password }}"
+#    roles:
+#      - { db: "{{ mongodb_user }}", role: "readWrite" }
+#    login_database: "admin"
+#    login_user: "{{ mongodb_root_admin_name }}"
+#    login_password: "{{ mongodb_root_admin_password }}"
+#    login_port: "{{ mongodb_net_port }}"
+#  tags: mongodb
 
 
-#- name: Create MongoDB SWEAGLE Users
-#  shell: mongo {{ sweagle_mongo_db }} --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ sweagle_mongo_db }}"}]}))'
-#  when: user_output.rc != 0
+- name: Create MongoDB SWEAGLE Users
+  shell: mongo {{ sweagle_mongo_db }} --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ sweagle_mongo_db }}"}]}))'
+  tags: mongodb
+  when: user_output.rc != 0
