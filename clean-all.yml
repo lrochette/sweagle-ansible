@@ -16,6 +16,8 @@
         - sweagleTaskRunner
         - vault
       become: true
+      ignore_errors: yes
+      tags: uninstall
 
     - name: Remove all installed packages
       package:
