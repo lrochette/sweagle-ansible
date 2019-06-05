@@ -51,7 +51,6 @@
         - "/etc/vault.d"
         - "{{ mongodb_storage_dbpath }}"
         - "{{ sweagle_installation_folder }}"
-        - "/usr/bin/vault"
         - "/var/log/mongodb"
         - "/var/log/mysql"
         - "/var/log/nginx"
@@ -59,6 +58,19 @@
       ignore_errors: yes
       tags: uninstall
 
+    - name: Clean installed files
+      cleanup_files:
+        path_pattern: "{{ item }}"
+        state: absent
+      with_items:
+        - "/usr/bin/mongo*"
+        - "/usr/bin/mysql*"
+        - "/usr/bin/vault*"
+      become: true
+      ignore_errors: yes
+      tags: uninstall
+
     - name: Finish message
       debug:
         msg: "It is recommended to start an auto-remove of useless dependent libraries with sudo apt-get autoremove."
+      tags: uninstall
