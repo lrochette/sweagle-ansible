@@ -61,6 +61,7 @@
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_user }}"
     mode: 0755
+  become: true
   when: ( mongodb_systemlog_destination == "file"
         and logfile_stat is defined
         and not logfile_stat.stat.exists )
