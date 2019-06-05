@@ -15,7 +15,7 @@
 
 - name: Configure MySQL
   template:
-    src: "{{ ansible_home_dir }}/roles/mysql/templates/my.cnf.j2"
+    src: "my.cnf.j2"
     dest: "{{ mysql_config_dir }}/my.cnf"
     mode: preserve
   become: true
