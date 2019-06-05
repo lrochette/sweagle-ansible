@@ -1,4 +1,4 @@
 ---
 vault_backend: mysql
-vault_server: "127.0.0.1"
-vault_port: 8200
+vault_server: "{{ sweagle_vault_server }}"
+vault_port: "{{ sweagle_vault_port}}"

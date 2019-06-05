@@ -3,7 +3,8 @@
 ###################################################
 ###   MYSQL
 ###################################################
-mysql_port: 3306
+mysql_server: "{{ sweagle_mysql_server }}"
+mysql_port: "{{ sweagle_mysql_port }}"
 # MySQL root user and password
 mysql_root_user: root
 mysql_root_password: root
@@ -15,7 +16,7 @@ mongodb_package: mongodb                        # Package name to use for Ubuntu
 mongodb_version: "3.6"
 
 mongodb_net_bindip: 127.0.0.1                    # Comma separated list of ip addresses to listen on
-mongodb_net_port: 27017
+mongodb_net_port: "{{ sweagle_mongo_port }}"
 mongodb_security_authorization: "disabled"
 
 mongodb_storage_dbpath: "/opt/SWEAGLE/mongo"

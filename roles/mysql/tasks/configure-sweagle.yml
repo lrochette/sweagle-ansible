@@ -39,7 +39,7 @@
     login_user: root
     login_password: "{{ mysql_root_password }}"
   with_items:
-    - mdm
+    - "{{ sweagle_mysql_db }}""
     - vault
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
