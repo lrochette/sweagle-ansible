@@ -48,7 +48,7 @@
   mysql_user:
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    name: "{{ mdm_user }}"
+    name: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password }}"
     priv: "{{ item }}.*:ALL"
     append_privs: true
