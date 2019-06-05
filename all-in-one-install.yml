@@ -21,7 +21,7 @@
 
 - hosts: indexservers
   roles:
-    - elasticsearch
+    - elasticsearch.elasticsearch
 
 - hosts: appservers
   roles:

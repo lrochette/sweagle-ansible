@@ -1,0 +1,4 @@
+es_version: "6.6.2"
+es_data_dirs: "/opt/SWEAGLE/elasticsearch"
+es_config:
+  cluster.name: "SWEAGLE_cluster"
