@@ -1,0 +1,4 @@
+---
+vault_backend: mysql
+vault_server: "127.0.0.1"
+vault_port: 8200

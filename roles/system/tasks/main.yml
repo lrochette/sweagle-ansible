@@ -1,0 +1,31 @@
+---
+- name: disable firewall
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  become: true
+  tags: system
+
+- name: install screen, jq and telnet
+  package:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - screen
+    - telnet
+    - jq
+  become: true
+  tags: system
+
+- name: disable selinux at runtime
+  shell: setenforce 0
+  become: true
+  when: ansible_selinux.status != 'disabled'
+  tags: system
+
+- name: disable selinux permanently
+  selinux:
+    state: disabled
+  become: true
+  tags: system

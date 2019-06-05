@@ -1,12 +1,20 @@
 ---
 # Variables for DB SERVERS in DEV environment
 mysql_port: 3306
+# MySQL root user and password
 mysql_user: root
 mysql_password: root
 
 # Package name to use for Ubuntu
 mongodb_package: mongodb
+mongodb_version: "3.6"
+mongodb_security_authorization: enabled
+mongodb_user: sweagle
 
-vault_backend: mysql
-vault_server: "127.0.0.1"
-vault_port: 8200
+mongodb_storage_dbpath: /opt/SWEAGLE/mongo
+
+mongodb_user_admin_name: sweagle
+mongodb_user_admin_password: sweagle
+
+mongodb_root_admin_name: root_user
+mongodb_root_admin_password: root_password

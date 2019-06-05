@@ -1,10 +1,11 @@
 ---
-- name: create mongodb group
+# Set the system settings for mongo
+- name: create mongodb system group
   group:
     name: "{{ mongodb_user }}"
     state: present
 
-- name: create mongodb user
+- name: create mongodb system user
   user:
     name: "{{ mongodb_user }}"
     group: "{{ mongodb_user }}"

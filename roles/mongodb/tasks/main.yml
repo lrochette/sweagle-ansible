@@ -18,6 +18,10 @@
   include: configure.yml
   tags: [mongodb]
 
+- name: Include SWEAGLE configuration.yml
+  include: configure-sweagle.yml
+  tags: [mongodb]
+
 - name: Include replication and auth configuration
   include: replication_init_auth.yml
   when: ( mongodb_replication_replset | length > 0
