@@ -4,4 +4,5 @@
     name: nginx
     enabled: yes
     state: restarted
+  become: true
   tags: [ sweagle, sweagle-web ]

@@ -1,4 +1,5 @@
 ---
+## This applies sonly to webservers
 - name: Create SWEAGLE web root
   file:
     path: "/usr/share/nginx/html/sweagle"
@@ -8,7 +9,7 @@
 
 - name: Unzip web package
   unarchive:
-    src: "{{ sweagle_installation_folder }}/bin/ui/dist.zip"
+    src: "/tmp/{{ sweagle_version }}/full/bin/ui/dist.zip"
     dest: "/usr/share/nginx/html/sweagle"
   become: true
   tags: [ sweagle, sweagle-web ]
