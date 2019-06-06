@@ -12,6 +12,8 @@
   file:
     path: "/var/log/nginx/acces.log"
     state: touch
+  become: true
+  tags: nginx
 
 - name: Check nginx service is running
   service:
