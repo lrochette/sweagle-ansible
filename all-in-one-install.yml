@@ -32,6 +32,10 @@
     - jdk
     - vault
     - sweagle
+## check sweagle working, start non interactive
+#cd /opt/SWEAGLE/scripts
+#./startCORE.sh
+
 
 - hosts: webservers
   roles:

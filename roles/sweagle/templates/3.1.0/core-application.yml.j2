@@ -21,7 +21,7 @@ spring:
       #username: {{ sweagle_mongo_user }}
       #password: {{ sweagle_mongo_password }}
       #authentication-database: sweagle
-      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@localhost:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource=admin&retryWrites=true"
+      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@localhost:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
   mail:
     host: smtp-auth.mailprotect.be
     username: no-reply@sweagle.expert
