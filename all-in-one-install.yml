@@ -26,12 +26,12 @@
     - elasticsearch
 
 ## Nginx must be installed before SWEAGLE
-## So that web package could be unpack directly to nginx after 
+## So that web package could be unpack directly to nginx after
 - hosts: webservers
   roles:
     - nginx
 
-- hosts: appservers
+- hosts: appservers, webservers
   roles:
     - jdk
     - vault

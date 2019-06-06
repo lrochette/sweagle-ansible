@@ -1,28 +1,32 @@
 ---
-- name: Create SWEAGLE web root
-  file:
-    path: "/usr/share/nginx/html/sweagle"
-    state: directory
-  tags: [ sweagle, sweagle-web ]
+- hosts: webservers
 
-- name: Unzip web package
-  unarchive:
-    src: "{{ sweagle_installation_folder }}/bin/ui/dist.zip"
-    dest: "/usr/share/nginx/html/sweagle"
-  tags: [ sweagle, sweagle-web ]
+  - name: Create SWEAGLE web root
+    file:
+      path: "/usr/share/nginx/html/sweagle"
+      state: directory
+    become: true
+    tags: [ sweagle, sweagle-web ]
 
-- name: Configure web sites available
-  template:
-    src: "{{ sweagle_version }}/sites-available/default.j2"
-    dest: "/etc/nginx/sites-available/default"
-  become: true
-  tags: [ sweagle, sweagle-web ]
+  - name: Unzip web package
+    unarchive:
+      src: "{{ sweagle_installation_folder }}/bin/ui/dist.zip"
+      dest: "/usr/share/nginx/html/sweagle"
+    become: true
+    tags: [ sweagle, sweagle-web ]
 
-- name: Reconfigure nginx.conf
-  template:
-    src: "{{ sweagle_version }}/nginx.conf.j2"
-    dest: "/etc/nginx/nginx.conf"
-  become: true
-  notify:
-     - Restart nginx
-  tags: [ sweagle, sweagle-web ]
+  - name: Configure web sites available
+    template:
+      src: "{{ sweagle_version }}/sites-available/default.j2"
+      dest: "/etc/nginx/sites-available/default"
+    become: true
+    tags: [ sweagle, sweagle-web ]
+
+  - name: Reconfigure nginx.conf
+    template:
+      src: "{{ sweagle_version }}/nginx.conf.j2"
+      dest: "/etc/nginx/nginx.conf"
+    become: true
+    notify:
+       - Restart nginx
+    tags: [ sweagle, sweagle-web ]
