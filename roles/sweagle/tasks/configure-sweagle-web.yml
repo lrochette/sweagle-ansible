@@ -1,6 +1,5 @@
 ---
 - hosts: webservers
-
   - name: Create SWEAGLE web root
     file:
       path: "/usr/share/nginx/html/sweagle"
