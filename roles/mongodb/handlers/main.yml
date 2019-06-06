@@ -34,6 +34,8 @@
   service:
     name: "{{ mongodb_daemon_name }}"
     state: started
+  become: true
+  become_user: root
 
 - name: wait when mongodb is started
   wait_for:
