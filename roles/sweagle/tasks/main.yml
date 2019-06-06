@@ -126,6 +126,7 @@
 
 - name: Configure SWEAGLE web site
   include: configure-sweagle-web.yml
+  hosts: webservers
   tags: [ sweagle, sweagle-web ]
 
 
