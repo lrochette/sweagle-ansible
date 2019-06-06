@@ -21,13 +21,13 @@ server {
         #ssl_certificate /etc/ssl/sweagle.pem;
         #ssl_certificate_key /etc/ssl/sweagle.key;
 
-        root /var/www/html;
+        root {{ sweagle_web_root_dir }};
         index index.html;
 
         server_name {{ sweagle_tenant }}.sweagle.com;
 
         location / {
-                alias /var/www/html/sweagle/;
+                alias {{ sweagle_web_root_dir }}/;
                 try_files $uri$args $uri$args/ /index.html;
         }
 

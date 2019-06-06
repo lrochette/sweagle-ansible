@@ -10,7 +10,7 @@
 - name: Unzip web package
   unarchive:
     src: "/tmp/{{ sweagle_version }}/full/bin/ui/dist.zip"
-    dest: "/usr/share/nginx/html/sweagle"
+    dest: "{{ sweagle_web_root_dir }}"
   become: true
   tags: [ sweagle, sweagle-web ]
 
