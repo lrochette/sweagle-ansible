@@ -1,0 +1,34 @@
+---
+- name: configure SWEAGLE core application.yml
+  template:
+    src: "{{ sweagle_version }}/core-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
+  tags: [ sweagle-core, sweagle ]
+
+- name: configure SWEAGLE core appConfig.settings
+  template:
+    src: "{{ sweagle_version }}/appConfig.settings.j2"
+    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
+  tags: [ sweagle-core, sweagle ]
+
+- name: Create service for SWEAGLE core
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar 4000m"
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-core ]
+
+- name: Enable and start SWEAGLE service
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  become: true
+  with_items:
+    - sweagleCore
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-core ]
+
+- name: Wait for services to start
+  pause:
+    seconds: 30
+  tags: [ sweagle, sweagle-core ]

@@ -59,30 +59,6 @@
   delegate_to: "{{ inventory_hostname }}"
   tags: [ sweagle-core, sweagle ]
 
-- name: configure SWEAGLE core application.yml
-  template:
-    src: "{{ sweagle_version }}/core-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
-  tags: [ sweagle-core, sweagle ]
-
-- name: configure SWEAGLE core appConfig.settings
-  template:
-    src: "{{ sweagle_version }}/appConfig.settings.j2"
-    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
-  tags: [ sweagle-core, sweagle ]
-
-- name: configure SWEAGLE scriptexecutor application.yml
-  template:
-    src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
-  tags: [ sweagle-scriptexecutor, sweagle ]
-
-- name: configure SWEAGLE taskrunner application.yml
-  template:
-    src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
-  tags: [ sweagle-taskrunner, sweagle ]
-
 - name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
@@ -90,15 +66,39 @@
     replace: "{{ sweagle_version }}"
   tags: [ sweagle-core, sweagle ]
 
-#- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
-#  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
-#  tags: [ sweagle-core, sweagle ]
-
 - name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   file:
     dest: "{{ sweagle_installation_folder }}/scripts"
     mode: a+x
   tags: [ sweagle-core, sweagle ]
+
+- name: configure SWEAGLE core application.yml
+  template:
+    src: "{{ sweagle_version }}/core-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
+  tags: [ sweagle-core, sweagle ]
+
+- name: configure core appConfig.settings
+  template:
+    src: "{{ sweagle_version }}/appConfig.settings.j2"
+    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
+  tags: [ sweagle-core, sweagle ]
+
+- name: configure scriptexecutor application.yml
+  template:
+    src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
+  tags: [ sweagle-scriptexecutor, sweagle ]
+
+- name: configure taskrunner application.yml
+  template:
+    src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
+  tags: [ sweagle-taskrunner, sweagle ]
+
+#- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
+#  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
+#  tags: [ sweagle-core, sweagle ]
 
 - name: set ownership in "{{ sweagle_installation_folder }}"
   file:
@@ -113,6 +113,21 @@
   include: create-services.yml
   when: sweagle_create_services
   tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]
+
+- name: Configure prepare tenant script
+  template:
+    src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
+    dest: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh"
+  tags: [ sweagle-core, sweagle ]
+
+- name: Execute prepare tenant script
+  shell: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh {{ sweagle_tenant }}"
+  tags: [ sweagle, sweagle-core ]
+
+- name: Configure SWEAGLE web site
+  include: configure-sweagle-web.yml
+  tags: [ sweagle, sweagle-web ]
+
 
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]

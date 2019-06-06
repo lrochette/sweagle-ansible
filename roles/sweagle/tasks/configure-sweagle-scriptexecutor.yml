@@ -1,0 +1,27 @@
+---
+- name: configure scriptexecutor application.yml
+  template:
+    src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
+  tags: [ sweagle, sweagle-scriptexecutor ]
+
+- name: Create service scriptexecutor
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleScriptExecutor {{ sweagle_installation_folder }}/bin/scriptExecutor script-executor-{{ sweagle_version }}.jar 2000m"
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-scriptexecutor ]
+
+- name: Enable and start scriptexecutor service
+  service:
+    name: "sweagleScriptExecutor"
+    state: started
+    enabled: yes
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-scriptexecutor ]
+
+- name: Wait for service to start
+  pause:
+    seconds: 15
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-scriptexecutor ]

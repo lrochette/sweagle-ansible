@@ -18,14 +18,18 @@
   roles:
     - mysql
     - mongodb
-## check mongo connection
+## Check mongo connection
 #mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
-
-
 
 - hosts: indexservers
   roles:
     - elasticsearch
+
+## Nginx must be installed before SWEAGLE
+## So that web package could be unpack directly to nginx after 
+- hosts: webservers
+  roles:
+    - nginx
 
 - hosts: appservers
   roles:
@@ -35,8 +39,3 @@
 ## check sweagle working, start non interactive
 #cd /opt/SWEAGLE/scripts
 #./startCORE.sh
-
-
-- hosts: webservers
-  roles:
-    - nginx

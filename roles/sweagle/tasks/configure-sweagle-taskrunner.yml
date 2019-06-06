@@ -1,0 +1,27 @@
+---
+- name: configure SWEAGLE taskrunner application.yml
+  template:
+    src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
+  tags: [ sweagle-taskrunner, sweagle ]
+
+- name: Create service taskrunner
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleTaskRunner {{ sweagle_installation_folder }}/bin/taskRunner task-runner-1.0.0.jar 1000m"
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-taskrunner ]
+
+- name: Enable and start taskrunner service
+  service:
+    name: "sweagleTaskRunner"
+    state: started
+    enabled: yes
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-taskrunner ]
+
+- name: Wait for service to start
+  pause:
+    seconds: 15
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]
