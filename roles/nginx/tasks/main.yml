@@ -8,6 +8,11 @@
   become_user: root
   tags: nginx
 
+- name: Touch access.log file
+  file:
+    path: "/var/log/nginx/acces.log"
+    state: touch
+
 - name: Check nginx service is running
   service:
     name: nginx
