@@ -48,7 +48,7 @@
 
 - name: Copy SWEAGLE mongod.conf
   template:
-    src: "sweagle-mongod.conf.j2"
+    src: "mongod.conf-sweagle.j2"
     dest: /etc/mongod.conf
   become: true
   tags: [ mongodb, sweagle, sweagle-mongodb ]
