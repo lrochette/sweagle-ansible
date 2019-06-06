@@ -13,4 +13,5 @@
     name: nginx
     enabled: yes
     state: started
+  become: true
   tags: nginx
