@@ -5,14 +5,14 @@
    state: directory
   tags: [ sweagle, sweagle-web ]
 
- - name: Unzip web package
-   unarchive:
-     src: "{{ sweagle_installation_folder }}/bin/ui/dist.zip"
-     dest: "/usr/share/nginx/html/sweagle"
-   tags: [ sweagle, sweagle-web ]
+- name: Unzip web package
+ unarchive:
+   src: "{{ sweagle_installation_folder }}/bin/ui/dist.zip"
+   dest: "/usr/share/nginx/html/sweagle"
+ tags: [ sweagle, sweagle-web ]
 
- - name: Configure web sites available
-   template:
-     src: "{{ sweagle_version }}/sites-available/default.j2"
-     dest: "/etc/nginx/sites-available/default"
-   tags: [ sweagle, sweagle-web ]
+- name: Configure web sites available
+ template:
+   src: "{{ sweagle_version }}/sites-available/default.j2"
+   dest: "/etc/nginx/sites-available/default"
+ tags: [ sweagle, sweagle-web ]
