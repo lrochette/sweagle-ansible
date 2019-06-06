@@ -6,18 +6,18 @@
     - "{{ ansible_distribution_release }}.yml"
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
-  tags: [mongodb]
+  tags: mongodb
 
 - name: Include installation tasks
   include: "{{ item }}"
   with_first_found:
     - "install.{{ ansible_distribution | lower }}.yml"
     - "install.{{ ansible_os_family | lower }}.yml"
-  tags: [mongodb]
+  tags: mongodb
 
 - name: Include configuration.yml
   include: configure.yml
-  tags: [mongodb]
+  tags: mongodb
 
 - name: Include SWEAGLE configuration.yml
   include: configure-sweagle.yml
@@ -28,7 +28,7 @@
   when: ( mongodb_replication_replset | length > 0
         and mongodb_security_authorization == 'enabled'
         and mongodb_master is defined and mongodb_master )
-  tags: [mongodb]
+  tags: mongodb
 
 - name: Include replication configuration
   include: replication.yml
@@ -46,16 +46,16 @@
   when: ( mongodb_security_authorization == 'enabled'
           and not mongodb_replication_replset )
   no_log: true
-  tags: [mongodb]
+  tags: mongodb
 
 - name: Include authorization configuration
   include: auth_initialization.yml
   when: ( mongodb_security_authorization == 'enabled'
           and not mongodb_replication_replset
           and mongodb_user_admin_check.rc != 0 )
-  tags: [mongodb]
+  tags: mongodb
 
-- name: create normal users with replicaset
+- name: Create normal users with replicaset
   mongodb_user:
     database: "{{ item.database }}"
     name: "{{ item.name }}"
@@ -74,7 +74,7 @@
   no_log: true
   tags: [mongodb]
 
-- name: create normal users without replicaset
+- name: Create normal users without replicaset
   mongodb_user:
     database: "{{ item.database }}"
     name: "{{ item.name }}"
@@ -91,7 +91,7 @@
   no_log: true
   tags: [mongodb]
 
-- name: create oplog user with replicaset
+- name: Create oplog user with replicaset
   mongodb_user:
     database: admin
     user: "{{ item.user }}"
@@ -115,4 +115,4 @@
 - name: Include MMS Agent configuration
   include: mms-agent.yml
   when: mongodb_mms_api_key | length > 0
-  tags: [mongodb]
+  tags: mongodb
