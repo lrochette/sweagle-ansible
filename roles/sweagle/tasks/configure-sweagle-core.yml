@@ -11,24 +11,23 @@
     dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
   tags: [ sweagle-core, sweagle ]
 
-- name: Create service for SWEAGLE core
+- name: Create service core
   shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar 4000m"
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]
 
-- name: Enable and start SWEAGLE service
+- name: Enable and start core service
   service:
-    name: "{{ item }}"
+    name: "sweagleCore"
     state: started
     enabled: yes
   become: true
-  with_items:
-    - sweagleCore
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]
 
-- name: Wait for services to start
+- name: Wait for service to start
   pause:
-    seconds: 30
+    seconds: 60
+  when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]
