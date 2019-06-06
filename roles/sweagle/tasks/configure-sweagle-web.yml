@@ -21,7 +21,14 @@
   become: true
   tags: [ sweagle, sweagle-web ]
 
-- name: Reconfigure nginx.conf
+- name: Configure sweagle.conf
+  template:
+    src: "{{ sweagle_version }}/sweagle.conf.j2"
+    dest: "/etc/nginx/conf.d/sweagle.conf"
+  become: true
+  tags: [ sweagle, sweagle-web ]
+
+- name: Configure nginx.conf
   template:
     src: "{{ sweagle_version }}/nginx.conf.j2"
     dest: "/etc/nginx/nginx.conf"
