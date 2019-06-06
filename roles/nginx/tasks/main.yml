@@ -14,4 +14,5 @@
     enabled: yes
     state: started
   become: true
+  become_user: root
   tags: nginx
