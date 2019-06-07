@@ -2,3 +2,4 @@
 vault_backend: mysql
 vault_server: "{{ sweagle_vault_server }}"
 vault_port: "{{ sweagle_vault_port}}"
+vault_copy_keys: true
