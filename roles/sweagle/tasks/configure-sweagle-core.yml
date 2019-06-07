@@ -12,7 +12,7 @@
   tags: [ sweagle-core, sweagle ]
 
 - name: Create service core
-  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar 4000m"
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar {{ sweagle_core_xmx }}"
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]

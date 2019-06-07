@@ -6,7 +6,7 @@
   tags: [ sweagle-taskrunner, sweagle ]
 
 - name: Create service taskrunner
-  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleTaskRunner {{ sweagle_installation_folder }}/bin/taskRunner task-runner-1.0.0.jar 1000m"
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleTaskRunner {{ sweagle_installation_folder }}/bin/taskRunner task-runner-1.0.0.jar {{ sweagle_taskrunner_xmx }}"
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-taskrunner ]

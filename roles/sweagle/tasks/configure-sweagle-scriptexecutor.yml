@@ -6,7 +6,7 @@
   tags: [ sweagle, sweagle-scriptexecutor ]
 
 - name: Create service scriptexecutor
-  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleScriptExecutor {{ sweagle_installation_folder }}/bin/scriptExecutor script-executor-{{ sweagle_version }}.jar 2000m"
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleScriptExecutor {{ sweagle_installation_folder }}/bin/scriptExecutor script-executor-{{ sweagle_version }}.jar {{ sweagle_scriptexecutor_xmx }}"
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-scriptexecutor ]
