@@ -4,6 +4,10 @@
 ## be sure ansible.cfg knows your inventory folder and authorize non ssh checks
 # more /etc/ansible/ansible.cfg
 
+## WARNING
+## Copy your SWEAGLE full package zip file to /roles/sweagle/files
+## Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
+
 ## Test with
 # ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
 ##
