@@ -22,7 +22,6 @@
     system: yes
   tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
-
 - name: Ensure optional elasticsearch user is created with the correct id
   become: yes
   #Restart if these change
