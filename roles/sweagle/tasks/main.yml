@@ -65,6 +65,15 @@
   delegate_to: "{{ inventory_hostname }}"
   tags: [ sweagle, sweagle-core ]
 
+- name: set ownership in "{{ sweagle_installation_folder }}"
+  file:
+    dest: "{{ sweagle_installation_folder }}"
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+    recurse: yes
+  become: true
+  tags: [ sweagle, sweagle-core ]
+
 - name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
@@ -80,15 +89,6 @@
 #- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]
-
-- name: set ownership in "{{ sweagle_installation_folder }}"
-  file:
-    dest: "{{ sweagle_installation_folder }}"
-    owner: "{{ sweagle_system_user }}"
-    group: "{{ sweagle_system_group }}"
-    recurse: yes
-  become: true
-  tags: [ sweagle, sweagle-core ]
 
 - name: configure core appConfig.settings
   template:
@@ -120,7 +120,3 @@
 - name: Execute prepare tenant script
   shell: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh {{ sweagle_tenant }}"
   tags: [ sweagle, sweagle-core ]
-
-
-#  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
-#  tags: [ sweagle-core, sweagle ]
