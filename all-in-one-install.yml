@@ -1,5 +1,6 @@
 ---
 ## Prerequisite
+## Packages Ansible 2.5 or higher + package sshpass
 ## be sure ansible.cfg knows your inventory folder and authorize non ssh checks
 # more /etc/ansible/ansible.cfg
 ## Test with
@@ -19,11 +20,13 @@
     - mysql
     - mongodb
 ## Check mongo connection
-#mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
+# mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
 
 - hosts: indexservers
   roles:
     - elasticsearch
+## Start elastic search manually to checks
+#
 
 ## Nginx must be installed before SWEAGLE
 ## So that web package could be unpack directly to nginx after
