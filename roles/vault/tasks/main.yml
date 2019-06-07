@@ -59,7 +59,7 @@
 - name: Copy keys in temp file
   copy:
     content: "{{ keys }}"
-    dest: /etc/opt/vault/keys.txt
+    dest: "/etc/opt/vault/keys-{{ ansible_date_time.iso8601_basic_short }}.json"
   become: true
   when: vault_copy_keys
   tags: vault
