@@ -7,7 +7,7 @@
   tags: [ sweagle, sweagle-core, sweagle-web ]
 
 - name: Configure SWEAGLE web site
-  import_playbook: configure-sweagle-web.yml
+  include: configure-sweagle-web.yml
   hosts: webservers
   tags: [ sweagle, sweagle-web ]
 
