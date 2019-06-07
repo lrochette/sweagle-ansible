@@ -2,7 +2,7 @@
 ## This applies sonly to webservers
 - name: Create SWEAGLE web root
   file:
-    path: "/usr/share/nginx/html/sweagle"
+    path: "{{ sweagle_web_root_dir }}"
     state: directory
   become: true
   tags: [ sweagle, sweagle-web ]
