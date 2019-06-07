@@ -1,8 +1,9 @@
 ---
-## Prerequisite
+## Prerequisites:
 ## Packages Ansible 2.5 or higher + package sshpass
 ## be sure ansible.cfg knows your inventory folder and authorize non ssh checks
 # more /etc/ansible/ansible.cfg
+
 ## Test with
 # ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
 ##
