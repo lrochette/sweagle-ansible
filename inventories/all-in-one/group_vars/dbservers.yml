@@ -22,7 +22,6 @@ mongodb_security_authorization: "disabled"
 mongodb_storage_dbpath: "/opt/mongodb/data"
 mongodb_systemlog_path: "/opt/mongodb/log/{{ mongodb_daemon_name }}.log"   # Log file to send write to instead of stdout
 
-
 mongodb_user_admin_name: sweagle
 mongodb_user_admin_password: sweagle
 

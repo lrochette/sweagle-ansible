@@ -9,7 +9,7 @@
       with_items:
         - elasticsearch
         - mongodb
-        - mysqld
+        - mysql
         - nginx
         - sweagleScriptExecutor
         - sweagleCore
