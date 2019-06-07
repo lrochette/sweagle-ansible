@@ -1,7 +1,7 @@
 ---
 
 - name: Include optional user and group creation.
-  when: (es_user_id is defined) and (es_group_id is defined)
+  when: (es_user is defined) and (es_group is defined)
   include: elasticsearch-optional-user.yml
   tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
