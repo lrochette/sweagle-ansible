@@ -7,7 +7,7 @@
   tags: [ sweagle, sweagle-core, sweagle-web ]
 
 - name: Configure SWEAGLE web site
-  include: configure-sweagle-web.yml
+  include_tasks: configure-sweagle-web.yml
   hosts: webservers
   tags: [ sweagle, sweagle-web ]
 
@@ -116,7 +116,7 @@
   tags: [ sweagle, sweagle-core ]
 
 - name: create SWEAGLE core services
-  include: create-services.yml
+  include_tasks: create-services.yml
   when: sweagle_create_services
   tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]
 
