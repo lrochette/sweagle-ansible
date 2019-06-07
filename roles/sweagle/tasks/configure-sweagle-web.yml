@@ -22,7 +22,7 @@
   tags: [ sweagle, sweagle-web ]
 
 - name: Configure sweagle.conf
-  template:
+  copy:
     src: "sweagle.conf"
     dest: "/etc/nginx/conf.d/sweagle.conf"
   become: true
