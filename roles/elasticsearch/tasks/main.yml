@@ -7,7 +7,7 @@
 
 - name: os-specific vars
   include_vars: "{{ansible_os_family}}.yml"
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: set compatibility variables
   include: compatibility-variables.yml
