@@ -1,5 +1,5 @@
 upstream applicationServer {
-        server localhost:8081;
+        server localhost:{{ sweagle_core_port }};
 }
 
 ## This is redirect to HTTPS to use if https enabled
@@ -25,7 +25,7 @@ server {
         root {{ sweagle_web_root_dir }};
         index index.html;
 
-        server_name {{ sweagle_tenant }}.sweagle.com;
+        server_name _;
 
         location / {
                 alias {{ sweagle_web_root_dir }}/;
