@@ -1,27 +1,28 @@
 upstream applicationServer {
-        server localhost:8000;
+        server localhost:8081;
 }
 
-server {
-        listen 80;
-        listen [::]:80;
-        server_name {{ sweagle_tenant }}.sweagle.com;
+## This is redirect to HTTPS to use if https enabled
+#server {
+#        listen 80;
+#        listen [::]:80;
+#        server_name {{ sweagle_tenant }}.sweagle.com;
+#
+#    location / {
+#        return 301 https://$host$request_uri;
+#    }
+#}
 
-    location / {
-        return 301 https://$host$request_uri;
-    }
-}
-
 server {
-        listen 443 default_server;
-        listen [::]:443 default_server;
+        listen {{ sweagle_web_port }} default_server;
+        listen [::]:{{ sweagle_web_port }} default_server;
 
         #should be uncommented when the certificate gets installed on the machine
         #ssl on;
         #ssl_certificate /etc/ssl/sweagle.pem;
         #ssl_certificate_key /etc/ssl/sweagle.key;
 
-        root {{ nginx_web_root_dir }};
+        root {{ sweagle_web_root_dir }};
         index index.html;
 
         server_name {{ sweagle_tenant }}.sweagle.com;

@@ -14,16 +14,16 @@
   become: true
   tags: [ sweagle, sweagle-web ]
 
-- name: Configure web sites available
+- name: Configure web site
   template:
-    src: "{{ sweagle_version }}/sites-available/default.j2"
-    dest: "/etc/nginx/sites-available/default"
+    src: "{{ sweagle_version }}/default.j2"
+    dest: "/etc/nginx/conf.d/default"
   become: true
   tags: [ sweagle, sweagle-web ]
 
 - name: Configure sweagle.conf
   template:
-    src: "{{ sweagle_version }}/sweagle.conf.j2"
+    src: "sweagle.conf"
     dest: "/etc/nginx/conf.d/sweagle.conf"
   become: true
   tags: [ sweagle, sweagle-web ]

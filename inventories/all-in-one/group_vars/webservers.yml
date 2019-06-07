@@ -1,1 +1,1 @@
-nginx_web_root_dir: "/usr/share/nginx/html"
+nginx_log_dir: "{{ sweagle_web_log_dir }}"
