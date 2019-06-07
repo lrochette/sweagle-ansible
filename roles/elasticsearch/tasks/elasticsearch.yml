@@ -3,7 +3,7 @@
 - name: Include optional user and group creation.
   when: (es_user_id is defined) and (es_group_id is defined)
   include: elasticsearch-optional-user.yml
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: Include specific Elasticsearch
   include: elasticsearch-Debian.yml

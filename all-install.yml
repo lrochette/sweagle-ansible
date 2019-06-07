@@ -10,11 +10,18 @@
 
 ## Test with
 # ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
-##
-## To run only for some components use
-#ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
-#ex to do only mySQL: ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "mysql"
-#ex to do only sweagle: ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "sweagle"
+
+## For full installation (including prerequisites)
+# ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml
+
+## For SWEAGLE installation (prerequisites already installed)
+## (check before that prerequisites are well installed)
+# ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
+
+## To install only a specifif component or prerequisite
+# ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
+## Example to do only mySQL:
+# ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
 
 - hosts: all
   roles:
