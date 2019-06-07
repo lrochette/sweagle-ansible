@@ -28,7 +28,7 @@
 - name: set fact file_reserved_users
   set_fact: file_reserved_users={{ es_users.file.keys() | intersect (reserved_xpack_users) }}
   when: es_users is defined and es_users.file is defined and (es_users.file.keys() | length > 0) and (es_users.file.keys() | intersect (reserved_xpack_users) | length > 0)
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: fail when changing users through file realm
   fail:
@@ -38,4 +38,4 @@
 
 - name: set fact m_lock_enabled
   set_fact: m_lock_enabled={{ es_config['bootstrap.memory_lock'] is defined and es_config['bootstrap.memory_lock'] == True }}
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]

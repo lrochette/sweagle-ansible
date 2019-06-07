@@ -11,11 +11,11 @@
 
 - name: set compatibility variables
   include: compatibility-variables.yml
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: check-set-parameters
   include: elasticsearch-parameters.yml
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: use snapshot release
   include: snapshot-release.yml
