@@ -20,8 +20,7 @@
   when: sweagle_create_services
   tags: [ sweagle, sweagle-scriptexecutor ]
 
-- name: Wait for service to start
-  pause:
-    seconds: 15
+- name: Wait for scriptexecutor to startup
+  wait_for: host=localhost port={{ sweagle_scriptexecutor_port }} delay=15 connect_timeout=5 timeout=60
   when: sweagle_create_services
   tags: [ sweagle, sweagle-scriptexecutor ]

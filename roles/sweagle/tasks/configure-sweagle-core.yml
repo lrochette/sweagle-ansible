@@ -3,13 +3,7 @@
   template:
     src: "{{ sweagle_version }}/core-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
-  tags: [ sweagle-core, sweagle ]
-
-- name: Configure core appConfig.settings
-  template:
-    src: "{{ sweagle_version }}/appConfig.settings.j2"
-    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
-  tags: [ sweagle-core, sweagle ]
+  tags: [ sweagle, sweagle-core ]
 
 - name: Create service core
   shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar {{ sweagle_core_xmx }}"
@@ -26,8 +20,7 @@
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]
 
-- name: Wait for service to start
-  pause:
-    seconds: 60
+- name: Wait for core to startup
+  wait_for: host=localhost port={{ sweagle_core_port }} delay=15 connect_timeout=5 timeout=120
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]

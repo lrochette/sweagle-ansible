@@ -19,9 +19,3 @@
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-taskrunner ]
-
-- name: Wait for service to start
-  pause:
-    seconds: 15
-  when: sweagle_create_services
-  tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]

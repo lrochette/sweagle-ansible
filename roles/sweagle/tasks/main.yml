@@ -77,31 +77,6 @@
     dest: "{{ sweagle_installation_folder }}/scripts"
     mode: a+x
   tags: [ sweagle, sweagle-core ]
-
-- name: configure core application.yml
-  template:
-    src: "{{ sweagle_version }}/core-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
-  tags: [ sweagle, sweagle-core ]
-
-- name: configure core appConfig.settings
-  template:
-    src: "{{ sweagle_version }}/appConfig.settings.j2"
-    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
-  tags: [ sweagle-core, sweagle ]
-
-- name: configure scriptexecutor application.yml
-  template:
-    src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
-  tags: [ sweagle-scriptexecutor, sweagle ]
-
-- name: configure taskrunner application.yml
-  template:
-    src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
-    dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
-  tags: [ sweagle-taskrunner, sweagle ]
-
 #- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]
@@ -115,10 +90,26 @@
   become: true
   tags: [ sweagle, sweagle-core ]
 
-- name: create SWEAGLE core services
-  include_tasks: create-services.yml
-  when: sweagle_create_services
-  tags: [ sweagle, sweagle-taskrunner, sweagle-core, sweagle-scriptexecutor ]
+- name: configure core appConfig.settings
+  template:
+    src: "{{ sweagle_version }}/appConfig.settings.j2"
+    dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
+  tags: [ sweagle-core, sweagle ]
+
+- name: Configure scriptexecutor
+  include_tasks: configure-sweagle-scriptexecutor.yml
+  hosts: appservers
+  tags: [ sweagle, sweagle-scriptexecutor ]
+
+- name: Configure core
+  include_tasks: configure-sweagle-core.yml
+  hosts: appservers
+  tags: [ sweagle, sweagle-core ]
+
+- name: Configure taskrunner
+  include_tasks: configure-sweagle-taskrunner.yml
+  hosts: appservers
+  tags: [ sweagle, sweagle-taskrunner ]
 
 - name: Configure prepare tenant script
   template:
