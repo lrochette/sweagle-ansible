@@ -15,21 +15,23 @@
   tags: vault
 
 - name: Create vault config directory
-  file: state=directory path=/etc/opt/vault/
+  file: state=directory path="{{ vault_conf_dir }}"
   become: true
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Copy vault config to server
   template:
     src: vaultconfig.hcl.j2
-    dest: /etc/opt/vault/vaultconfig.hcl
+    dest: "{{ vault_conf_dir }}/vaultconfig.hcl"
   become: true
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Copy vault service to server
-  copy: src=vault.service dest=/usr/lib/systemd/system/vault.service
+  template:
+    src: vault.service.j2
+    dest: "/usr/lib/systemd/system/vault.service"
   become: true
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Start vault service
   systemd:
@@ -37,7 +39,7 @@
     name: vault
     daemon_reload: yes
   become: true
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
 
 - pause:
     seconds: 15
@@ -59,7 +61,7 @@
 - name: Copy keys in temp file
   copy:
     content: "{{ keys }}"
-    dest: "/etc/opt/vault/keys-{{ ansible_date_time.iso8601_basic_short }}.json"
+    dest: "{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.json"
   become: true
   when: vault_copy_keys
   tags: vault

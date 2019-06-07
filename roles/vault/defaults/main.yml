@@ -7,3 +7,5 @@ vault_port: 8200
 
 vault_backend: "mysql"
 vault_backend_db: "vault"
+
+vault_conf_dir: "/opt/vault/conf"

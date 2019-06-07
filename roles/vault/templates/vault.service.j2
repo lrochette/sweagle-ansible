@@ -2,7 +2,7 @@
 Description=HashiCorp Vault Service
 
 [Service]
-ExecStart=/usr/bin/vault server -config=/etc/opt/vault/vaultconfig.hcl
+ExecStart=/usr/bin/vault server -config={{ vault_conf_dir }}/vaultconfig.hcl
 
 [Install]
 WantedBy=multi-user.target

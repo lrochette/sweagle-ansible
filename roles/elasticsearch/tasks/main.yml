@@ -33,7 +33,7 @@
 
 - name: include elasticsearch-config.yml
   include: elasticsearch-config.yml
-  tags: [ elasticsearch, config ]
+  tags: [ elasticsearch, config, sweagle, sweagle-elasticsearch ]
 
 - name: include elasticsearch-plugins.yml
   include: elasticsearch-plugins.yml
