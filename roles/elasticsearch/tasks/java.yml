@@ -2,12 +2,12 @@
 
 - name: set fact java_state to present
   set_fact: java_state="present"
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: set fact java_state to latest
   set_fact: java_state="latest"
   when: update_java == true
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: RedHat - Ensure Java is installed
   become: yes

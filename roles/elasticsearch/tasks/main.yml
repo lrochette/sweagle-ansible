@@ -3,7 +3,7 @@
 - set_fact: "es_major_version={{ es_version.split('.')[0] }}.x"
   when:
       - es_major_version is undefined
-  tags: elasticsearch
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: os-specific vars
   include_vars: "{{ansible_os_family}}.yml"
@@ -63,7 +63,7 @@
 
 - name: set fact manage_native_realm to false
   set_fact: manage_native_realm=false
-  tags: [ elasticsearch ]
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 - name: set fact manage_native_realm to true
   set_fact: manage_native_realm=true
@@ -71,7 +71,7 @@
    - es_start_service
    - es_enable_xpack
    - (es_users is defined and es_users.native is defined) or (es_roles is defined and es_roles.native is defined)
-  tags: [ elasticsearch ]
+  tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 # If playbook runs too fast, Native commands could fail as the Native Realm is not yet up
 - name: Wait 15 seconds for the Native Relm to come up
