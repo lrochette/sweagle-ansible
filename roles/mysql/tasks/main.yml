@@ -53,8 +53,11 @@
   tags: mysql
 
 - name: Set new root password
-  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
-  when: mysql_root_password_update and ansible_os_family == "RedHat"
+#  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot'
+  become: true
+  become_user: root
+  when: mysql_root_password_update
   tags: mysql
 
 - name: Include SWEAGLE configuration.yml
