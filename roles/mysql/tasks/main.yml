@@ -1,6 +1,5 @@
 ---
 # Install MYSQL
-
 - name: Install the MySQL repo for Red Hat
   package:
     name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
@@ -20,7 +19,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: {{ mysql_packages }}
+  with_items: "{{ mysql_packages }}"
   become: true
   become_user: root
   tags: mysql
