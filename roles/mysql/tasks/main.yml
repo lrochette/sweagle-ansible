@@ -87,7 +87,14 @@
     mode: preserve
   become: true
   become_user: root
-  notify: "Restart mysql"
+  tags: mysql
+
+- name: Restart mysql to take into account new configuration
+  service:
+    name: "{{ mysql_daemon }}"
+    state: restarted
+  become: true
+  become_user: root
   tags: mysql
 
 - name: Include SWEAGLE configuration.yml
