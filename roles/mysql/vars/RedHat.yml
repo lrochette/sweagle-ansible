@@ -1,2 +1,2 @@
 mysql_daemon: mysqld
-mysql_packages: ['mysql-server', 'mysql-client', 'MySQL-python']
+mysql_packages: ['mysql-server', 'MySQL-python']

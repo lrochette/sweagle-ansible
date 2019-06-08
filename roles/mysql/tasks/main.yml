@@ -13,7 +13,7 @@
     - files:
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
-  tags: mysql
+  tags: [mysql, sweagle, sweagle-mysql]
 
 - name: Install MySQL packages
   package:
@@ -55,5 +55,5 @@
   tags: mysql
 
 - name: Include SWEAGLE configuration.yml
-  include: configure-sweagle.yml
+  include_tasks: configure-sweagle.yml
   tags: [ mysql, sweagle, sweagle-mysql ]
