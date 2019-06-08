@@ -1,13 +1,13 @@
 ---
 # Install MYSQL
-- name: Create a group of all hosts by ansible_distribution
+- name: Create a group of hosts by ansible_distribution
   group_by: key={{ansible_distribution}}
 
-- hosts: CentOS or RedHat
+- hosts: RedHat
   vars:
     mySQL_packages: [ mysql-server, mysql-client, mysql-common, python-mysqldb ]
 
-- hosts: Ubuntu or Debian
+- hosts: Debian
   vars:
     mySQL_packages:
       - mysql-server
