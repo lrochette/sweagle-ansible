@@ -2,27 +2,27 @@
 # Install MYSQL
 - name: Create a group of hosts by ansible_distribution
   group_by: key={{ansible_distribution}}
+  tags: mysql
 
 - hosts: RedHat
-    vars:
-      mySQL_packages: [ mysql-server, mysql-client, mysql-common, python-mysqldb ]
+  - name: Install MySQL packages for Red Hat
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: [ mysql-community-server, mysql-client, mysql-common, python-mysqldb ]
+    become: true
+    become_user: root
+    tags: mysql
 
 - hosts: Debian
-    vars:
-      mySQL_packages:
-        - mysql-server
-        - mysql-client
-        - mysql-common
-        - python-mysqldb
-
-- name: Install MySQL packages
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ mySQL_packages }}"
-  become: true
-  become_user: root
-  tags: mysql
+  - name: Install MySQL packages for Debian
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: [ mysql-server, mysql-client, mysql-common, python-mysqldb ]
+    become: true
+    become_user: root
+    tags: mysql
 
 #List of packages for CentOS
 #    - mysql-community-server
