@@ -5,13 +5,15 @@
 # - "/etc/mysql/my.cnf" to set global options,
 # - "~/.my.cnf" to set user-specific options.
 
-!includedir /etc/mysql/conf.d/
-!includedir /etc/mysql/mysql.conf.d/
+!includedir {{ mysql_config_dir }}/conf.d/
+!includedir {{ mysql_config_dir }}/mysql.conf.d/
 
 [client]
-user = {{ mysql_root_user | default('root') }}
-password = {{ mysql_root_password }}
+user={{ mysql_root_user | default('root') }}
+password={{ mysql_root_password }}
 
 [mysqld]
-port = {{ mysql_port | default(3306) }}
-default-authentication-plugin= {{ mysql_authentication_plugin }}
+port={{ mysql_port | default(3306) }}
+default-authentication-plugin={{ mysql_authentication_plugin }}
+datadir={{ mysql_data_dir }}
+log-error={{ mysql_log_dir }}/{{ mysql_daemon }}.log

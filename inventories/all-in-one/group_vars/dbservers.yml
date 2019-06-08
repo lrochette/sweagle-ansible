@@ -10,6 +10,9 @@ mysql_root_user: root
 mysql_root_password: root
 mysql_root_password_update: false
 
+mysql_data_dir: "/opt/mysql/data"
+mysql_log_dir: "/opt/mysql/log"
+
 
 ###################################################
 ###   MONGODB

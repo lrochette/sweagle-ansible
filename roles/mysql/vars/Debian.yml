@@ -2,4 +2,4 @@
 mysql_daemon: mysql
 mysql_packages: ['mysql-server', 'mysql-common', 'python-mysqldb']
 
-mysql_config_dir: "/etc"
+mysql_config_dir: "/etc/mysql"
