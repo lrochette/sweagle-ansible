@@ -3,10 +3,10 @@
 
 - name: Restart mysql
   service:
-    name: mysql
+    name: "{{ mysql_daemon }}"
     state: restarted
   become: true
-  become_user: root    
+  become_user: root
   tags: mysql
 
 - name: Restart iptables

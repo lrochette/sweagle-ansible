@@ -1,19 +1,10 @@
 ---
 
-- name: Make sure MySQL service is running for Rhel
+- name: Make sure MySQL service is running
   systemd:
     state: started
-    name: mysqld
+    name: "{{ mysql_daemon }}"
   become: true
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-  tags: [mysql, sweagle, sweagle-mysql]
-
-- name: Make sure MySQL service is running for Debian
-  systemd:
-    state: started
-    name: mysql
-  become: true
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   tags: [mysql, sweagle, sweagle-mysql]
 
 - name: Find temporary root password
@@ -55,7 +46,7 @@
     host: '%'
     state: present
   with_items:
-    - mdm
+    - "{{ sweagle_mysql_db }}"
     - vault
   become: true
   tags: [mysql, sweagle, sweagle-mysql]

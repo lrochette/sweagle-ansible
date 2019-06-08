@@ -5,9 +5,7 @@
     state: stopped
     enabled: false
   become: true
-  when: ansible_distribution == 'CentOS'
-    or ansible_distribution == 'RedHat'
-    or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == 'RedHat'
   tags: system
 
 - name: install screen, jq and telnet on Debian family
@@ -19,7 +17,7 @@
     - telnet
     - jq
   become: true
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_os_family == 'Debian'
   tags: system
 
 - name: install screen, jq and telnet on Red Hat family
@@ -32,9 +30,7 @@
     - epel-release
     - jq
   become: true
-  when: ansible_distribution == 'CentOS'
-    or ansible_distribution == 'RedHat'
-    or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == 'RedHat'
   tags: system
 
 - name: disable selinux at runtime
@@ -47,5 +43,5 @@
   selinux:
     state: disabled
   become: true
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == 'RedHat'
   tags: system

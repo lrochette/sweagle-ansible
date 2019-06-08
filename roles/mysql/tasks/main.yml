@@ -1,32 +1,42 @@
 ---
 # Install MYSQL
-- name: Install MySQL packages for Red Hat
+pre_tasks:
+  - name: Install the MySQL repo for Red Hat
+    package:
+      name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      state: present
+    when: ansible_os_family == "RedHat"
+    tags: mysql
+
+  - name: Include OS-specific variables.
+    include_vars: "{{ item }}"
+    with_first_found:
+      - files:
+          - "vars/{{ ansible_os_family }}.yml"
+        skip: true
+    tags: mysql
+
+- name: Install MySQL packages
   package:
     name: "{{ item }}"
     state: present
-  with_items:
-    - mysql-community-server
-    - mysql-community-client
-    - MySQL-python
+  with_items: {{ mysql_packages }}
   become: true
   become_user: root
-  when: ansible_distribution == 'CentOS'
-    or ansible_distribution == 'RedHat'
-    or ansible_distribution == 'Red Hat Enterprise Linux'
   tags: mysql
 
-- name: Install MySQL packages for Debian
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - mysql-server
-    - mysql-common
-    - python-mysqldb
-  become: true
-  become_user: root
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  tags: mysql
+#- name: Install MySQL packages for Debian
+#  package:
+#    name: "{{ item }}"
+#    state: present
+#  with_items:
+#    - mysql-server
+#    - mysql-common
+#    - python-mysqldb
+#  become: true
+#  become_user: root
+#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+#  tags: mysql
 
 - name: Configure MySQL
   template:
@@ -40,7 +50,7 @@
 
 - name: Check mysql service is running
   service:
-    name: mysql
+    name: "{{ mysql_daemon }}"
     enabled: yes
     state: started
   tags: mysql
