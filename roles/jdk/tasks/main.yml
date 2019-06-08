@@ -1,12 +1,21 @@
 ---
 # Install JDK
-- name: Install jdk 1.8
+- name: Install jdk 1.8 for Debian family
   package:
     name: openjdk-8-jdk
     state: present
   become: true
-  become_user: root
+  when: ansible_os_family == 'Debian'
   tags: jdk
+
+- name: Install jdk 1.8 for Red Hat family
+  package:
+    name: java-1.8.0-openjdk
+    state: present
+  become: true
+  when: ansible_os_family == 'RedHat'
+  tags: jdk
+
 
 - name: Check Java version
   command: java -version

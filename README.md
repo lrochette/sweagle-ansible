@@ -27,3 +27,11 @@ ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --
 
 TESTED ON
 - Ubuntu 18.04
+- CentOS 7.6.1810
+## Todo list
+
+- on MongoDB, when another release is installed, remove it before
+  - add a new parameter mongodb_remove_other_releases: false (by default)
+  - add tasks to remove other release
+  - currently, plays failed and you should remove manually
+  - reproduced on centos 7.x where default mongo is 2.6

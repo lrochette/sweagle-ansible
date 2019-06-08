@@ -36,6 +36,7 @@
     - mongodb
 ## Check mongo connection
 # mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
+## => you should get user connected to mongo
 
 - hosts: indexservers
   roles:
@@ -48,6 +49,9 @@
 - hosts: webservers
   roles:
     - nginx
+## test with:
+# curl http://127.0.0.1
+## => you should the nginx default page
 
 - hosts: appservers, webservers
   roles:
@@ -57,3 +61,7 @@
 ## check sweagle working, start non interactive
 #cd /opt/SWEAGLE/scripts
 #./startCORE.sh
+
+## test with:
+# curl http://127.0.0.1
+## => you should get the sweagle login page
