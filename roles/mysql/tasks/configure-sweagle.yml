@@ -31,5 +31,5 @@
     - "{{ sweagle_mysql_db }}"
     - vault
   become: true
-  when: ansible_os_family == "Debian"
+  #when: ansible_os_family == "Debian"
   tags: [mysql, sweagle, sweagle-mysql]
