@@ -18,18 +18,18 @@
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
 
-- name: Create SWEAGLE MySQL user "{{ sweagle_mysql_user }} for Red Hat"
+- name: Create SWEAGLE MySQL user "{{ sweagle_mysql_user }}" for Red Hat
   shell: >
-    mysql -u "{{ mysql_root_user }}" -p "{{ mysql_root_password }}" -NBe
-    'CREATE USER "{{ sweagle_mysql_user }}"@"%"
+    mysql -u "{{ mysql_root_user }}" -p "{{ mysql_root_password }}" -e
+    'CREATE USER "{{ sweagle_mysql_user }}"@''%''
     IDENTIFIED WITH mysql_native_password BY "{{ sweagle_mysql_password }}";'
   become: true
   when: ansible_os_family == "RedHat"
   tags: [mysql, sweagle, sweagle-mysql]
 
-- name: Grant all privileges on SWEAGLE MySQL schemas to "{{ sweagle_mysql_user }} for Red Hat"
+- name: Grant all privileges on SWEAGLE MySQL schemas to "{{ sweagle_mysql_user }}" for Red Hat
   shell: >
-    mysql -u "{{ mysql_root_user }}" -p "{{ mysql_root_password }}" -NBe
+    mysql -u "{{ mysql_root_user }}" -p "{{ mysql_root_password }}" -e
     'GRANT ALL PRIVILEGES ON "{{ item }}".* TO "{{ sweagle_mysql_user }}"@"%";'
   with_items:
     - "{{ sweagle_mysql_db }}"
