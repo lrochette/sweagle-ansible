@@ -48,8 +48,12 @@ TESTED ON
 
 ## Todo list
 
+- Add multi-hosts support
+
 - on MongoDB, when another release is installed, remove it before
   - add a new parameter mongodb_remove_other_releases: false (by default)
   - add tasks to remove other release
   - currently, plays failed and you should remove manually
   - reproduced on centos 7.x where default mongo is 2.6
+
+- add support for SSL
