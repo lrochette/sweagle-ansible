@@ -2,7 +2,7 @@
 
 net:
   bindIp: {{ mongodb_net_bindip }}
-  {% if mongodb_major_version is version("3.6", "<") -%}
+  {% if mongodb_major_version | version_compare("3.6", "<") -%}
   http:
     enabled: {{ mongodb_net_http_enabled | to_nice_json }}
   {% endif -%}
