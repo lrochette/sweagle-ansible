@@ -4,5 +4,3 @@ mysql_root_user: root
 mysql_root_password: root
 mysql_authentication_plugin: mysql_native_password
 mysql_port: 3306
-
-mysql_config_dir: "/etc/mysql"
