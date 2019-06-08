@@ -4,16 +4,16 @@
   group_by: key={{ansible_distribution}}
 
 - hosts: RedHat
-  vars:
-    mySQL_packages: [ mysql-server, mysql-client, mysql-common, python-mysqldb ]
+    vars:
+      mySQL_packages: [ mysql-server, mysql-client, mysql-common, python-mysqldb ]
 
 - hosts: Debian
-  vars:
-    mySQL_packages:
-      - mysql-server
-      - mysql-client
-      - mysql-common
-      - python-mysqldb
+    vars:
+      mySQL_packages:
+        - mysql-server
+        - mysql-client
+        - mysql-common
+        - python-mysqldb
 
 - name: Install MySQL packages
   package:
