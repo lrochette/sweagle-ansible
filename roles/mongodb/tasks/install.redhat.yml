@@ -25,7 +25,7 @@
   tags: mongodb
 
 - debug:
-    var: "{{ mongodb_package }}{% if (mongodb_version | length > 3) %}={{ mongodb_version }}{% endif %}"
+    var: hostvars[inventory_hostname]
   tags: mongodb
 
 - name: Install MongoDB package
