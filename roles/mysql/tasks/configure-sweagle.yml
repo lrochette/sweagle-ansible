@@ -24,7 +24,7 @@
     login_password: "{{ mysql_root_password }}"
     name: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password }}"
-    priv: "{{ item }}.*:ALL"
+    priv: "{{ item }}.*:ALL,GRANT"
     host: '%'
     state: present
   with_items:
