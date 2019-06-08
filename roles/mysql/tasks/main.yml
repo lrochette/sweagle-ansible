@@ -8,6 +8,23 @@
       skip: true
   tags: [mysql, sweagle, sweagle-mysql]
 
+- name: Create data folder "{{ mysql_data_dir }}"
+  file:
+    path: "{{ mysql_data_dir }}"
+    state: directory
+    mode: 0775
+  become: true
+  tags: [ sweagle, sweagle-core, system ]
+
+- name: Create log folder "{{ mysql_log_dir }}"
+  file:
+    path: "{{ mysql_log_dir }}"
+    state: directory
+    mode: 0775
+  become: true
+  tags: [ sweagle, sweagle-core, system ]
+
+
 - name: Install the MySQL repo for Red Hat
   yum:
     name: "{{ mysql_repository }}"
