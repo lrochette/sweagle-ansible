@@ -1,0 +1,55 @@
+---
+# Variable configuration.
+- include_tasks: variables.yml
+
+- name: Install the MySQL repo (avoid MariaDB default installation).
+  yum:
+    name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Override variables for MySQL (RedHat).
+  set_fact:
+    mysql_daemon: mysqld
+    mysql_packages: ['mysql-server']
+    mysql_log_error: /var/log/mysqld.err
+    mysql_syslog_tag: mysqld
+    mysql_pid_file: /var/run/mysqld/mysqld.pid
+    mysql_socket: /var/lib/mysql/mysql.sock
+  when: ansible_os_family == "RedHat"
+
+# Setup/install tasks.
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Check if MySQL packages were installed.
+  set_fact:
+    mysql_install_packages: "{{ (rh_mysql_install_packages is defined and rh_mysql_install_packages.changed)
+      or (deb_mysql_install_packages is defined and deb_mysql_install_packages.changed) }}"
+
+# Configure MySQL.
+- include_tasks: configure.yml
+- include_tasks: secure-installation.yml
+
+- name: Ensure MySQL databases are present.
+  mysql_db:
+    name: "{{ item.name }}"
+    collation: "{{ item.collation | default('utf8_general_ci') }}"
+    encoding: "{{ item.encoding | default('utf8') }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ mysql_databases }}"
+
+- name: Ensure MySQL users are present.
+  mysql_user:
+    name: "{{ item.name }}"
+    host: "{{ item.host | default('localhost') }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv | default('*.*:USAGE') }}"
+    state: "{{ item.state | default('present') }}"
+    append_privs: "{{ item.append_privs | default('no') }}"
+    encrypted: "{{ item.encrypted | default('no') }}"
+  with_items: "{{ mysql_users }}"
+  no_log: true

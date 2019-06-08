@@ -32,7 +32,8 @@
 
 - hosts: dbservers
   roles:
-    - mysql
+    - role: mysql.new
+      become: true
     - mongodb
 ## Check mongo connection
 # mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle

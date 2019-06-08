@@ -1,0 +1,26 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: unxnn
+  role_name: mysql
+  description: MySQL server for RHEL/CentOS and Debian/Ubuntu.
+  license: "license (MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - database
+    - mysql
+    - mariadb
+    - db
+    - sql
