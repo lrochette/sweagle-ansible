@@ -11,23 +11,41 @@
 - Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
 
 ## Test with
- ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --check
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
+(ba aware that checks will fail on tasks requiring update to occur)
 
 ## For full installation (including prerequisites)
-ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml
 
 ## For SWEAGLE installation (prerequisites already installed)
 - check before that prerequisites are well installed
-ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
 
 ## To install only a specifif component or prerequisite
-ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
-- Example to do only mySQL:
-ansible-playbook all-in-one-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
+Components available are:
+- Elasticsearch
+- Jdk
+- MongoDB
+- MySQL
+- Nginx
+- SWEAGLE
+- System
+- Vault
+
+- tags must be put in lowercase, example to do only MySQL:
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
+
 
 TESTED ON
-- Ubuntu 18.04
-- CentOS 7.6.1810
+- Ubuntu 18.04 (All OK, but change mySQL package)
+- CentOS 7.6.1810 (OK: system, jdk, mongodb, nginx, elasticsearch)
+
+
+## TROUBLESHOOT
+
+
+
 ## Todo list
 
 - on MongoDB, when another release is installed, remove it before

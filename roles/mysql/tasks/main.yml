@@ -1,12 +1,5 @@
 ---
 # Install MYSQL
-- name: Install the MySQL repo for Red Hat
-  package:
-    name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
-    state: present
-  when: ansible_os_family == "RedHat"
-  tags: mysql
-
 - name: Include OS-specific variables.
   include_vars: "{{ item }}"
   with_first_found:
@@ -14,6 +7,13 @@
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
   tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Install the MySQL repo for Red Hat
+  yum:
+    name: "{{ mysql_repository }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags: mysql
 
 - name: Install MySQL packages
   package:

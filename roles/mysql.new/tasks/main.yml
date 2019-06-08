@@ -3,8 +3,8 @@
 - include_tasks: variables.yml
 
 - name: Install the MySQL repo (avoid MariaDB default installation).
-  yum:
-    name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+  package:
+    name: http://repo.mysql.com/mysql-community-release-el7-9.noarch.rpm
     state: present
   when: ansible_os_family == "RedHat"
 
