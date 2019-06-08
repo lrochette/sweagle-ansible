@@ -7,22 +7,6 @@
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
 
-- name: Find temporary root password
-  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
-  register: mysql_root_password_temp
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-  tags: [mysql, sweagle, sweagle-mysql]
-
-- debug:
-    msg: "{{ mysql_root_password_temp.stdout }}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-  tags: [mysql, sweagle, sweagle-mysql]
-
-- name: Set new root password
-  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-  tags: [mysql, sweagle, sweagle-mysql]
-
 - name: Create SWEAGLE MySQL schemas"
   mysql_db:
     name: "{{ item }}"

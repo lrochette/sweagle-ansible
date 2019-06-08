@@ -24,19 +24,6 @@
   become_user: root
   tags: mysql
 
-#- name: Install MySQL packages for Debian
-#  package:
-#    name: "{{ item }}"
-#    state: present
-#  with_items:
-#    - mysql-server
-#    - mysql-common
-#    - python-mysqldb
-#  become: true
-#  become_user: root
-#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-#  tags: mysql
-
 - name: Configure MySQL
   template:
     src: "my.cnf.j2"
@@ -52,6 +39,22 @@
     name: "{{ mysql_daemon }}"
     enabled: yes
     state: started
+  tags: mysql
+
+- name: Find temporary root password
+  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
+  register: mysql_root_password_temp
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
+  tags: mysql
+
+- debug:
+    msg: "{{ mysql_root_password_temp.stdout }}"
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
+  tags: mysql
+
+- name: Set new root password
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
   tags: mysql
 
 - name: Include SWEAGLE configuration.yml
