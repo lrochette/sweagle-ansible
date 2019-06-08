@@ -20,7 +20,7 @@
     and (mysql_install_packages | bool or mysql_user_password_update)
 
 - name: Disallow root login remotely
-  command: 'mysql -NBe "{{ item }}"'
+  command: 'mysql -NBe -uroot "{{ item }}"'
   with_items:
     - DELETE FROM mysql.user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
   changed_when: false
