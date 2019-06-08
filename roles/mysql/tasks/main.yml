@@ -37,6 +37,9 @@
   changed_when: false
   check_mode: false
 
+- debug:
+    var: mysql_root_password_update
+
 # Set root password for MySQL >= 5.7.x.
 - name: Update MySQL root password for localhost root account (5.7.x).
   shell: >
