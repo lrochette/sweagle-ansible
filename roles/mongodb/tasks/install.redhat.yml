@@ -22,6 +22,10 @@
   when: mongodb_package == 'mongodb-org'
   tags: mongodb
 
+- debug:
+    var: "{{ mongodb_package }}{% if (mongodb_version | length > 3) %}={{ mongodb_version }}{% endif %}"
+  tags: mongodb
+
 - name: Install MongoDB package
   yum:
     name: "{{ mongodb_package }}{% if (mongodb_version | length > 3) %}={{ mongodb_version }}{% endif %}"
