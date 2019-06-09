@@ -6,4 +6,4 @@
     state: restarted
   become: true
   become_user: root
-  tags: mysql
+  tags: [ mysql, sweagle, sweagle-mysql ]
