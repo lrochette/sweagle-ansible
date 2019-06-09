@@ -15,5 +15,7 @@ password={{ mysql_root_password }}
 [mysqld]
 port={{ mysql_port | default(3306) }}
 default-authentication-plugin={{ mysql_authentication_plugin }}
-datadir={{ mysql_data_dir }}
-log-error={{ mysql_log_dir }}/{{ mysql_daemon }}.log
+
+## Not supported yet
+#datadir={{ mysql_data_dir }}
+#log-error={{ mysql_log_dir }}/{{ mysql_daemon }}.log
