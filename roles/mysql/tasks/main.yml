@@ -47,7 +47,7 @@
 # Set root password for MySQL >= 5.7.x.
 - name: Update MySQL root password for localhost root account (5.7.x).
   shell: >
-    mysql -u root -NBe
+    mysql -u {{ mysql_root_user }} -NBe
     'ALTER USER "{{ mysql_root_user }}"@localhost
     IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
   become: true
@@ -82,15 +82,12 @@
 
 - name: Set new root password for Red Hat
   shell: >
-    mysql -u root  -p{{ mysql_root_password_temp.stdout }} --connect-expired-password -e
-    'ALTER USER "{{ mysql_root_user }}"@localhost
-    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
+    mysql -u {{ mysql_root_user }}  -p{{ mysql_root_password_temp.stdout }} --connect-expired-password -e
+    "SET PASSWORD = PASSWORD('{{ mysql_root_password }}');"
 # OR
 #    mysql -u {{ mysql_root_user }} -p{{ mysql_root_password_temp.stdout }} --connect-expired-password -e
-#    "SET PASSWORD = PASSWORD('{{ mysql_root_password }}');"
-# OR
-#  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
-#  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot'
+#    'ALTER USER "{{ mysql_root_user }}"@localhost
+#    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
   become: true
   become_user: root
   when: mysql_root_password_update and ansible_os_family == "RedHat"
