@@ -54,6 +54,7 @@
   become_user: root
   when: mysql_root_password_update
     and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
+    and ansible_os_family == "Debian"
   tags: mysql
 
 # Set root password for MySQL < 5.7.x.
@@ -65,26 +66,35 @@
   become_user: root
   when: mysql_root_password_update
     and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
+    and ansible_os_family == "Debian"
   tags: mysql
 
-#- name: Find temporary root password
-#  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
-#  register: mysql_root_password_temp
-#  when: mysql_root_password_update and ansible_os_family == "RedHat"
-#  tags: mysql
+- name: Find temporary root password for Red Hat
+  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
+  register: mysql_root_password_temp
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
+  tags: mysql
 
-##- debug:
-#    msg: "{{ mysql_root_password_temp.stdout }}"
-#  when: mysql_root_password_update and ansible_os_family == "RedHat"
-#  tags: mysql
+- debug:
+    msg: "{{ mysql_root_password_temp.stdout }}"
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
+  tags: mysql
 
-#- name: Set new root password
+- name: Set new root password for Red Hat
+  shell: >
+    mysql -u root  -p{{ mysql_root_password_temp.stdout }} -NBe
+    'ALTER USER "{{ mysql_root_user }}"@localhost
+    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
+    
+#    mysql -u {{ mysql_root_user }} -p{{ mysql_root_password_temp.stdout }} --connect-expired-password -e
+#    "SET PASSWORD = PASSWORD('{{ mysql_root_password }}');"
+
 #  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -p"{{ mysql_root_password_temp.stdout }}"'
 #  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot'
-#  become: true
-#  become_user: root
-#  when: mysql_root_password_update
-#  tags: mysql
+  become: true
+  become_user: root
+  when: mysql_root_password_update and ansible_os_family == "RedHat"
+  tags: mysql
 
 # Has to be after the password assignment, for idempotency.
 - name: Configure MySQL

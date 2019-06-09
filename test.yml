@@ -1,6 +1,0 @@
-# test.yml
-
----
-- hosts: localhost
-  tasks:
-    - debug: msg=Hello

@@ -1,8 +1,0 @@
----
-- hosts: devservers
-  roles:
-    - jdk
-    - maven
-    - jenkins
-  become: true
-  become_user: root
