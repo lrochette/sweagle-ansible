@@ -6,7 +6,8 @@
 
 ## WARNING
 ## Copy your SWEAGLE full package zip file to /roles/sweagle/files
-## Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
+## For silent install, copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
+## If you don't put your license there, then playbook will ask for it when installing SWEAGLE component.
 
 ## Test with
 # ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check

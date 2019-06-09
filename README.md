@@ -8,7 +8,8 @@
 
 ## WARNING
 - Copy your SWEAGLE full package zip file to /roles/sweagle/files
-- Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
+- Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars for silent install
+- If you don't put your license there, then playbook will ask for it when installing SWEAGLE component.
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
@@ -49,6 +50,8 @@ TESTED ON
 ## Todo list
 
 - Add multi-hosts support
+
+- On Vault, unseal during install and setup service to unseal automatically
 
 - on MongoDB, when another release is installed, remove it before
   - add a new parameter mongodb_remove_other_releases: false (by default)
