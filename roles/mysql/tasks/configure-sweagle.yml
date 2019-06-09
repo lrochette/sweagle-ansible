@@ -37,6 +37,7 @@
     name: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password }}"
     priv: "{{ item }}.*:ALL"
+    append_privs: true
     host: '%'
     state: present
   with_items:
