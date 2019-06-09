@@ -7,10 +7,17 @@
 - debug: msg="{{ sweagle_license_key }}"
   tags: always
 
-- pause:
+- name: Get user input - License key
+  pause:
     prompt: "Please paste your license key:"
     echo: true
-  register: sweagle_license_key
+  register: result
+  when: sweagle_license_key == ""
+  tags: [ sweagle, sweagle-core ]
+
+- name: Set license key var
+  set_fact:
+    sweagle_license_key: "{{ result.user_input }}"
   when: sweagle_license_key == ""
   tags: [ sweagle, sweagle-core ]
 
