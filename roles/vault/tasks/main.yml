@@ -61,18 +61,21 @@
   ignore_errors: true
   tags: [ vault, sweagle, sweagle-vault ]
 
+## return code of 0 means init already done, 1 - error, 2 - init not done
+## cf. vault init --help
+
 - name: Init made but no init token defined
   debug: msg="Vault has already been initialized, but no token provided. Please, enter token manually in SWEAGLE application.yml."
-  when: init_status.rc == 0     # return code of 0 means init already done, cf. vault init --help
+  when: init_status.rc == 0
     and (vault_token is undefined or vault_token == "")
   tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Error on Vault
   debug: msg="Error on Vault, please correct after installation for encryption to work"
-  when: init_status.rc == 1     # return code of 1 means error, cf. vault init --help
+  when: init_status.rc == 1
   tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Initialize Vault
   include_tasks: vault-init.yml
-  when: init_status.rc == 2     # return code of 2 means not initialized, cf. vault init --help
+  when: init_status.rc == 2
   tags: [ vault, sweagle, sweagle-vault ]
