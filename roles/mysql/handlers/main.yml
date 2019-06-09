@@ -1,14 +1,9 @@
 ---
 # Handler to handle MYSQL tier notifications
-
 - name: Restart mysql
   service:
     name: "{{ mysql_daemon }}"
     state: restarted
   become: true
   become_user: root
-  tags: mysql
-
-- name: Restart iptables
-  service: name=iptables state=restarted
   tags: mysql

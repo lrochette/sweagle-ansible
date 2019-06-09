@@ -7,5 +7,6 @@ mysql_root_password: root
 mysql_root_password_update: false
 mysql_authentication_plugin: mysql_native_password
 
-mysql_data_dir: "/var/lib/mysql"
-mysql_log_dir: "/var/log/mysql"
+## Not supported yet
+#mysql_data_dir: "/var/lib/mysql"
+#mysql_log_dir: "/var/log/mysql"

@@ -8,6 +8,11 @@
       skip: true
   tags: [mysql, sweagle, sweagle-mysql]
 
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+  tags: always
+
 - name: Install the MySQL repo for Red Hat
   yum:
     name: "{{ mysql_repository }}"
@@ -36,9 +41,7 @@
   register: mysql_cli_version
   changed_when: false
   check_mode: false
-
-- debug:
-    var: mysql_root_password_update
+  tags: mysql
 
 # Set root password for MySQL >= 5.7.x.
 - name: Update MySQL root password for localhost root account (5.7.x).
@@ -83,14 +86,14 @@
 #  tags: mysql
 
 # Has to be after the password assignment, for idempotency.
-#- name: Configure MySQL
-#  template:
-#    src: "my.cnf.j2"
-#    dest: "{{ mysql_config_dir }}/my.cnf"
-#    mode: preserve
-#  become: true
-#  become_user: root
-#  tags: mysql
+- name: Configure MySQL
+  template:
+    src: "my.cnf.j2"
+    dest: "{{ mysql_config_dir }}/my.cnf"
+    mode: preserve
+  become: true
+  become_user: root
+  tags: mysql
 
 - name: Restart mysql to take into account new configuration
   service:
