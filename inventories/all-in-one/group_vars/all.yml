@@ -1,5 +1,5 @@
 ---
-# Variables for ALL HOSTS
+# Variables shared among ALL HOSTS
 ansible_user: sweagle
 ansible_ssh_pass: sweagle
 ansible_become_pass: sweagle
@@ -12,7 +12,7 @@ system_sel_enabled: false
 sweagle_version: 3.1.0
 sweagle_installation_folder: /opt/SWEAGLE
 sweagle_create_services: true
-sweagle_license_key: 
+sweagle_license_key:
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
 sweagle_service_name: sweagle
@@ -45,6 +45,7 @@ sweagle_mysql_password: "sweagle3.MDM"
 
 sweagle_vault_server: "localhost"
 sweagle_vault_port: 8200
+sweagle_vault_token: "869cd5f1-18f1-0e5f-5561-21e17ad28f73"
 
 ## WEB settings
 sweagle_web_root_dir: "/usr/share/nginx/sweagle"

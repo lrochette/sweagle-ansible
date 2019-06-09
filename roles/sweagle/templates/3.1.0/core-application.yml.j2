@@ -48,9 +48,9 @@ elasticsearch:
 
 vault:
   servers: "{{ sweagle_vault_server }}:{{ sweagle_vault_port }}" #comma seperated list for other vault servers
-  token: 869cd5f1-18f1-0e5f-5561-21e17ad28f73
+  token: "{{ sweagle_vault_token }}"
   scheme: http
-  enabled: false
+  enabled: true
 
 executor:
   enabled: true
