@@ -42,8 +42,8 @@
   tags: [ vault, sweagle, sweagle-vault ]
 
 - pause:
-    seconds: 15
-  tags: vault
+    seconds: 10
+  tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Populate VAULT_ADDR in /etc/environment
   lineinfile:
@@ -55,13 +55,19 @@
   become: true
   tags: vault
 
+- name: check if vault is already initialized
+  command: "vault init -check -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  register: init_status
+  tags: vault
+
+- debug: msg="{{ init_status }}"
+  tags: vault
+
 - name: Initialize the vault
   command: vault operator init
   register: keys
   environment:
     VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
-  become: true
-  ignore_errors: true
   tags: vault
 # for the moment, ignore if vault is already initialized
 # in the future, test it before to init only if needed
