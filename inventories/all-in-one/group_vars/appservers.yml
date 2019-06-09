@@ -1,4 +1,6 @@
 ---
+vault_version: "0.7.2"
+# WARNING: SWEAGLE not compatible with latest vault 1.1.2
 vault_backend: mysql
 vault_server: "{{ sweagle_vault_server }}"
 vault_port: "{{ sweagle_vault_port }}"
