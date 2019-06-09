@@ -4,9 +4,6 @@
   when: sweagle_vault_token == "" and vault_token != ""
   tags: [ sweagle, sweagle-core, sweagle-vault ]
 
-- debug: msg="{{ sweagle_license_key }}"
-  tags: always
-
 - name: Get user input - License key
   pause:
     prompt: "Please paste your license key:"
@@ -20,9 +17,6 @@
     sweagle_license_key: "{{ result.user_input }}"
   when: sweagle_license_key == ""
   tags: [ sweagle, sweagle-core ]
-
-- debug: msg="{{ sweagle_license_key }}"
-  tags: always
 
 - name: Configure core application.yml
   template:
