@@ -5,9 +5,23 @@
     and vault_token != ""
   tags: [ sweagle, sweagle-core, sweagle-vault ]
 
+- name: Get user input - Vault token
+  pause:
+    prompt: "Please paste your vault token"
+    echo: true
+  register: result
+  when: sweagle_vault_token is undefined or sweagle_vault_token == ""
+  tags: [ sweagle, sweagle-core ]
+
+- name: Set vault token
+  set_fact:
+    sweagle_vault_token: "{{ result.user_input }}"
+  when: sweagle_vault_token is undefined or sweagle_vault_token == ""
+  tags: [ sweagle, sweagle-core ]
+
 - name: Get user input - License key
   pause:
-    prompt: "Please paste your license key:"
+    prompt: "Please paste your license key"
     echo: true
   register: result
   when: sweagle_license_key is undefined or sweagle_license_key == ""

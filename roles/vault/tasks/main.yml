@@ -41,9 +41,13 @@
   become: true
   tags: [ vault, sweagle, sweagle-vault ]
 
-- pause:
-    seconds: 10
+- name: Wait for vault to startup
+  wait_for: host=localhost port={{ vault_port }} delay=1 connect_timeout=5 timeout=30
   tags: [ vault, sweagle, sweagle-vault ]
+
+#- pause:
+#    seconds: 10
+#  tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Populate VAULT_ADDR in /etc/environment
   lineinfile:
