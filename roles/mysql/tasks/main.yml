@@ -83,14 +83,14 @@
 #  tags: mysql
 
 # Has to be after the password assignment, for idempotency.
-- name: Configure MySQL
-  template:
-    src: "my.cnf.j2"
-    dest: "{{ mysql_config_dir }}/my.cnf"
-    mode: preserve
-  become: true
-  become_user: root
-  tags: mysql
+#- name: Configure MySQL
+#  template:
+#    src: "my.cnf.j2"
+#    dest: "{{ mysql_config_dir }}/my.cnf"
+#    mode: preserve
+#  become: true
+#  become_user: root
+#  tags: mysql
 
 - name: Restart mysql to take into account new configuration
   service:
