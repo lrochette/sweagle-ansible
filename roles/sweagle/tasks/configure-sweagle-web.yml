@@ -36,3 +36,6 @@
   notify:
      - Restart nginx
   tags: [ sweagle, sweagle-web ]
+
+# Be sure to restart Nginx to enable other scripts to work
+- meta: flush_handlers
