@@ -88,7 +88,7 @@
 - name: Find init token
   shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: '`"
   register: vault_token
-  when: vault_token == ""
+  when: vault_token is undefined or vault_token == ""
   tags: vault
 
 - debug: msg="{{ vault_token }}"

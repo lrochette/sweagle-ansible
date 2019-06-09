@@ -12,7 +12,7 @@ system_sel_enabled: false
 sweagle_version: 3.1.0
 sweagle_installation_folder: /opt/SWEAGLE
 sweagle_create_services: true
-sweagle_license_key:
+sweagle_license_key: ""
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
 sweagle_service_name: sweagle

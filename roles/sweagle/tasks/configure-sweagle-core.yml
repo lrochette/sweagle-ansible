@@ -1,7 +1,8 @@
 ---
 - name: Get Vault token
   set_fact: sweagle_vault_token="{{ vault_token }}"
-  when: sweagle_vault_token == "" and vault_token != ""
+  when: (sweagle_vault_token is undefined or sweagle_vault_token == "")
+    and vault_token != ""
   tags: [ sweagle, sweagle-core, sweagle-vault ]
 
 - name: Get user input - License key
@@ -9,13 +10,13 @@
     prompt: "Please paste your license key:"
     echo: true
   register: result
-  when: sweagle_license_key == ""
+  when: sweagle_license_key is undefined or sweagle_license_key == ""
   tags: [ sweagle, sweagle-core ]
 
 - name: Set license key var
   set_fact:
     sweagle_license_key: "{{ result.user_input }}"
-  when: sweagle_license_key == ""
+  when: sweagle_license_key is undefined or sweagle_license_key == ""
   tags: [ sweagle, sweagle-core ]
 
 - name: Configure core application.yml
