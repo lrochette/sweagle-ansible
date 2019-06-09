@@ -1,0 +1,15 @@
+---
+## Prerequisites:
+## Packages Ansible 2.5 or higher + package sshpass
+## be sure ansible.cfg knows your inventory folder and authorize non ssh checks
+# more /etc/ansible/ansible.cfg
+
+## WARNING
+## Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars
+
+## Test with
+# ansible-playbook update-SWEAGLE-License.yml -i ./inventories/all-in-one/hosts.yml --check
+
+- hosts: appservers
+  roles:
+    - sweagle
