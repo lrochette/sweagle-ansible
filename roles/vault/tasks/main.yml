@@ -58,16 +58,13 @@
 - name: check if vault is already initialized
   command: "vault init -check -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
   register: init_status
-  tags: vault
-
-- debug: msg="{{ init_status }}"
+  ignore_errors: true
   tags: vault
 
 - name: Initialize the vault
-  command: vault operator init
+  command: "vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
   register: keys
-  environment:
-    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+  when: init_status.rc == 2
   tags: vault
 # for the moment, ignore if vault is already initialized
 # in the future, test it before to init only if needed
@@ -77,7 +74,7 @@
 
 - name: Define file to store result of init
   set_fact: vault_key_file="{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.txt"
-  when: vault_copy_keys
+  when: init_status.rc == 2 and vault_copy_keys
   tags: vault
 
 - name: Copy keys in "{{ vault_key_file }}"
@@ -85,7 +82,7 @@
     content: "{{ keys }}"
     dest: "{{ vault_key_file }}"
   become: true
-  when: vault_copy_keys
+  when: init_status.rc == 2 and vault_copy_keys
   tags: vault
 
 - debug: msg="{{ vault_token }}"
@@ -94,7 +91,8 @@
 - name: Find init token
   shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: '`"
   register: vault_token
-  when: vault_token is undefined or vault_token == ""
+  when: (vault_token is undefined or vault_token == "")
+    and init_status.rc == 2
   tags: vault
 
 - debug: msg="{{ vault_token }}"
