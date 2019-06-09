@@ -43,5 +43,11 @@
     - "{{ sweagle_mysql_db }}"
     - vault
   become: true
-  notify: Restart mysql
+  tags: [mysql, sweagle, sweagle-mysql]
+
+- name: Flush privileges
+  shell: >
+    mysql -u {{ mysql_root_user }} -p{{ mysql_root_password }} -e
+    "FLUSH PRIVILEGES;"
+  become: true
   tags: [mysql, sweagle, sweagle-mysql]
