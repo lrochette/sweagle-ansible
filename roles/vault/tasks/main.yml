@@ -58,7 +58,7 @@
 - debug: msg="{{ keys }}"
   tags: vault
 
-- name: Copy keys in temp file
+- name: Copy keys in temp file, display with jq '.' "{{ vault_conf_dir }}/keys-<date>.json"
   copy:
     content: "{{ keys }}"
     dest: "{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.json"
