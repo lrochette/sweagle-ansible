@@ -30,7 +30,7 @@
 
 - name: Transfer sample data files
   copy:
-    src: "/data/data.json"
+    src: "./data/data.json"
     dest: "{{ sweagle_installation_folder }}/scripts/data/data.json"
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
