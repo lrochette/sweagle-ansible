@@ -20,8 +20,8 @@
     - sudo
   become: true
   become_user: root
-  tags: [ sweagle, sweagle-core, system ]
   ignore_errors: true
+  tags: [ sweagle, sweagle-core, system ]
 
 #- name: Allow 'wheel' group to have passwordless sudo
 #  lineinfile:
