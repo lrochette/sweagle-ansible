@@ -60,6 +60,7 @@
   register: keys
   environment:
     VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+  become: true
   ignore_errors: true
   tags: vault
 # for the moment, ignore if vault is already initialized
@@ -68,10 +69,27 @@
 - debug: msg="{{ keys }}"
   tags: vault
 
-- name: Copy keys in temp file, display with jq '.' "{{ vault_conf_dir }}/keys-<date>.json"
+- name: Define file to store result of init
+  set_fact: vault_key_file="{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.txt"
+  when: vault_copy_keys
+  tags: vault
+
+- name: Copy keys in "{{ vault_key_file }}"
   copy:
     content: "{{ keys }}"
-    dest: "{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.json"
+    dest: "{{ vault_key_file }}"
   become: true
   when: vault_copy_keys
+  tags: vault
+
+- debug: msg="{{ vault_token }}"
+  tags: vault
+
+- name: Find init token
+  shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: '`"
+  register: vault_token
+  when: vault_token is undefined
+  tags: vault
+
+- debug: msg="{{ vault_token }}"
   tags: vault

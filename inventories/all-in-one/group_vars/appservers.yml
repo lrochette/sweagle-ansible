@@ -5,6 +5,7 @@ vault_backend: mysql
 vault_server: "{{ sweagle_vault_server }}"
 vault_port: "{{ sweagle_vault_port }}"
 vault_copy_keys: true
+vault_token: "{{ sweagle_vault_token }}"
 
 os_environment:
   - key: VAULT_ADDR

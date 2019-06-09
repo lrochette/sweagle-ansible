@@ -9,3 +9,10 @@ vault_backend: "mysql"
 vault_backend_db: "vault"
 
 vault_conf_dir: "/opt/vault/conf"
+
+# Params to copy keys generated at init to a file
+vault_copy_keys: true
+vault_key_file: "{{ vault_conf_dir }}/keys.txt"
+
+# Token generated at init
+vault_token: ""

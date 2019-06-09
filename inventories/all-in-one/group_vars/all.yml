@@ -45,7 +45,8 @@ sweagle_mysql_password: "sweagle3.MDM"
 
 sweagle_vault_server: "localhost"
 sweagle_vault_port: 8200
-sweagle_vault_token: "869cd5f1-18f1-0e5f-5561-21e17ad28f73"
+# Vault token is obtained after init
+sweagle_vault_token: ""
 
 ## WEB settings
 sweagle_web_root_dir: "/usr/share/nginx/sweagle"
