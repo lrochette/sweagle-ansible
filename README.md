@@ -44,7 +44,7 @@ TESTED ON
 
 
 ## TROUBLESHOOT
-
+- Vault 1.1.2 is not supported and doesn't work with SWEAGLE (as of SWEAGLE 3.1.x)
 
 
 ## Todo list
