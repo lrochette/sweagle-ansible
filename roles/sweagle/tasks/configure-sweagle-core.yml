@@ -1,4 +1,9 @@
 ---
+- name: Get Vault token
+  set_fact: sweagle_vault_token="{{ vault_token }}"
+  when: sweagle_vault_token is undefined and vault_token is defined
+  tags: [ sweagle, sweagle-core, sweagle-vault ]
+
 - name: Configure core application.yml
   template:
     src: "{{ sweagle_version }}/core-application.yml.j2"
