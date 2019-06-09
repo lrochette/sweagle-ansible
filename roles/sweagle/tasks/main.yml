@@ -114,12 +114,7 @@
   hosts: appservers
   tags: [ sweagle, sweagle-taskrunner ]
 
-- name: Configure prepare tenant script
-  template:
-    src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
-    dest: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh"
-  tags: [ sweagle-core, sweagle ]
-
-- name: Execute prepare tenant script
-  shell: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh {{ sweagle_tenant }}"
-  tags: [ sweagle, sweagle-core ]
+- name: Configure tenant and load initial data
+  include_tasks: load-tenant-data.yml
+  hosts: appservers
+  tags: [ sweagle, sweagle-data ]

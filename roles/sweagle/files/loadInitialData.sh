@@ -1,7 +1,14 @@
 #!/bin/bash
+echo start loading tenant data
 
-sweagleURL="https://localhost"
-sweagleUser="admin_{{ sweagle_tenant }}"
+if [ "$#" -lt "1" ]; then
+   read -p "Enter the tenant Name to load : " tenantName
+else
+   tenantName="$1"
+fi
+
+sweagleURL="http://localhost"
+sweagleUser="admin_$tenantName"
 sweaglePwd="testtest"
 sweagleAuth="Basic c3dlYWdsZS1jbGllbnQ6c3dlYWdsZVNlY3JldA=="
 sweagleExpertGit="https://github.com/sweagleExpert"
@@ -47,10 +54,10 @@ function createParsers()
 {
   echo "== creating default parsers =="
 
-  parsers=("validator" "exporter")
+  parsers=("validator" "exporter" "template")
 
   for type in "${parsers[@]}"; do
-    #git clone "$sweagleExpertGit/${type}s"
+    git clone "$sweagleExpertGit/${type}s"
     for parser in ./${type}s/*.js; do
       name=$(basename $parser|sed 's/\.js//')
       description=$(grep -i "description:" $parser|sed -E 's/^\s*[\/*]+\s*description:\s*//I')
@@ -60,16 +67,27 @@ function createParsers()
 
       # Create exporter
       echo "Creating $type $name"
-      response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser" -H "Accept: application/vnd.siren+json" -d "name=$name&description=$description&parserType=$(echo $type|tr a-z A-Z)")
-
-      exId=$(echo $response| sed "s/{.*\"id\":\([^,]*\).*}/\1/g")
-      # Dump content in parser
-      content=$(cat $parser)
-      response=$(curl -s -X POST -H "Authorization: bearer $token" -H "Content-Type: application/x-www-form-urlencoded" -H "Accept: application/vnd.siren+json" "$sweagleURL/api/v1/tenant/metadata-parser/$exId" --data-urlencode "scriptDraft=$content")
-      # Publish parser
-      response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/publish" -H "Accept: application/vnd.siren+json")
-      # Make parser default
-      response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/default")
+      if [ "$argParserType" = "template" ]; then
+        response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/template-parser" -H "Accept: application/vnd.siren+json" -d "name=$name&description=$description")
+        exId=$(echo $response| sed "s/{.*\"id\":\([^,]*\).*}/\1/g")
+        # Dump content in parser
+        content=$(cat $parser)
+        response=$(curl -s -X POST -H "Authorization: bearer $token" -H "Content-Type: application/x-www-form-urlencoded" -H "Accept: application/vnd.siren+json" "$sweagleURL/api/v1/tenant/template-parser/$exId" --data-urlencode "template=$content")
+        # Publish parser
+        response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/template-parser/$exId/publish" -H "Accept: application/vnd.siren+json")
+        # Make parser default
+        response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/template-parser/$exId/default")
+      else
+        response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser" -H "Accept: application/vnd.siren+json" -d "name=$name&description=$description&parserType=$(echo $type|tr a-z A-Z)")
+        exId=$(echo $response| sed "s/{.*\"id\":\([^,]*\).*}/\1/g")
+        # Dump content in parser
+        content=$(cat $parser)
+        response=$(curl -s -X POST -H "Authorization: bearer $token" -H "Content-Type: application/x-www-form-urlencoded" -H "Accept: application/vnd.siren+json" "$sweagleURL/api/v1/tenant/metadata-parser/$exId" --data-urlencode "scriptDraft=$content")
+        # Publish parser
+        response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/publish" -H "Accept: application/vnd.siren+json")
+        # Make parser default
+        response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/default")
+      fi
     done
     #rm -rf ./${type}s
   done
@@ -466,6 +484,7 @@ function createRolesAndPolicies
 
 getAuthenticationToken
 setPreferences
+createParsers
 createTags
 createTypes
 createTypedNodes
@@ -473,7 +492,6 @@ createDataModel
 createIncludes
 applyTags
 createMetadatasets
-createParsers
 createWorkspace
 applyInheritance
 createRolesAndPolicies

@@ -67,6 +67,8 @@
 # vault --version
 ## => must return 0.7.2
 # more /opt/vault/conf/vaultconfig.hcl
+## Login with master init token
+# vault login
 
 ## check sweagle working, start non interactive
 #cd /opt/SWEAGLE/scripts

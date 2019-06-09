@@ -1,6 +1,13 @@
-sweagleURL="http://localhost:{{ sweagle_core_port }}"
 
-tenantName="{{ sweagle_tenant }}"
+echo start setting up a new tenant
+
+if [ "$#" -lt "1" ]; then
+   read -p "Enter the tenant Name to setup : " tenantName
+else
+   tenantName="$1"
+fi
+
+sweagleURL="http://localhost:{{ sweagle_core_port }}"
 
 adminUserName="admin_$tenantName"
 adminUserPwd="testtest"

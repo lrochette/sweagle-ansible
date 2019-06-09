@@ -1,0 +1,400 @@
+{
+	"environments": {
+		"PRD": {
+			"PRD1": {
+				"assignedRelease": {},
+				"currentDeployed": {},
+				"infra": {},
+                                "env.active": true,
+                                "env.name": "PRD1"
+			},
+                        "PRD2": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "PRD2"
+                        },
+                        "settings.dynamicScaling": true,
+                        "settings.LoadBalancedEnabled": true,
+                        "SLA.availability.MSDT": "",
+                        "SLA.availability.pct": "99.99",
+                        "SLA.availability.window": ""
+		},
+                "TST": {
+                        "TST1": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "TST1"
+                        },
+                        "TST2": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "TST2"
+                        },
+                        "TST3": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "TST3"
+                        },
+                        "settings.dynamicScaling": true,
+                        "settings.LoadBalancedEnabled": false,
+                        "SLA.availability.MSDT": "",
+                        "SLA.availability.pct": "90.00",
+                        "SLA.availability.window": ""
+                },
+                "DEV": {
+                        "DEV1": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "DEV1"
+                        },
+                        "DEV2": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": true,
+                                "env.name": "DEV2"
+                        },
+                        "DEV3": {
+                                "assignedRelease": {},
+                                "currentDeployed": {},
+                                "infra": {},
+                                "env.active": false,
+                                "env.name": "DEV3"
+                        },
+                        "settings.dynamicScaling": false,
+                        "settings.LoadBalancedEnabled": false,
+                        "SLA.availability.MSDT": "",
+                        "SLA.availability.pct": "75.00",
+                        "SLA.availability.window": ""
+                }
+	},
+	"components": {
+	        "ui": {
+   	                "artifact.buildName": "web-portal",
+                	"component.name": "ui",
+	                "component.owner.team": "frontend",
+	                "EOL.announced": "false",
+	                "EOL.date": "",
+                        "versions": {
+                                "ui_v_7.1.2": {
+                                    "artifact.url": "/artifacts/ui/@@version.nbr@@/ui82.jar",
+                                    "version.latestBuild": "b2",
+                                    "version.nbr": "7.1.2"
+                                }
+                        }
+                },
+                "core1": {
+                        "artifact.buildName": "db-portal",
+                        "component.name": "core_1",
+                        "component.owner.team": "backend",
+                        "EOL.announced": "false",
+                        "EOL.date": "",
+                        "db.connection.string": "jdbc:mysql://sample.sweagle.com:@@db.port@@/sample?ssl=@@db.ssl.enabled@@",
+                        "db.port": 3306,
+                        "db.ssl.enabled": true,
+                        "versions": {
+                                "core1_v_1.0.1": {
+                                    "artifact.url": "/artifacts/core1/@@version.nbr@@/123.jar",
+                                    "version.latestBuild": "b29",
+                                    "version.nbr": "1.0.1"
+                                },
+                                "core1_v_1.0.2": {
+                                    "artifact.url": "/artifacts/core1/@@version.nbr@@/123.jar",
+                                    "version.latestBuild": "b01",
+                                    "version.nbr": "1.0.2"
+                                }
+                        }
+                },
+                "core2": {
+                        "artifact.buildName": "was-portal",
+                        "component.name": "core_2A",
+                        "component.owner.team": "Java Developers",
+                        "EOL.announced": "false",
+                        "EOL.date": "",
+                        "versions": {
+                                "core2_v_3.0.1": {
+                                    "artifact.url": "/artifacts/core2/@@version.nbr@@/core111.jar",
+                                    "version.latestBuild": "b4",
+                                    "version.nbr": "3.0.1"
+                                }
+                        }
+                }
+	},
+	"servers": {
+		"PRD1DB1": {
+                                        "firewall.HTTPenabled": false,
+                                        "firewall.HTTPSenabled": true,
+                                        "firewall.status": "enabled",
+                                        "IP.external": "85.125.76.11",
+                                        "IP.internal": "192.168.12.122",
+                                        "setting.FQDN": "sweagle.lab",
+                                        "setting.network": "",
+                                        "setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+                },
+                "PRD2DB1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.12",
+					"IP.internal": "192.168.12.123",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "PRD1SRV1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.13",
+					"IP.internal": "192.168.12.124",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "PRD1SRV2": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.14",
+					"IP.internal": "192.168.12.125",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "PRD2SRV1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.15",
+					"IP.internal": "192.168.12.126",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "PRD2SRV2": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.16",
+					"IP.internal": "192.168.12.127",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST1DB1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.17",
+					"IP.internal": "192.168.12.128",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST1SRV1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.18",
+					"IP.internal": "192.168.12.129",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "TST1SRV2": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.19",
+					"IP.internal": "192.168.12.130",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST2DB1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.20",
+					"IP.internal": "192.168.12.131",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST2SRV1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.21",
+					"IP.internal": "192.168.12.132",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "TST2SRV2": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.22",
+					"IP.internal": "192.168.12.133",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST3DB1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.23",
+					"IP.internal": "192.168.12.134",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "TST3SRV1": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.24",
+					"IP.internal": "192.168.12.135",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "TST3SRV2": {
+					"firewall.HTTPenabled": false,
+					"firewall.HTTPSenabled": true,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.25",
+					"IP.internal": "192.168.12.136",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV1DB1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.26",
+					"IP.internal": "192.168.12.137",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV1SRV1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.27",
+					"IP.internal": "192.168.12.138",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "DEV1SRV2": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.28",
+					"IP.internal": "192.168.12.139",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV2DB1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.29",
+					"IP.internal": "192.168.12.140",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV2SRV1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.30",
+					"IP.internal": "192.168.12.141",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "DEV2SRV2": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.31",
+					"IP.internal": "192.168.12.142",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV3DB1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.32",
+					"IP.internal": "192.168.12.143",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				},
+                "DEV3SRV1": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.33",
+					"IP.internal": "192.168.12.144",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "ui"
+				},
+                "DEV3SRV2": {
+					"firewall.HTTPenabled": true,
+					"firewall.HTTPSenabled": false,
+					"firewall.status": "enabled",
+					"IP.external": "85.125.76.34",
+					"IP.internal": "192.168.12.145",
+					"setting.FQDN": "sweagle.lab",
+					"setting.network": "",
+					"setting.regionalZone": "eu-west-1",
+                                        "serverRole": "core"
+				}
+	},
+	"releases": {}
+}
