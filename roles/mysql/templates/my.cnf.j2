@@ -8,6 +8,27 @@
 !includedir {{ mysql_config_dir }}/conf.d/
 !includedir {{ mysql_config_dir }}/mysql.conf.d/
 
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+
+## Not supported yet
+#datadir={{ mysql_data_dir }}
+#log-error={{ mysql_log_dir }}/{ mysql_daemon }}.log
+
+# default values for ubuntu
+#datadir=/var/lib/mysql
+#socket=/run/mysqld/mysqld.sock
+#log-error=/var/log/mysql/error.log
+#pid-file=/run/mysqld/mysqld.pid
+
+# default values for redhat
+#datadir=/var/lib/mysql
+#socket=/var/lib/mysql/mysql.sock
+#log-error=/var/log/mysqld.log
+#pid-file=/var/run/mysqld/mysqld.pid
+
+
 [client]
 user={{ mysql_root_user | default('root') }}
 password={{ mysql_root_password }}
@@ -15,7 +36,3 @@ password={{ mysql_root_password }}
 [mysqld]
 port={{ mysql_port | default(3306) }}
 default-authentication-plugin={{ mysql_authentication_plugin }}
-
-## Not supported yet
-#datadir={{ mysql_data_dir }}
-#log-error={{ mysql_log_dir }}/{ mysql_daemon }}.log
