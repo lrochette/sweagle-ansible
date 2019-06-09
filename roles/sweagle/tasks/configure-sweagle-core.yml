@@ -4,6 +4,13 @@
   when: sweagle_vault_token is undefined and vault_token is defined
   tags: [ sweagle, sweagle-core, sweagle-vault ]
 
+- name: Ask license key
+  vars_prompt:
+    - name: "sweagle_license_key"
+      prompt: "Please paste your license key:"
+  when: sweagle_license_key is undefined
+  tags: [ sweagle, sweagle-core ]
+
 - name: Configure core application.yml
   template:
     src: "{{ sweagle_version }}/core-application.yml.j2"

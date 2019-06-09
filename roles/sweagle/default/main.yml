@@ -1,4 +1,5 @@
 ---
+## All vars used by this role
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
 
