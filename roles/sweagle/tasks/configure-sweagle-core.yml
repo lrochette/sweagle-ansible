@@ -1,15 +1,21 @@
 ---
 - name: Get Vault token
   set_fact: sweagle_vault_token="{{ vault_token }}"
-  when: sweagle_vault_token is undefined and vault_token is defined
+  when: sweagle_vault_token == "" and vault_token != ""
   tags: [ sweagle, sweagle-core, sweagle-vault ]
+
+- debug: msg="{{ sweagle_license_key }}"
+  tags: always
 
 - pause:
     prompt: "Please paste your license key:"
     echo: true
   register: sweagle_license_key
-  when: sweagle_license_key is undefined
+  when: sweagle_license_key == ""
   tags: [ sweagle, sweagle-core ]
+
+- debug: msg="{{ sweagle_license_key }}"
+  tags: always
 
 - name: Configure core application.yml
   template:
