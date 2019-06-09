@@ -1,0 +1,32 @@
+---
+- name: Launch Vault init
+  command: "vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  register: keys
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Define file to store result of init
+  set_fact: vault_key_file="{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.txt"
+  when: vault_copy_keys
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Copy keys in "{{ vault_key_file }}"
+  copy:
+    content: "{{ keys.stdout }}"
+    dest: "{{ vault_key_file }}"
+  become: true
+  when: vault_copy_keys
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Find init token
+  set_fact:
+    vault_token: "{{ keys.stdout_lines[5] | regex_replace('^Initial Root Token: (.*)$','\\1') }}"
+  when: vault_token is undefined or vault_token == ""
+  tags: [ vault, sweagle, sweagle-vault ]
+
+#  shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: //'`"
+#- name: Find init token
+#  register: vault_token
+#  tags: vault
+
+- debug: msg="Vault Init Token = {{ vault_token }}"
+  tags: [ vault, sweagle, sweagle-vault ]

@@ -59,41 +59,20 @@
   command: "vault init -check -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
   register: init_status
   ignore_errors: true
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
 
-- name: Initialize the vault
-  command: "vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
-  register: keys
+- name: Init made but no init token defined
+  debug: msg="Vault has already been initialized, but no token provided. Please, enter token manually in SWEAGLE application.yml."
+  when: init_status.rc == 0     # return code of 0 means init already done, cf. vault init --help
+    and (vault_token is undefined or vault_token == "")
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Error on Vault
+  debug: msg="Error on Vault, please correct after installation for encryption to work"
+  when: init_status.rc == 1     # return code of 1 means error, cf. vault init --help
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Initialize Vault
+  include_tasks: vault-init.yml
   when: init_status.rc == 2     # return code of 2 means not initialized, cf. vault init --help
-  tags: vault
-
-- name: Define file to store result of init
-  set_fact: vault_key_file="{{ vault_conf_dir }}/keys-{{ ansible_date_time.iso8601_basic_short }}.txt"
-  when: init_status.rc == 2 and vault_copy_keys
-  tags: vault
-
-- name: Copy keys in "{{ vault_key_file }}"
-  copy:
-    content: "{{ keys.stdout }}"
-    dest: "{{ vault_key_file }}"
-  become: true
-  when: init_status.rc == 2 and vault_copy_keys
-  tags: vault
-
-- debug: msg="{{ vault_token }}"
-  tags: vault
-
-- name: Find init token
-  set_fact:
-    vault_token: "{{ keys.stdout_lines[5] | regex_replace('^Initial Root Token: (.*)$','\\1') }}"
-  when: (vault_token is undefined or vault_token == "")
-    and init_status.rc == 2
-  tags: vault
-
-#  shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: //'`"
-#- name: Find init token
-#  register: vault_token
-#  tags: vault
-
-- debug: msg="Vault Init Token = {{ vault_token }}"
-  tags: vault
+  tags: [ vault, sweagle, sweagle-vault ]
