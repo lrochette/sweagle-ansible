@@ -11,6 +11,7 @@
 - name: Display all variables/facts known for a host
   debug:
     var: hostvars[inventory_hostname]
+    verbosity: 3
   tags: always
 
 - name: Install the MySQL repo for Red Hat
