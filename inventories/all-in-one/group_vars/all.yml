@@ -1,0 +1,53 @@
+---
+# Variables for ALL HOSTS
+ansible_user: sweagle
+ansible_ssh_pass: sweagle
+ansible_become_pass: sweagle
+
+# Variable to set if RHEL SELinux is enabled
+# check if we cannot detect this automatically from a system variable ?
+system_sel_enabled: false
+
+# Shared SWEAGLE variables
+sweagle_version: 3.1.0
+sweagle_installation_folder: /opt/SWEAGLE
+sweagle_create_services: true
+sweagle_license_key: 
+sweagle_system_user: sweagle
+sweagle_system_group: sweagle
+sweagle_service_name: sweagle
+sweagle_tenant: poc
+
+sweagle_core_port: 8081
+sweagle_core_xmx: "1000m"   # Default is 4000m
+
+sweagle_taskrunner_port: 8082
+sweagle_taskrunner_xmx: "256m"   # Default is 1000m
+
+sweagle_scriptexecutor_port: 8083
+sweagle_scriptexecutor_xmx: "512m"   # Default is 2000m
+
+sweagle_elasticsearch_server: "localhost"
+sweagle_elasticsearch_transport_port: 9300
+sweagle_elasticsearch_cluster: "SWEAGLE_cluster"
+
+sweagle_mongo_server: "localhost"
+sweagle_mongo_port: 27017
+sweagle_mongo_db: sweagle
+sweagle_mongo_user: staticTreeUser
+sweagle_mongo_password: staticTreePassword
+
+sweagle_mysql_server: "localhost"
+sweagle_mysql_port: 3306
+sweagle_mysql_db: "mdm"
+sweagle_mysql_user: "mdm_user"
+sweagle_mysql_password: "sweagle3.MDM"
+
+sweagle_vault_server: "localhost"
+sweagle_vault_port: 8200
+
+## WEB settings
+sweagle_web_root_dir: "/usr/share/nginx/sweagle"
+#sweagle_web_ssl: false         # IF enabled, don't forget to change sweagle_web_port to 443
+sweagle_web_port: 80
+sweagle_web_log_dir: "/opt/nginx/log"
