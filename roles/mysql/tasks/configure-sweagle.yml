@@ -40,7 +40,7 @@
     host: '%'
     state: present
   with_items:
-    - {{ sweagle_mysql_db }}
+    - "{{ sweagle_mysql_db }}"
     - vault
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
