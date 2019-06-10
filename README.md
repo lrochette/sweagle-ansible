@@ -51,9 +51,13 @@ TESTED ON
 
 - Add multi-hosts support
 
+- Support full local installation (when no access to Internet from hosts)
+
 - On Vault, unseal during install and setup service to unseal automatically
 
-- on MongoDB, when another release is installed, remove it before
+- Check versions for prerequisites before installation
+
+- ex: on MongoDB, when another release is installed, remove it before
   - add a new parameter mongodb_remove_other_releases: false (by default)
   - add tasks to remove other release
   - currently, plays failed and you should remove manually

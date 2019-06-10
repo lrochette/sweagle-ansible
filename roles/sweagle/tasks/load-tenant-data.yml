@@ -1,46 +1,44 @@
 ---
-hosts: installserver
-tasks:
-  - name: Configure prepare tenant script
-    template:
-      src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
-      dest: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh"
-    tags: [ sweagle, sweagle-data ]
+- name: Configure prepare tenant script
+  template:
+    src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
+    dest: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh"
+  tags: [ sweagle, sweagle-data ]
 
-  - name: Execute prepare tenant script
-    shell: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh {{ sweagle_tenant }}"
-    tags: [ sweagle, sweagle-data ]
+- name: Execute prepare tenant script
+  shell: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh {{ sweagle_tenant }}"
+  tags: [ sweagle, sweagle-data ]
 
-  - name: Create sample data folder
-    file:
-      path: "{{ sweagle_installation_folder }}/scripts/data"
-      state: directory
-      owner: "{{ sweagle_system_user }}"
-      group: "{{ sweagle_system_group }}"
-      mode: 0775
-    become: true
-    tags: [ sweagle, sweagle-data ]
+- name: Create sample data folder
+  file:
+    path: "{{ sweagle_installation_folder }}/scripts/data"
+    state: directory
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+    mode: 0775
+  become: true
+  tags: [ sweagle, sweagle-data ]
 
-  - name: Configure load initial data script
-    copy:
-      src: "loadInitialData.sh"
-      dest: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh"
-      owner: "{{ sweagle_system_user }}"
-      group: "{{ sweagle_system_group }}"
-      mode: 0755
-    tags: [ sweagle, sweagle-data ]
+- name: Configure load initial data script
+  copy:
+    src: "loadInitialData.sh"
+    dest: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh"
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+    mode: 0755
+  tags: [ sweagle, sweagle-data ]
 
-  - name: Transfer sample data files
-    copy:
-      src: "./data/data.json"
-      dest: "{{ sweagle_installation_folder }}/scripts/data/data.json"
-      owner: "{{ sweagle_system_user }}"
-      group: "{{ sweagle_system_group }}"
-    tags: [ sweagle, sweagle-data ]
+- name: Transfer sample data files
+  copy:
+    src: "./data/data.json"
+    dest: "{{ sweagle_installation_folder }}/scripts/data/data.json"
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+  tags: [ sweagle, sweagle-data ]
 
-  - name: Execute load initial data script
-    shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }}"
-      args:
-        chdir: "{{ sweagle_installation_folder }}/scripts"
-    ignore_errors: true
-    tags: [ sweagle, sweagle-data ]
+- name: Execute load initial data script
+  shell: {{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }}
+  args:
+    chdir: "{{ sweagle_installation_folder }}/scripts"
+  ignore_errors: true
+  tags: [ sweagle, sweagle-data ]
