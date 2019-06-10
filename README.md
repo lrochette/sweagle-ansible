@@ -1,15 +1,25 @@
 # sweagle-ansible
 
+This is Ansible playbook to install SWEAGLE on-premise.
+It supports :
+-	Installation with or without prerequisites
+-	Independant installation of each component or full install
+-	Idem potent, in case of error, correct, then restart  script
+-	Initialisation of Vault with automatic capture of init token in SWEAGLE config
+-	Full silent install or interactive mode (for example, if you don’t put a license key, it will ask for it)
+
 
 ## Prerequisites:
-- Packages Ansible 2.4 or higher + package sshpass
+- Ansible 2.4 or higher + package sshpass
 - be sure ansible.cfg knows your inventory folder and authorize non ssh checks:
 more /etc/ansible/ansible.cfg
 
 ## WARNING
 - Copy your SWEAGLE full package zip file to /roles/sweagle/files
-- Copy your SWEAGLE license in parameter sweagle_license_key to /inventories/all-in-one/group_vars for silent install
-- If you don't put your license there, then playbook will ask for it when installing SWEAGLE component.
+- update /inventories/all-in-one/group_vars/all.yml with:
+  - your root password for ansible become to work
+  - your SWEAGLE license in parameter sweagle_license_key for silent install
+(if you don't put your license, then playbook will ask for it when installing SWEAGLE component)
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
@@ -31,7 +41,7 @@ Components available are:
 - MySQL
 - Nginx
 - SWEAGLE
-- SWEAGLE-DATA (load initial data on existign tenant)
+- SWEAGLE-Data (load initial data on existign tenant)
 - System
 - Vault
 
