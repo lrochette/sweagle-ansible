@@ -93,11 +93,11 @@
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]
 
-- name: configure core appConfig.settings
+- name: configure appConfig.settings
   template:
     src: "{{ sweagle_version }}/appConfig.settings.j2"
     dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
-  tags: [ sweagle-core, sweagle ]
+  tags: [ sweagle, sweagle-core ]
 
 - name: Configure scriptexecutor
   include_tasks: configure-sweagle-scriptexecutor.yml
@@ -116,5 +116,5 @@
 
 - name: Configure tenant and load initial data
   include_tasks: load-tenant-data.yml
-  hosts: appservers
+  hosts: installserver
   tags: [ sweagle, sweagle-data ]

@@ -58,7 +58,7 @@
 # curl http://127.0.0.1
 ## => you should the nginx default page
 
-- hosts: appservers, webservers
+- hosts: appservers, webservers, installserver
   roles:
     - jdk
     - vault

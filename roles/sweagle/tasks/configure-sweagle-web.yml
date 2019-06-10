@@ -1,5 +1,5 @@
 ---
-## This applies sonly to webservers
+## This appliess only to webservers
 - name: Create SWEAGLE web root
   file:
     path: "{{ sweagle_web_root_dir }}"
