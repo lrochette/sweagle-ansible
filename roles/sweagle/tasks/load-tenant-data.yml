@@ -37,7 +37,7 @@
   tags: [ sweagle, sweagle-data ]
 
 - name: Execute load initial data script
-  shell: {{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }}
+  shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }}"
   args:
     chdir: "{{ sweagle_installation_folder }}/scripts"
   ignore_errors: true
