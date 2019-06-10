@@ -2,9 +2,9 @@
 
 
 ## Prerequisites:
-- Packages Ansible 2.5 or higher + package sshpass
-- be sure ansible.cfg knows your inventory folder and authorize non ssh checks
-- more /etc/ansible/ansible.cfg
+- Packages Ansible 2.4 or higher + package sshpass
+- be sure ansible.cfg knows your inventory folder and authorize non ssh checks:
+more /etc/ansible/ansible.cfg
 
 ## WARNING
 - Copy your SWEAGLE full package zip file to /roles/sweagle/files
@@ -13,16 +13,16 @@
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
-(ba aware that checks will fail on tasks requiring update to occur)
+(be aware that checks will fail on tasks requiring update to occur)
 
 ## For full installation (including prerequisites)
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml
 
 ## For SWEAGLE installation (prerequisites already installed)
-- check before that prerequisites are well installed
+- check before that prerequisites are well installed, then:
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
 
-## To install only a specifif component or prerequisite
+## To install only a specific component or prerequisite
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
 Components available are:
 - Elasticsearch
@@ -31,14 +31,15 @@ Components available are:
 - MySQL
 - Nginx
 - SWEAGLE
+- SWEAGLE-DATA (load initial data on existign tenant)
 - System
 - Vault
 
-- tags must be put in lowercase, example to do only MySQL:
+Tags must be put in lowercase, example to do only MySQL:
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
 
 
-TESTED ON
+## TESTED ON
 - Ubuntu 18.04 (All OK, but change mySQL package)
 - CentOS 7.6.1810 (OK: system, jdk, mongodb, nginx, elasticsearch)
 
