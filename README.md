@@ -40,8 +40,8 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 
 
 ## TESTED ON
-- Ubuntu 18.04 (All OK, but change mySQL package)
-- CentOS 7.6.1810 (OK: system, jdk, mongodb, nginx, elasticsearch)
+- Ubuntu 18.04
+- CentOS 7.6.1810
 
 
 ## TROUBLESHOOT
