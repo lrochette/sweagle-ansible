@@ -46,8 +46,8 @@
 - hosts: indexservers
   roles:
     - elasticsearch
-## Start elastic search manually to checks
-#
+## Test elasticsearch is installed
+# curl -X GET http://elasticsearch-host:9200
 
 ## Nginx must be installed before SWEAGLE
 ## So that web package could be unpack directly to nginx after
