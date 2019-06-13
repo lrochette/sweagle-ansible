@@ -28,5 +28,18 @@
 #  register: vault_token
 #  tags: vault
 
+#- debug: msg="Vault Key 2 = {{ keys.stdout_lines[1] }}"
+#  tags: [ vault, sweagle, sweagle-vault ]
+
+#- name: Unseal Vault
+#  command: "vault unseal {{ item | regex_replace('^Unseal Key [1-5]: (.*)$','\\1') }}"
+#  with_items:
+#    - keys.stdout_lines[1]
+#    - keys.stdout_lines[2]
+#    - keys.stdout_lines[3]
+#  environment:
+#    VAULT_ADDR: "http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+#  tags: [ vault, sweagle, sweagle-vault ]
+
 - debug: msg="Vault Init Token = {{ vault_token }}"
   tags: [ vault, sweagle, sweagle-vault ]

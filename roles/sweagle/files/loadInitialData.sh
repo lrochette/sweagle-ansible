@@ -76,7 +76,7 @@ function createParsers()
         # Publish parser
         response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/template-parser/$exId/publish" -H "Accept: application/vnd.siren+json")
         # Make parser default
-        response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/template-parser/$exId/default")
+        #response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/template-parser/$exId/default")
       else
         response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser" -H "Accept: application/vnd.siren+json" -d "name=$name&description=$description&parserType=$(echo $type|tr a-z A-Z)")
         exId=$(echo $response| sed "s/{.*\"id\":\([^,]*\).*}/\1/g")
@@ -85,8 +85,10 @@ function createParsers()
         response=$(curl -s -X POST -H "Authorization: bearer $token" -H "Content-Type: application/x-www-form-urlencoded" -H "Accept: application/vnd.siren+json" "$sweagleURL/api/v1/tenant/metadata-parser/$exId" --data-urlencode "scriptDraft=$content")
         # Publish parser
         response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/publish" -H "Accept: application/vnd.siren+json")
-        # Make parser default
-        response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/default")
+        # Make parser default for selected ones
+        if [ "$name" = "all" ] || [ "$name" = "returnDataForNode" ] || [ "$name" = "returnDataForPath" ]; then
+          response=$(curl -s -X POST -H "Authorization: bearer $token" "$sweagleURL/api/v1/tenant/metadata-parser/$exId/default")
+        fi
       fi
     done
     #rm -rf ./${type}s
