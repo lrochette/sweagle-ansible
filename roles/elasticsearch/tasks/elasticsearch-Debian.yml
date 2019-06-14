@@ -75,7 +75,7 @@
   tags: elasticsearch
 
 - name: Debian - Include versionlock
-  include: elasticsearch-Debian-version-lock.yml
+  include_tasks: elasticsearch-Debian-version-lock.yml
   when: es_version_lock
   tags: elasticsearch
 
