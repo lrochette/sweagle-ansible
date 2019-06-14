@@ -1,36 +1,36 @@
 ---
 
-- name: include_tasks OS-specific variables
-  include_tasks_vars: "{{ item }}"
+- name: include OS-specific variables
+  include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution_release }}.yml"
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
   tags: [ mongodb, sweagle, sweagle-mongo ]
 
-- name: include_tasks installation tasks
+- name: include installation tasks
   include_tasks: "{{ item }}"
   with_first_found:
     - "install.{{ ansible_distribution | lower }}.yml"
     - "install.{{ ansible_os_family | lower }}.yml"
   tags: mongodb
 
-- name: include_tasks configuration.yml
+- name: include configuration.yml
   include_tasks: configure.yml
   tags: mongodb
 
-- name: include_tasks SWEAGLE configuration.yml
+- name: include SWEAGLE configuration.yml
   include_tasks: configure-sweagle.yml
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
-- name: include_tasks replication and auth configuration
+- name: include replication and auth configuration
   include_tasks: replication_init_auth.yml
   when: ( mongodb_replication_replset | length > 0
         and mongodb_security_authorization == 'enabled'
         and mongodb_master is defined and mongodb_master )
   tags: mongodb
 
-- name: include_tasks replication configuration
+- name: include replication configuration
   include_tasks: replication.yml
   when: mongodb_replication_replset | length > 0
   tags: [mongodb]
@@ -48,7 +48,7 @@
   no_log: true
   tags: mongodb
 
-- name: include_tasks authorization configuration
+- name: include authorization configuration
   include_tasks: auth_initialization.yml
   when: ( mongodb_security_authorization == 'enabled'
           and not mongodb_replication_replset
@@ -112,7 +112,7 @@
   no_log: false
   tags: [mongodb]
 
-- name: include_tasks MMS Agent configuration
+- name: include MMS Agent configuration
   include_tasks: mms-agent.yml
   when: mongodb_mms_api_key | length > 0
   tags: mongodb
