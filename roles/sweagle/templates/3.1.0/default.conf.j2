@@ -14,8 +14,8 @@ upstream applicationServer {
 #}
 
 server {
-        listen {{ sweagle_web_port }} default_server;
-        listen [::]:{{ sweagle_web_port }} default_server;
+        listen {{ sweagle_web_port }};
+        #listen [::]:{{ sweagle_web_port }} default_server;
 
         #should be uncommented when the certificate gets installed on the machine
         #ssl on;
