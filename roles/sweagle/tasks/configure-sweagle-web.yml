@@ -4,6 +4,7 @@
   file:
     path: "{{ sweagle_web_root_dir }}"
     state: directory
+    mode: "0755"
   become: true
   tags: [ sweagle, sweagle-web ]
 
