@@ -1,4 +1,11 @@
 ---
+- name: Install git to download lastest parsers
+  package:
+    name: git
+    state: present
+  become: true
+  tags: [ sweagle, sweagle-data ]
+
 - name: Configure prepare tenant script
   template:
     src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
