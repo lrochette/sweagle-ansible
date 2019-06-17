@@ -50,7 +50,7 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 
 
 ## TESTED ON
-- Ansible 2.4.2 and 2.5
+- Ansible 2.4.2 and 2.5.1
 - Ubuntu 18.04
 - CentOS 7.6.1810
 
