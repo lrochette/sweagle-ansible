@@ -2,7 +2,7 @@
 Description=HashiCorp Vault Service
 
 [Service]
-ExecStart={{ vault_install_dir }}/vault server -config={{ vault_conf_dir }}/vaultconfig.hcl
+ExecStart={{ vault_install_dir }}/vaultUnsealStartup.sh
 
 [Install]
 WantedBy=multi-user.target

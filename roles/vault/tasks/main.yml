@@ -6,19 +6,52 @@
   become: true
   tags: vault
 
+- name: Create vault target directories
+  file: state=directory path="{{ item }}"
+  with_items:
+    - "{{ vault_install_dir }}"
+    - "{{ vault_conf_dir }}"
+  become: true
+  tags: vault
+
 - name: Download and install vault binary
   unarchive:
     src: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
-    dest: /usr/bin/
+    dest: "{{ vault_install_dir }}"
     remote_src: True
   become: true
   tags: vault
 
-- name: Create vault config directory
-  file: state=directory path="{{ vault_conf_dir }}"
+- name: Populate /etc/environment with VAULT variables
+  lineinfile:
+    dest: "/etc/environment"
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.key }}={{ item.value}}"
+  with_items: "{{ os_environment }}"
   become: true
-  tags: [ vault, sweagle, sweagle-vault ]
+  tags: vault
 
+- name: Set PATH environment variables
+  lineinfile: dest="/root/.bashrc" line='export PATH=$PATH:{{ vault_install_dir }}' insertafter='EOF' regexp='export PATH=\$PATH:{{ vault_install_dir }}' state=present
+  become: true
+  tags: vault
+
+- name: Set VAULT_ADDR environment variables
+  lineinfile:
+    dest: "/root/.bashrc"
+    line: 'export VAULT_ADDR=http://{{ inventory_hostname }}:{{ vault_port }}'
+    insertafter: 'EOF'
+    regexp: 'export VAULT_ADDR=http://{{ inventory_hostname }}:{{ vault_port }}'
+    state: present
+  become: true
+  tags: vault
+
+- name: Source the bashrc file
+  shell: ". /root/.bashrc"
+  become: true
+  tags: vault
+  
 - name: Copy vault config to server
   template:
     src: vaultconfig.hcl.j2
@@ -45,20 +78,6 @@
   wait_for: host=localhost port={{ vault_port }} delay=1 connect_timeout=5 timeout=30
   tags: [ vault, sweagle, sweagle-vault ]
 
-#- pause:
-#    seconds: 10
-#  tags: [ vault, sweagle, sweagle-vault ]
-
-- name: Populate VAULT_ADDR in /etc/environment
-  lineinfile:
-    dest: "/etc/environment"
-    state: present
-    regexp: "^{{ item.key }}"
-    line: "{{ item.key }}={{ item.value}}"
-  with_items: "{{ os_environment }}"
-  become: true
-  tags: vault
-
 - name: check if vault is already initialized
   command: "vault init -check -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
   register: init_status
@@ -69,7 +88,7 @@
 ## cf. vault init --help
 
 - name: Init made but no init token defined
-  debug: msg="Vault has already been initialized, but no token provided. Please, enter token manually in SWEAGLE application.yml."
+  debug: msg="Vault has already been initialized, but no token provided. Please, enter token manually in SWEAGLE all.yml."
   when: init_status.rc == 0
     and (vault_token is undefined or vault_token == "")
   tags: [ vault, sweagle, sweagle-vault ]
@@ -82,4 +101,9 @@
 - name: Initialize Vault
   include_tasks: vault-init.yml
   when: init_status.rc == 2
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Unseal Vault
+  include_tasks: vault-unseal.yml
+  when: vault_key1 != "" and vault_key2 != "" and vault_key3 !=""
   tags: [ vault, sweagle, sweagle-vault ]

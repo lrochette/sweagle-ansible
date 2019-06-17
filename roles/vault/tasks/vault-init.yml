@@ -1,6 +1,6 @@
 ---
 - name: Launch Vault init
-  command: "vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  command: "{{ vault_install_dir }}/vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
   register: keys
   tags: [ vault, sweagle, sweagle-vault ]
 
@@ -17,10 +17,16 @@
   when: vault_copy_keys
   tags: [ vault, sweagle, sweagle-vault ]
 
-- name: Find init token
+- name: Find init token and unseal keys
   set_fact:
+    vault_key1: "{{ keys.stdout_lines[0] | regex_replace('^Unseal Key 1: (.*)$','\\1') }}"
+    vault_key2: "{{ keys.stdout_lines[1] | regex_replace('^Unseal Key 2: (.*)$','\\1') }}"
+    vault_key3: "{{ keys.stdout_lines[2] | regex_replace('^Unseal Key 3: (.*)$','\\1') }}"
     vault_token: "{{ keys.stdout_lines[5] | regex_replace('^Initial Root Token: (.*)$','\\1') }}"
   when: vault_token is undefined or vault_token == ""
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- debug: msg="Vault Init Token = {{ vault_token }}"
   tags: [ vault, sweagle, sweagle-vault ]
 
 #  shell: "echo `grep 'Initial Root Token: ' {{ vault_key_file }} | sed 's/.*Initial Root Token: //'`"
@@ -30,16 +36,3 @@
 
 #- debug: msg="Vault Key 2 = {{ keys.stdout_lines[1] }}"
 #  tags: [ vault, sweagle, sweagle-vault ]
-
-#- name: Unseal Vault
-#  command: "vault unseal {{ item | regex_replace('^Unseal Key [1-5]: (.*)$','\\1') }}"
-#  with_items:
-#    - keys.stdout_lines[1]
-#    - keys.stdout_lines[2]
-#    - keys.stdout_lines[3]
-#  environment:
-#    VAULT_ADDR: "http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
-#  tags: [ vault, sweagle, sweagle-vault ]
-
-- debug: msg="Vault Init Token = {{ vault_token }}"
-  tags: [ vault, sweagle, sweagle-vault ]

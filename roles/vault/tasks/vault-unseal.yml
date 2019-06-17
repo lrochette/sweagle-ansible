@@ -1,0 +1,36 @@
+---
+- name: Unseal Vault
+  command: "{{ vault_install_dir }}/vault unseal {{ item }}"
+  with_items:
+    - "{{ vault_key1 }}"
+    - "{{ vault_key2 }}"
+    - "{{ vault_key3 }}"
+  environment:
+    VAULT_ADDR: "http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  when: vault_auto_unseal == false
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Copy vault unseal startup script
+  template:
+    src: vaultUnsealStartup.sh.j2
+    dest: "{{ vault_install_dir }}/vaultUnsealStartup.sh"
+    mode: "0770"
+  become: true
+  when: vault_auto_unseal
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Copy vault unseal service
+  template:
+    src: vaultUnseal.service.j2
+    dest: "/usr/lib/systemd/system/vault.service"
+  become: true
+  when: vault_auto_unseal
+  tags: [ vault, sweagle, sweagle-vault ]
+
+- name: Restart vault service
+  service:
+    state: restarted
+    name: vault
+  become: true
+  when: vault_auto_unseal
+  tags: [ vault, sweagle, sweagle-vault ]

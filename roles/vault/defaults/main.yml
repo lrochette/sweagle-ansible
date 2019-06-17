@@ -8,7 +8,8 @@ vault_port: 8200
 vault_backend: "mysql"
 vault_backend_db: "vault"
 
-vault_conf_dir: "/opt/vault/conf"
+vault_install_dir: "/opt/vault"
+vault_conf_dir: "{{ vault_install_dir }}/conf"
 
 # Params to copy keys generated at init to a file
 vault_copy_keys: true
@@ -16,3 +17,16 @@ vault_key_file: "{{ vault_conf_dir }}/keys.txt"
 
 # Token generated at init
 vault_token: ""
+# Unseal keys generated at init
+vault_key1: ""
+vault_key2: ""
+vault_key3: ""
+# Wether of not we will install script to auto-unseal vault at each startup
+# By default, it is false as it requires to create file with unseal key values in clear
+vault_auto_unseal: false
+
+os_environment:
+  - key: VAULT_ADDR
+    value: "http://{{ inventory_hostname }}:{{ sweagle_vault_port }}"
+  - key: PATH
+    value: "{{ ansible_env.PATH }}:{{ vault_install_dir }}"
