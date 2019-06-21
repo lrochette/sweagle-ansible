@@ -3,9 +3,9 @@
 This is Ansible playbook to install SWEAGLE on-premise.
 It supports :
 -	Installation with or without prerequisites
--	Independant installation of each component or full install
+-	Independent installation of each component or full install
 -	Idem potent, in case of error, correct, then restart  script
--	Initialisation of Vault with automatic capture of init token in SWEAGLE config
+-	Initialisation of Vault with automatic capture of init token in SWEAGLE config and automatic unseal
 -	Full silent install or interactive mode (for example, if you don’t put a license key, it will ask for it)
 
 
@@ -64,8 +64,6 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 - Add multi-hosts support
 
 - Support full local installation (when no access to Internet from hosts)
-
-- On Vault, unseal during install and setup service to unseal automatically
 
 - Check versions for prerequisites before installation
 
