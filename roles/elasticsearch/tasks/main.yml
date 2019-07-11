@@ -74,7 +74,7 @@
   tags: [ elasticsearch, sweagle, sweagle-elasticsearch ]
 
 # If playbook runs too fast, Native commands could fail as the Native Realm is not yet up
-- name: Wait 15 seconds for the Native Relm to come up
+- name: Wait 15 seconds for the Native Realm to come up
   command: sleep 15
   when: manage_native_realm
   tags: [ elasticsearch ]
