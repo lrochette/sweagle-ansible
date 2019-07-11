@@ -20,6 +20,7 @@ more /etc/ansible/ansible.cfg
   - your root password for ansible become to work
   - your SWEAGLE license in parameter sweagle_license_key for silent install
 (if you don't put your license, then playbook will ask for it when installing SWEAGLE component)
+- if you set force_local_installation to true, be sure to put all required packages files in /files folder (see ./files/README.txt for details)
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
