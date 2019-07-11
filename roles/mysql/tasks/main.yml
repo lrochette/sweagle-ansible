@@ -8,20 +8,42 @@
       skip: true
   tags: [mysql, sweagle, sweagle-mysql]
 
+- name: Ensure MariaDB is not installed
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - mariadb
+    - mariadb-server
+    - mariadb-libs
+  tags: mysql
+
 - name: Install the MySQL repo for Red Hat
   yum:
     name: "{{ mysql_repository }}"
     state: present
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and not force_local_installation
   tags: mysql
 
-- name: Install MySQL packages
+- name: Install MySQL packages from repo
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ mysql_packages }}"
   become: true
   become_user: root
+  when: not force_local_installation
+  tags: mysql
+
+- name: Install MySQL packages from local
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}{% endif %}"
+  become: true
+  become_user: root
+  when: force_local_installation
   tags: mysql
 
 - name: Check mysql service is running
