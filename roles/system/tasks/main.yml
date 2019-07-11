@@ -8,7 +8,7 @@
   when: ansible_os_family == 'RedHat'
   tags: system
 
-- name: install screen, jq and telnet on Debian family
+- name: install screen, jq and telnet on Debian family from repo
   package:
     pkg: "{{ item }}"
     state: present
@@ -17,10 +17,10 @@
     - telnet
     - jq
   become: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not force_local_installation
   tags: system
 
-- name: install screen, jq and telnet on Red Hat family
+- name: install screen, jq and telnet on Red Hat family from repo
   package:
     pkg: "{{ item }}"
     state: present
@@ -30,7 +30,17 @@
     - epel-release
     - jq
   become: true
-  when: ansible_os_family == 'RedHat'
+  when: ansible_os_family == 'RedHat' and not force_local_installation
+  tags: system
+
+- name: install screen, jq and telnet on Debian family from local
+  package:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/*.rpm').split(',') | sort }}{% endif %}"
+  become: true
+  when: force_local_installation
   tags: system
 
 - name: disable selinux at runtime
