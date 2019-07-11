@@ -87,6 +87,11 @@
   become_user: root
   tags: mongodb
 
+- name: apply selinux policy if active
+  include_tasks: "configure-selinux.yml"
+  when: ansible_selinux.status != 'disabled'
+  tags: mongodb
+
 - name: Configure mongodb
   template:
     src: mongod.conf.j2

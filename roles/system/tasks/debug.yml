@@ -1,0 +1,18 @@
+---
+## This is sample tasks for debug_info
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+    verbosity: 3
+  tags: always
+
+- name: Print some debug information
+  vars:
+    msg: |
+        force_local_installation: {{ force_local_installation }}
+        es_use_repository: {{ es_use_repository }}
+        es_custom_package_url: {{ es_custom_package_url }}
+        mongodb_pidfile_path: {{ mongodb_pidfile_path }}
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  tags: debug_info

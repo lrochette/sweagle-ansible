@@ -1,0 +1,61 @@
+---
+## Task to apply SELinux policy when using custom installation
+# This is only used for Red Hat OS family when SELinux is enforced
+
+- name: Install policycoreutils-python package from repo
+  yum:
+    name: policycoreutils-python
+    state: present
+  become: true
+  when: not force_local_installation
+  tags: mongodb
+
+- name: Install policycoreutils-python package from local
+  yum:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_fileglob:
+    - "../../../files/*policycoreutils-python*.rpm"
+  when: force_local_installation
+  tags: mongodb
+
+- name: Allow mongodb to modify custom folders
+  sefcontext:
+    target: "{{ item.target }}(/.*)?"
+    setype: "{{ item.setype }}"
+    state: present
+  with_items:
+    - { target: "{{ mongodb_storage_dbpath }}", setype: "mongod_var_lib_t" }
+    - { target: "{{ mongodb_systemlog_path }}", setype: "mongod_log_t" }
+  tags: mongodb
+
+- name: Allow mongodb to modify custom pid folder
+  sefcontext:
+    target: '{{ mongodb_pidfile_path }}(/.*)?'
+    setype: mongod_var_run_t
+    state: present
+  when: mongodb_pidfile_path is defined and mongodb_pidfile_path != ''
+  tags: mongodb
+
+- name: Apply new SELinux file context to filesystem
+  command: restorecon -irv "{{ item }}"
+  with_items:
+    - "{{ mongodb_storage_dbpath }}"
+    - "{{ mongodb_systemlog_path }}"
+  tags: mongodb
+
+- name: Apply new SELinux file context for pid folder
+  command: restorecon -irv "{{ mongodb_pidfile_path }}"
+  when: mongodb_pidfile_path is defined and mongodb_pidfile_path != ''
+  tags: mongodb
+
+# Allow non default port
+- name: Allow mongodb to listen on custom port "{{ mongodb_net_port }}"
+  seport:
+    ports: "{{ mongodb_net_port }}"
+    proto: tcp
+    setype: mongod_port_t
+    state: present
+  when: mongodb_net_port != 27017
+  tags: mongodb

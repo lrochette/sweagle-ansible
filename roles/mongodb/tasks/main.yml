@@ -13,6 +13,12 @@
   with_first_found:
     - "install.{{ ansible_distribution | lower }}.yml"
     - "install.{{ ansible_os_family | lower }}.yml"
+  when: not force_local_installation
+  tags: mongodb
+
+- name: include installation tasks from local
+  include_tasks: "install.local.yml"
+  when: force_local_installation
   tags: mongodb
 
 - name: include configuration.yml

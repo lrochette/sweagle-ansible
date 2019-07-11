@@ -4,6 +4,10 @@ ansible_user: sweagle
 ansible_ssh_pass: sweagle
 ansible_become_pass: sweagle
 
+# Variable to force local installation
+force_local_installation: false
+local_package_folder: "/root/sweagle-ansible/files"
+
 # Variable to set if RHEL SELinux is enabled
 # check if we cannot detect this automatically from a system variable ?
 system_sel_enabled: false

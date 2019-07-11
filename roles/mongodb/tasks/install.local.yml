@@ -1,0 +1,16 @@
+---
+# Install Mongo from local files
+- name: Establish some role-related facts
+  set_fact:
+    mongodb_major_version: "{{ mongodb_version[0:3] }}"
+  tags: mongodb
+
+- name: Install mongodb from local packages
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mongodb/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/mongodb/*.rpm').split(',') | sort }}{% endif %}"
+  when: force_local_installation
+  tags: mongodb
