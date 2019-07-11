@@ -1,11 +1,21 @@
 ---
 # Install JDK
+- name: Install jdk 1.8 from local packages
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/jdk/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/jdk/*.rpm').split(',') | sort }}{% endif %}"
+  when: force_local_installation
+  tags: jdk
+
 - name: Install jdk 1.8 for Debian family
   package:
     name: openjdk-8-jdk
     state: present
   become: true
-  when: ansible_os_family == 'Debian'
+  when: force_local_installation == false and ansible_os_family == 'Debian'
   tags: jdk
 
 - name: Install jdk 1.8 for Red Hat family
@@ -13,9 +23,8 @@
     name: java-1.8.0-openjdk
     state: present
   become: true
-  when: ansible_os_family == 'RedHat'
+  when: force_local_installation == false and ansible_os_family == 'RedHat'
   tags: jdk
-
 
 - name: Check Java version
   command: java -version
