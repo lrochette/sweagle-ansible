@@ -42,6 +42,10 @@
 ## Check mongo connection
 # mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
 ## => you should get user connected to mongo
+## In case of error, you can start mongodb manually with
+# sudo -u mongod /usr/bin/mongod --config /etc/mongod.conf
+## To stop it
+# # sudo -u mongod /usr/bin/mongod --config /etc/mongod.conf --shutdown
 
 - hosts: indexservers
   roles:
