@@ -7,6 +7,12 @@ else
    tenantName="$1"
 fi
 
+if [ -n $2 ]; then
+  force_local_installation=$2
+else
+  force_local_installation=false
+fi
+
 sweagleURL="http://localhost"
 sweagleUser="admin_$tenantName"
 sweaglePwd="testtest"
@@ -57,7 +63,9 @@ function createParsers()
   parsers=("validator" "exporter" "template")
 
   for type in "${parsers[@]}"; do
-    git clone "$sweagleExpertGit/${type}s"
+    if [ "$force_local_installation" = false ]; then
+      git clone "${sweagleExpertGit}/${type}s"
+    fi
     for parser in ./${type}s/*.js; do
       name=$(basename $parser|sed 's/\.js//')
       description=$(grep -i "description:" $parser|sed -E 's/^\s*[\/*]+\s*description:\s*//I')
@@ -108,6 +116,32 @@ function createTags()
     response=$(curl -s -X POST -H "Authorization: Bearer $token" "$sweagleURL/api/v1/model/tag" -H "Accept: application/vnd.siren+json" -d "name=$tag&description=${tagDescriptions[$i]}")
     ((i++))
   done
+}
+
+function createMdiTypes()
+{
+  createTypeChangeset
+  echo "Changeset Id: $tsId"
+
+  if [ "$force_local_installation" = false ]; then
+    git clone "${sweagleExpertGit}/mditypes"
+  fi
+
+  for mdiType in ./mditypes/*.props; do
+    source $mdiType
+
+    if [ -z "$name" ] || [ -z "$description" ] || [ -z "$isRequired" ] || [ -z "$isSensitive" ] || [ -z "$type" ] || [ -z ${regex} ]; then
+      echo "Not all required variables are set, skipping creation of mdiType ${mdiType}"
+      continue
+    fi
+
+    response=$(curl -X POST "$sweagleURL/api/v1/model/mdiType?changeset=$tsId"  -H "Authorization: bearer $token" -H "Accept: application/vnd.siren+json" --data-urlencode "name=${name}" --data-urlencode "required=${isRequired}" --data-urlencode "description=${description}" --data-urlencode "sensitive=${isSenstitive}" --data-urlencode "valueType=${type}" --data-urlencode "regex=${regex}")
+    echo $response
+
+    unset name description isRequired isSensitive type regex
+  done
+
+  approveTypeChangeset
 }
 
 function createTypes()
@@ -488,6 +522,7 @@ getAuthenticationToken
 setPreferences
 createParsers
 createTags
+createMdiTypes
 createTypes
 createTypedNodes
 createDataModel

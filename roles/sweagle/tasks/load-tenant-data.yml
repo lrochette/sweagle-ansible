@@ -1,9 +1,10 @@
 ---
-- name: Install git to download lastest parsers
+- name: Install git to download lastest parsers repo
   package:
     name: git
     state: present
   become: true
+  when: not force_local_installation
   tags: [ sweagle, sweagle-data ]
 
 - name: Configure prepare tenant script
@@ -26,6 +27,17 @@
   become: true
   tags: [ sweagle, sweagle-data ]
 
+- name: Copy local content of SWEAGLE repositories
+  copy:
+    src: "../../../files/sweagle/"
+    dest: "{{ sweagle_installation_folder }}/scripts/"
+    directory_mode: yes
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+    mode: 0664
+  when: force_local_installation
+  tags: [ sweagle, sweagle-data ]
+
 - name: Configure load initial data script
   copy:
     src: "loadInitialData.sh"
@@ -44,7 +56,7 @@
   tags: [ sweagle, sweagle-data ]
 
 - name: Execute load initial data script
-  shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }}"
+  shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }} {{ force_local_installation }}"
   args:
     chdir: "{{ sweagle_installation_folder }}/scripts"
   ignore_errors: true

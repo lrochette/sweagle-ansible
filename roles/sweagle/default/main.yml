@@ -8,10 +8,14 @@ sweagle_installation_folder: /opt/SWEAGLE/core
 sweagle_create_services: true
 sweagle_license_key:
 
+sweagle_service_name: sweagle
+sweagle_heap: 512m
+sweagle_tenant: poc
+
 sweagle_core_port: 8081
 sweagle_taskrunner_port: 8082
 sweagle_scriptexecutor_port: 8083
 
-sweagle_service_name: sweagle
-sweagle_heap: 512m
-sweagle_tenant: poc
+sweagle_core_xmx: "4000m"
+sweagle_taskrunner_xmx: "1000m"
+sweagle_scriptexecutor_xmx: "2000m"

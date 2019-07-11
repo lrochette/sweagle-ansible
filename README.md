@@ -7,7 +7,7 @@ It supports :
 -	Idem potent, in case of error, correct, then restart  script
 -	Initialisation of Vault with automatic capture of init token in SWEAGLE config and automatic unseal
 -	Full silent install or interactive mode (for example, if you don’t put a license key, it will ask for it)
-
+- Installation from local package (when no access to Internet from hosts)
 
 ## Prerequisites:
 - Ansible 2.4 or higher + package sshpass
@@ -41,8 +41,8 @@ Components available are:
 - MySQL
 - Nginx
 - SWEAGLE
-- SWEAGLE-Data (load initial data on existign tenant)
-- System
+- SWEAGLE-data (load initial data on existing tenant)
+- System (install prerequisites libs like unzip, or jq)
 - Vault
 
 Tags must be put in lowercase, example to do only MySQL:
@@ -62,8 +62,6 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 ## Todo list
 
 - Add multi-hosts support
-
-- Support full local installation (when no access to Internet from hosts)
 
 - Check versions for prerequisites before installation
 

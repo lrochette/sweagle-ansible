@@ -4,6 +4,10 @@ Create a folder for these components to put their packages
 
 - elasticsearch
 
+- jdk: you should have (in this order)
+      - 1-java-1.8.0-openjdk-headless
+      - java-1.8.0-openjdk
+
 - mongodb: you should have at least these packages
       - mongodb-org-server
       - mongodb-org-shell
@@ -20,12 +24,19 @@ Create a folder for these components to put their packages
       - MySQL-python-1.2.5-1.el7.x86_64.rpm
 
 - nginx
-- system: you should have
-      - unzip (required to install vault and jdk)
+
+- sweagle: you should have
+      /exporters with cloning of https://github.com/sweagleExpert/exporters.git
+      /mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
+      /templates with cloning of https://github.com/sweagleExpert/templates.git
+      /validators with cloning of https://github.com/sweagleExpert/validators.git
+
+- vault
+
+- in root folder: you should have
+      - unzip (required to install vault and SWEAGLE)
       - epel (optional, for Red Hat OS family to install jq)
       - jq (required to load data in SWEAGLE )
       - policycoreutils-python (for Red Hat OS Family to manage SELinux)
       - telnet (optional)
       - screen (optional)
-
-- vault

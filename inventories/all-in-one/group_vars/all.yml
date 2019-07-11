@@ -5,7 +5,7 @@ ansible_ssh_pass: sweagle
 ansible_become_pass: sweagle
 
 # Variable to force local installation
-force_local_installation: true
+force_local_installation: false
 
 # Variable to set if RHEL SELinux is enabled
 # check if we cannot detect this automatically from a system variable ?
