@@ -33,7 +33,7 @@
   when: ansible_os_family == 'RedHat' and not force_local_installation
   tags: system
 
-- name: install screen, jq and telnet on Debian family from local
+- name: install screen, jq and telnet from local
   package:
     pkg: "{{ item }}"
     state: present
