@@ -79,14 +79,24 @@
   when: es_version_lock
   tags: elasticsearch
 
-- name: Debian - Download elasticsearch from url
-  get_url: url={% if es_custom_package_url is defined %}{{ es_custom_package_url }}{% else %}{{ es_package_url }}-{{ es_version }}.deb{% endif %} dest=/tmp/elasticsearch-{{ es_version }}.deb validate_certs=no
-  when: not es_use_repository
-  tags: elasticsearch
 
-- name: Debian - Ensure elasticsearch is installed from downloaded package
+#- name: Debian - Download elasticsearch from url
+#  get_url:
+#    url: "{{ item }}"
+#    dest: "/tmp/elasticsearch-{{ es_version }}.deb"
+#    validate_certs: no
+#  with_fileglob:
+#    - "{% if es_custom_package_url is defined %}{{ es_custom_package_url }}{% else %}{{ es_package_url }}-{{ es_version }}.deb{% endif %}"
+#  when: not es_use_repository
+#  tags: elasticsearch
+
+- name: Debian - Install elasticsearch from local package
   become: yes
-  apt: deb=/tmp/elasticsearch-{{ es_version }}.deb
+  apt:
+    deb: "{{ item }}"
+    state: present
+  with_fileglob:
+    - "{% if es_custom_package_url is defined %}{{ es_custom_package_url }}{% else %}{{ es_package_url }}-{{ es_version }}.noarch.rpm{% endif %}"
   when: not es_use_repository
   register: elasticsearch_install_from_package
   notify: restart elasticsearch

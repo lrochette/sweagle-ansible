@@ -12,4 +12,4 @@ es_api_port: 9200
 # Don't use repository installation if forced to local installation
 #es_use_repository: "{{ 'false' if (force_local_installation) else 'true' }}"
 es_use_repository: "{{ not force_local_installation }}"
-es_custom_package_url: "{% if force_local_installation %}{{ local_package_folder }}/elasticsearch/elasticsearch-6.6.1.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}{% endif %}"
+es_custom_package_url: "{% if force_local_installation %}../../../files/elasticsearch/elasticsearch-6.6.1.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}{% endif %}"

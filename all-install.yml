@@ -49,6 +49,7 @@
 
 - hosts: indexservers
   roles:
+    - jdk
     - elasticsearch
 ## Test elasticsearch is installed
 # curl -X GET http://elasticsearch-host:9200
