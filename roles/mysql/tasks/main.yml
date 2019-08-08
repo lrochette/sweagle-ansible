@@ -16,6 +16,8 @@
     - mariadb
     - mariadb-server
     - mariadb-libs
+  become: true
+  become_user: root
   tags: mysql
 
 - name: Install the MySQL repo for Red Hat
@@ -23,6 +25,8 @@
     name: "{{ mysql_repository }}"
     state: present
   when: ansible_os_family == "RedHat" and not force_local_installation
+  become: true
+  become_user: root
   tags: mysql
 
 - name: Install MySQL packages from repo
@@ -51,6 +55,8 @@
     name: "{{ mysql_daemon }}"
     enabled: yes
     state: started
+  become: true
+  become_user: root
   tags: mysql
 
 - name: Get MySQL version.
