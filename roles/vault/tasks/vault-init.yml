@@ -1,6 +1,6 @@
 ---
 - name: Launch Vault init
-  command: "{{ vault_install_dir }}/vault init -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  command: "{{ vault_install_dir }}/vault init -address=http://{{ inventory_hostname }}:{{ sweagle_vault_port }}"
   register: keys
   tags: [ vault, sweagle, sweagle-vault ]
 

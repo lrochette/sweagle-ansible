@@ -17,10 +17,18 @@
   when: force_local_installation
   tags: [ sweagle, sweagle-core, sweagle-web, sweagle-data ]
 
+- name: Unzip package "full_{{ sweagle_version }}.zip from local
+  unarchive:
+    src: "../../../files/sweagle/full_{{ sweagle_version}}.zip"
+    dest: /tmp
+  when: force_local_installation
+  tags: [ sweagle, sweagle-core, sweagle-web, sweagle-data ]
+
 - name: Unzip package "full_{{ sweagle_version }}.zip"
   unarchive:
     src: "full_{{ sweagle_version}}.zip"
     dest: /tmp
+  when: not force_local_installation
   tags: [ sweagle, sweagle-core, sweagle-web ]
 
 - name: Configure SWEAGLE web site

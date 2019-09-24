@@ -15,7 +15,9 @@ It supports :
 more /etc/ansible/ansible.cfg
 
 ## WARNING
-- Copy your SWEAGLE full package zip file to /roles/sweagle/files
+- Copy your SWEAGLE full package zip file to
+  - /roles/sweagle/files
+  - /files/sweagle when force_local_installation is set to true
 - update /inventories/all-in-one/group_vars/all.yml with:
   - your root password for ansible become to work
   - your SWEAGLE license in parameter sweagle_license_key for silent install
@@ -54,10 +56,11 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 - Ansible 2.4.2 and 2.5.1
 - Ubuntu 18.04
 - CentOS 7.6.1810
+- Sweagle 2.1.9, 3.1.0, 3.5.0
 
 
 ## TROUBLESHOOT
-- Vault 1.1.2 is not supported and doesn't work with SWEAGLE (as of SWEAGLE 3.1.x)
+- Vault 1.1.2 and upper are not supported and doesn't work with SWEAGLE (as of SWEAGLE 3.1.x)
 
 
 ## Todo list

@@ -26,10 +26,12 @@ Create a folder for these components to put their packages
 - nginx
 
 - sweagle: you should have
-      /exporters with cloning of https://github.com/sweagleExpert/exporters.git
-      /mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
-      /templates with cloning of https://github.com/sweagleExpert/templates.git
-      /validators with cloning of https://github.com/sweagleExpert/validators.git
+      /full_{{YOUR VERSION}}.zip
+      /sweagleExpert/exporters with cloning of https://github.com/sweagleExpert/exporters.git
+      /sweagleExpert/mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
+      /sweagleExpert/nodetypes with cloning of https://github.com/sweagleExpert/nodetypes.git
+      /sweagleExpert/templates with cloning of https://github.com/sweagleExpert/templates.git
+      /sweagleExpert/validators with cloning of https://github.com/sweagleExpert/validators.git
 
 - vault
 

@@ -6,7 +6,7 @@
     - "{{ vault_key2 }}"
     - "{{ vault_key3 }}"
   environment:
-    VAULT_ADDR: "http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+    VAULT_ADDR: "http://{{ inventory_hostname }}:{{ sweagle_vault_port }}"
   when: vault_auto_unseal == false
   tags: [ vault, sweagle, sweagle-vault ]
 

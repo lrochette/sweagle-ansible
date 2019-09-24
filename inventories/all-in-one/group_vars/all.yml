@@ -5,15 +5,15 @@ ansible_ssh_pass: sweagle
 ansible_become_pass: sweagle
 
 # Variable to force local installation
-force_local_installation: false
+force_local_installation: true
 
 # Variable to set if RHEL SELinux is enabled
 # check if we cannot detect this automatically from a system variable ?
 system_sel_enabled: false
 
 # Shared SWEAGLE variables
-sweagle_version: 3.1.0
-sweagle_installation_folder: /opt/SWEAGLE
+sweagle_version: "3.5.0"
+sweagle_installation_folder: /opt/sweagle
 sweagle_create_services: true
 sweagle_license_key: ""
 sweagle_system_user: sweagle
@@ -45,14 +45,18 @@ sweagle_mysql_port: 3306
 sweagle_mysql_db: "mdm"
 sweagle_mysql_user: "mdm_user"
 sweagle_mysql_password: "sweagle3.MDM"
+# Set this value to false if playbook has already run and you don't need to reasssign the value
+sweagle_mysql_password_update: true
 
 sweagle_vault_server: "localhost"
 sweagle_vault_port: 8200
+# Set this value to false if vault has alreayd been initialized
+#sweagle_vault_auto_unseal: true
 # Vault token is obtained after init
 sweagle_vault_token: ""
 
 ## WEB settings
 sweagle_web_root_dir: "/usr/share/nginx/sweagle"
-#sweagle_web_ssl: false         # IF enabled, don't forget to change sweagle_web_port to 443
+#sweagle_web_ssl: false         # If enabled, don't forget to change sweagle_web_port to 443
 sweagle_web_port: 80
 sweagle_web_log_dir: "/opt/nginx/log"

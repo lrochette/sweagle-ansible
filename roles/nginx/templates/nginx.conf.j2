@@ -1,6 +1,6 @@
 server {
     listen       {{ nginx_port }};
-    server_name  localhost;
+    server_name  {{ inventory_hostname }};
 
     #charset koi8-r;
     #access_log  /var/log/nginx/host.access.log  main;

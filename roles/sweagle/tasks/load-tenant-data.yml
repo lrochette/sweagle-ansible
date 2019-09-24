@@ -29,7 +29,7 @@
 
 - name: Copy local content of SWEAGLE repositories
   copy:
-    src: "../../../files/sweagle/"
+    src: "../../../files/sweagle/sweagleExpert"
     dest: "{{ sweagle_installation_folder }}/scripts/"
     directory_mode: yes
     owner: "{{ sweagle_system_user }}"

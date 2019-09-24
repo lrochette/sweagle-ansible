@@ -98,11 +98,11 @@
   tags: [ vault, sweagle, sweagle-vault ]
 
 - name: Wait for vault to startup
-  wait_for: host=localhost port={{ vault_port }} delay=1 connect_timeout=5 timeout=30
+  wait_for: host={{ inventory_hostname }} port={{ vault_port }} delay=1 connect_timeout=5 timeout=30
   tags: [ vault, sweagle, sweagle-vault ]
 
 - name: check if vault is already initialized
-  command: "vault init -check -address=http://{{ sweagle_vault_server }}:{{ sweagle_vault_port }}"
+  command: "{{ vault_install_dir }}/vault init -check -address=http://{{ inventory_hostname }}:{{ vault_port }}"
   register: init_status
   ignore_errors: true
   tags: [ vault, sweagle, sweagle-vault ]
