@@ -1,0 +1,11 @@
+---
+vault_version: "0.7.2"
+# WARNING: SWEAGLE not compatible with latest vault 1.1.2
+vault_backend: mysql
+vault_port: "{{ sweagle_vault_port|default(8200) }}"
+# vault_copy_key: if true, will copy tokens obtained after init to a txt file in vault conf dir
+vault_copy_keys: true
+# vault_auto_unseal: if true, will create a script to unseal vault in vault install dir
+#                   and a service that will auto unseal vault when starting
+vault_token: "{{ sweagle_vault_token }}"
+vault_install_dir: "/opt/vault"

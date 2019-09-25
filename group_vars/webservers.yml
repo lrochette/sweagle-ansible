@@ -1,0 +1,2 @@
+nginx_port: "{{ sweagle_web_port }}"
+nginx_log_dir: "{{ sweagle_web_log_dir }}"

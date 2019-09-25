@@ -1,0 +1,15 @@
+es_version: "6.6.2"
+es_data_dirs:
+  - "/opt/elasticsearch/data"
+es_log_dir: "/opt/elasticsearch/log"
+es_conf_dir: "/opt/elasticsearch/conf"
+es_pid_dir: "/opt/elasticsearch"
+es_config:
+  cluster.name: "{{ sweagle_elasticsearch_cluster }}"
+  http.port: 9200
+  transport.port: "{{ sweagle_elasticsearch_transport_port|default(9300) }}"
+es_api_port: 9200
+# Don't use repository installation if forced to local installation
+#es_use_repository: "{{ 'false' if (force_local_installation) else 'true' }}"
+es_use_repository: "{{ not force_local_installation }}"
+es_custom_package_url: "{% if force_local_installation %}../../../files/elasticsearch/elasticsearch-6.6.1.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}{% endif %}"
