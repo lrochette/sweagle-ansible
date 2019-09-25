@@ -3,7 +3,6 @@
 ###################################################
 ###   MYSQL
 ###################################################
-mysql_server: "{{ sweagle_mysql_server }}"
 mysql_port: "{{ sweagle_mysql_port }}"
 # MySQL root user and password
 mysql_root_user: root

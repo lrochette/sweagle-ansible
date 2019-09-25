@@ -15,6 +15,7 @@ system_sel_enabled: false
 sweagle_version: "3.5.0"
 sweagle_installation_folder: /opt/sweagle
 sweagle_create_services: true
+# If you don't feed license here, ansible will ask it during installation process
 sweagle_license_key: ""
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
@@ -30,17 +31,14 @@ sweagle_taskrunner_xmx: "256m"   # Default is 1000m
 sweagle_scriptexecutor_port: 8083
 sweagle_scriptexecutor_xmx: "512m"   # Default is 2000m
 
-sweagle_elasticsearch_server: "localhost"
 sweagle_elasticsearch_transport_port: 9300
 sweagle_elasticsearch_cluster: "SWEAGLE_cluster"
 
-sweagle_mongo_server: "localhost"
 sweagle_mongo_port: 27017
 sweagle_mongo_db: sweagle
 sweagle_mongo_user: staticTreeUser
 sweagle_mongo_password: staticTreePassword
 
-sweagle_mysql_server: "localhost"
 sweagle_mysql_port: 3306
 sweagle_mysql_db: "mdm"
 sweagle_mysql_user: "mdm_user"
@@ -48,7 +46,6 @@ sweagle_mysql_password: "sweagle3.MDM"
 # Set this value to false if playbook has already run and you don't need to reasssign the value
 sweagle_mysql_password_update: true
 
-sweagle_vault_server: "localhost"
 sweagle_vault_port: 8200
 # Set this value to false if vault has alreayd been initialized
 #sweagle_vault_auto_unseal: true
