@@ -1,4 +1,19 @@
 ---
+## To run it:
+# ansible-playbook install_dbservers.yml -i ./inventories/test/hosts.yml
+
 - hosts: dbservers
   roles:
     - mysql
+## Check mysql connection
+# mysql -u mdm_user -pmdm_password
+# use mdm
+## => you should get connected to mdm database
+    - mongodb
+## Check mongo connection
+# mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle
+## => you should get user connected to mongo
+## In case of error, you can start mongodb manually with
+# sudo -u mongod /usr/bin/mongod --config /etc/mongod.conf
+## To stop it
+# # sudo -u mongod /usr/bin/mongod --config /etc/mongod.conf --shutdown

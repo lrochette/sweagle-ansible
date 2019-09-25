@@ -1,0 +1,23 @@
+---
+## To run it:
+# ansible-playbook install_appservers.yml -i ./inventories/test/hosts.yml
+
+- hosts: appservers, webservers, installserver
+  roles:
+    - jdk
+    - vault
+    - sweagle
+## Check vault
+# vault --version
+## => must return 0.7.2
+# more /opt/vault/conf/vaultconfig.hcl
+## Login with master init token
+# vault login
+
+## check sweagle working, start non interactive
+#cd /opt/SWEAGLE/scripts
+#./startCORE.sh
+
+## test with:
+# curl http://127.0.0.1
+## => you should get the SWEAGLE login page

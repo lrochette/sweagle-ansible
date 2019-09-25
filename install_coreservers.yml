@@ -1,5 +1,0 @@
----
-- hosts: coreservers
-  roles:
-    - jdk
-    - tomcat

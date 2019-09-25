@@ -1,0 +1,13 @@
+---
+## To run it:
+# ansible-playbook install_indexservers.yml -i ./inventories/test/hosts.yml
+
+- hosts: indexservers
+  roles:
+    - jdk
+    - elasticsearch
+## Test elasticsearch is installed
+# curl -X GET http://elasticsearch-host:9200
+
+## Nginx must be installed before SWEAGLE
+## So that web package could be unpack directly to nginx after
