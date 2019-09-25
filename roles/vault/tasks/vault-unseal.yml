@@ -12,8 +12,8 @@
 
 - name: Copy vault unseal startup script
   template:
-    src: vaultUnsealStartup.sh.j2
-    dest: "{{ vault_install_dir }}/vaultUnsealStartup.sh"
+    src: unseal.sh.j2
+    dest: "{{ vault_install_dir }}/unseal.sh"
     mode: "0770"
   become: true
   when: vault_auto_unseal
