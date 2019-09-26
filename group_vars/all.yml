@@ -44,7 +44,7 @@ sweagle_mysql_db: "mdm"
 sweagle_mysql_user: "mdm_user"
 sweagle_mysql_password: "sweagle3.MDM"
 # Set this value to false if playbook has already run and you don't need to reasssign the value
-sweagle_mysql_password_update: false
+sweagle_mysql_password_update: true
 
 sweagle_vault_port: 8200
 # Set this value to false if vault has alreayd been initialized
