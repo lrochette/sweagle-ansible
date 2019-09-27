@@ -25,7 +25,7 @@
   become: true
   tags: vault
 
-- name: Download and install vault binary from URL
+- name: "Download and install vault {{ vault_version }} from URL"
   unarchive:
     src: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
     dest: "{{ vault_install_dir }}"
@@ -34,7 +34,7 @@
   when: not force_local_installation
   tags: vault
 
-- name: Download and install vault binary from LOCAL
+- name: Download and install vault {{ vault_version }} from LOCAL
   unarchive:
     src: "{{ item }}"
     dest: "{{ vault_install_dir }}"
