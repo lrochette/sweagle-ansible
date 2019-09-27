@@ -18,8 +18,8 @@ mysql_root_password_update: "{{ sweagle_mysql_password_update|default(true) }}"
 ###   MONGODB
 ###################################################
 mongodb_version: "3.6"
-
-mongodb_net_bindip: 127.0.0.1                    # Comma separated list of ip addresses to listen on
+#comma seperated list for other vault servers
+mongodb_net_bindip: "{% for host in groups['appservers'] %}{{ host }}{% if not loop.last %},{% endif %}{% endfor %}"
 mongodb_net_port: "{{ sweagle_mongo_port }}"
 mongodb_security_authorization: "disabled"
 
