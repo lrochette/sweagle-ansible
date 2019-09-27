@@ -33,14 +33,35 @@
   when: ansible_os_family == 'RedHat' and not force_local_installation
   tags: system
 
-- name: install screen, jq and telnet from local
+## Doesn't work for Debian on Ansible 2.5
+#- name: install screen, jq and telnet from local
+#  package:
+#
+## Doesn't work for Debian on Ansible 2.5    pkg: "{{ item }}"
+#    state: present
+#  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/*.deb').split(',') | sort }}
+#    {% else %}{{ lookup('fileglob', '../../../files/*.rpm').split(',') | sort }}{% endif %}"
+#  become: true
+#  when: force_local_installation
+#  tags: system
+
+- name: install screen, jq and telnet on Debian from local
+  apt:
+    deb: "{{ item }}"
+  with_items: "{{ lookup('fileglob', '../../../files/*_amd64.deb').split(',') | sort }}"
+  become: true
+  when: ansible_os_family == 'Debian' and force_local_installation
+  tags: system
+## In case of failure of previous steps
+## Go https://stackoverflow.com/questions/30451939/cant-install-libc6-package
+
+- name: install screen, jq and telnet on Red Hat from local
   package:
     pkg: "{{ item }}"
     state: present
-  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/*.deb').split(',') | sort }}
-    {% else %}{{ lookup('fileglob', '../../../files/*.rpm').split(',') | sort }}{% endif %}"
+  with_items: "{{ lookup('fileglob', '../../../files/*.rpm').split(',') | sort }}"
   become: true
-  when: force_local_installation
+  when: ansible_os_family == 'RedHat' and force_local_installation
   tags: system
 
 - name: disable selinux at runtime
