@@ -3,6 +3,7 @@ Put here all packages files if you want to use force_local_install = true
 Create a folder for these components to put their packages
 
 - elasticsearch
+      - elasticsearch-6.6.1
 
 - jdk: you should have (in this order)
       - 1-java-1.8.0-openjdk-headless
@@ -16,14 +17,15 @@ Create a folder for these components to put their packages
       - python-pymongo
 
 - mysql: you should have (in this order)
-      - 1-mysql-community-common-5.7.25-1.el7.x86_64.rpm
-      - 2-mysql-community-libs-5.7.25-1.el7.x86_64.rpm
-      - mysql-community-client-5.7.25-1.el7.x86_64.rpm
-      - mysql-community-libs-compat-5.7.25-1.el7.x86_64.rpm
-      - mysql-community-server-5.7.25-1.el7.x86_64.rpm
-      - MySQL-python-1.2.5-1.el7.x86_64.rpm
+      - 1-mysql-community-common-5.7.25-1.el7.x86_64
+      - 2-mysql-community-libs-5.7.25-1.el7.x86_64
+      - mysql-community-client-5.7.25-1.el7.x86_64
+      - mysql-community-libs-compat-5.7.25-1.el7.x86_64
+      - mysql-community-server-5.7.25-1.el7.x86_64
+      - MySQL-python-1.2.5-1.el7.x86_64
 
 - nginx
+      - nginx-1.14.2-1.el7_4.ngx.x86_64
 
 - sweagle: you should have
       /full_{{YOUR VERSION}}.zip
@@ -34,6 +36,7 @@ Create a folder for these components to put their packages
       /sweagleExpert/validators with cloning of https://github.com/sweagleExpert/validators.git
 
 - vault
+      - vault_0.7.2_linux_386
 
 - in root folder: you should have
       - unzip (required to install vault and SWEAGLE)
