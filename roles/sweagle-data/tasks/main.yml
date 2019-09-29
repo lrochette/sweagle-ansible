@@ -1,4 +1,36 @@
 ---
+- name: Check for single host, nb={{ nb_installserver }}
+  fail: msg="installserver host must be unique !"
+  when: nb_installserver != "1"
+  tags: [ sweagle, sweagle-data ]
+
+- name: Create SWEAGLE system group
+  group:
+    name: "{{ sweagle_system_group }}"
+    state: present
+  become: true
+  tags: [ sweagle, sweagle-data ]
+
+- name: Create SWEAGLE user "{{sweagle_system_user }}"
+  user:
+    name: "{{sweagle_system_user }}"
+    state: present
+    groups: "wheel,{{ sweagle_system_group }},sudo"
+    system: yes
+  become: true
+  become_user: root
+  tags: [ sweagle, sweagle-data ]
+
+- name: Create installation folder "{{ sweagle_installation_folder }}"
+  file:
+    path: "{{ sweagle_installation_folder }}/scripts"
+    state: directory
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+    mode: 0775
+  become: true
+  tags: [ sweagle, sweagle-data ]
+
 - name: Install git to download lastest parsers repo
   package:
     name: git
@@ -9,8 +41,9 @@
 
 - name: Configure prepare tenant script
   template:
-    src: "{{ sweagle_version }}/prepareTenantNew.sh.j2"
+    src: "prepareTenantNew.sh.j2"
     dest: "{{ sweagle_installation_folder }}/scripts/prepareTenantNew.sh"
+    mode: 0775
   tags: [ sweagle, sweagle-data ]
 
 - name: Execute prepare tenant script
@@ -28,17 +61,14 @@
   tags: [ sweagle, sweagle-data ]
 
 - name: Copy local content of SWEAGLE repositories
-  copy:
-    src: "../../../files/sweagle/sweagleExpert"
+  synchronize:
+    src: "../../../files/sweagle/sweagleExpert/"
     dest: "{{ sweagle_installation_folder }}/scripts/"
-    directory_mode: yes
-    owner: "{{ sweagle_system_user }}"
-    group: "{{ sweagle_system_group }}"
-    mode: 0664
+    recursive: yes
   when: force_local_installation
   tags: [ sweagle, sweagle-data ]
 
-- name: Configure load initial data script
+- name: Copy load initial data script
   copy:
     src: "loadInitialData.sh"
     dest: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh"
@@ -49,14 +79,14 @@
 
 - name: Transfer sample data files
   copy:
-    src: "./data/data.json"
+    src: "data.json"
     dest: "{{ sweagle_installation_folder }}/scripts/data/data.json"
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
   tags: [ sweagle, sweagle-data ]
 
 - name: Execute load initial data script
-  shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }} {{ force_local_installation }}"
+  shell: "{{ sweagle_installation_folder }}/scripts/loadInitialData.sh {{ sweagle_tenant }} {{ force_local_installation | lower }} {{ groups['webservers'][0] }}"
   args:
     chdir: "{{ sweagle_installation_folder }}/scripts"
   ignore_errors: true

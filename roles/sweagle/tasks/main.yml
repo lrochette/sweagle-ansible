@@ -1,46 +1,8 @@
 ---
-- name: Install unzip from repo
-  package:
-    name: unzip
-    update_cache: yes
-  become: true
-  when: not force_local_installation
-  tags: [ sweagle, sweagle-core, sweagle-web, sweagle-data ]
-
-- name: Install unzip from local
-  package:
-    name: "{{ item }}"
-    update_cache: yes
-  become: true
-  with_fileglob:
-    - "../../../files/*unzip*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
-  when: force_local_installation
-  tags: [ sweagle, sweagle-core, sweagle-web, sweagle-data ]
-
-- name: "Check if SWEAGLE package is in {{ playbook_dir }}/files/sweagle"
-  stat:
-    path: "{{ playbook_dir }}/files/sweagle/full_{{ sweagle_version}}.zip"
-  register: sweagleFile
-  tags: [ sweagle, sweagle-core, sweagle-web ]
-
-- name: Unzip package "full_{{ sweagle_version }}.zip from local
-  unarchive:
-    src: "../../../files/sweagle/full_{{ sweagle_version}}.zip"
-    dest: /tmp
-  when: sweagleFile.stat.exists
-  tags: [ sweagle, sweagle-core, sweagle-web ]
-
-- name: Unzip package "full_{{ sweagle_version }}.zip"
-  unarchive:
-    src: "full_{{ sweagle_version}}.zip"
-    dest: /tmp
-  when: not sweagleFile.stat.exists
-  tags: [ sweagle, sweagle-core, sweagle-web ]
-
-- name: Configure SWEAGLE web site
-  include_tasks: configure-sweagle-web.yml
-  hosts: webservers
-  tags: [ sweagle, sweagle-web ]
+- name: Deploy SWEAGLE zip
+  include_tasks: deploy-sweagle-zip.yml
+  when: inventory_hostname in groups['appservers']
+  tags: [ sweagle, sweagle-core ]
 
 - name: Make sure we have a sudo or wheel group
   group:
@@ -52,7 +14,8 @@
   become: true
   become_user: root
   ignore_errors: true
-  tags: [ sweagle, sweagle-core, system ]
+  when: inventory_hostname in groups['appservers']
+  tags: [ sweagle, sweagle-core, systemf ]
 
 #- name: Allow 'wheel' group to have passwordless sudo
 #  lineinfile:
@@ -84,22 +47,23 @@
 
 - name: Create installation folder "{{ sweagle_installation_folder }}"
   file:
-    path: "{{ sweagle_installation_folder }}"
+    path: "{{ sweagle_installation_folder }}/scripts"
     state: directory
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
     mode: 0775
   become: true
-  tags: [ sweagle, sweagle-core, system ]
+  tags: [ sweagle, sweagle-core ]
 
-- name: copy content to installation folder
+- name: Copy content to installation folder
   synchronize:
     src: "/tmp/{{ sweagle_version }}/full/"
     dest: "{{ sweagle_installation_folder }}"
   delegate_to: "{{ inventory_hostname }}"
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
-- name: set ownership in "{{ sweagle_installation_folder }}"
+- name: Set ownership in "{{ sweagle_installation_folder }}"
   file:
     dest: "{{ sweagle_installation_folder }}"
     owner: "{{ sweagle_system_user }}"
@@ -108,44 +72,42 @@
   become: true
   tags: [ sweagle, sweagle-core ]
 
-- name: set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
+- name: Set correct version in "{{ sweagle_installation_folder }}/appRelease.settings"
   replace:
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
     regexp: '\d+\.\d+\.\d+'
     replace: "{{ sweagle_version }}"
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
-- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
+- name: Make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   file:
     dest: "{{ sweagle_installation_folder }}/scripts"
     mode: a+x
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 #- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
 #  tags: [ sweagle-core, sweagle ]
 
-- name: configure appConfig.settings
+- name: Configure appConfig.settings
   template:
     src: "{{ sweagle_version }}/appConfig.settings.j2"
     dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Configure scriptexecutor
   include_tasks: configure-sweagle-scriptexecutor.yml
-  hosts: appservers
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-scriptexecutor ]
 
 - name: Configure core
   include_tasks: configure-sweagle-core.yml
-  hosts: appservers
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Configure taskrunner
   include_tasks: configure-sweagle-taskrunner.yml
-  hosts: appservers
+  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-taskrunner ]
-
-- name: Configure tenant and load initial data
-  include_tasks: load-tenant-data.yml
-  hosts: installserver
-  tags: [ sweagle, sweagle-data ]

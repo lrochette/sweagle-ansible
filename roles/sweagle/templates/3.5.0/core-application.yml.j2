@@ -10,18 +10,18 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://{{ groups['dbservers'][0] }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://{{ sweagle_mysql_bindip }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
     username: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password}}"
   data:
     mongodb:
-      #host: {{ groups['dbservers'][0] }}
+      #host: {{ sweagle_mongo_bindip }}
       #port: {{ sweagle_mongo_port }}
       #database: {{ sweagle_mongo_db }}
       #username: {{ sweagle_mongo_user }}
       #password: {{ sweagle_mongo_password }}
       #authentication-database: sweagle
-      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@{{ groups['dbservers'][0] }}:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
+      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@{{ sweagle_mongo_bindip }}:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
   mail:
     host: smtp-auth.mailprotect.be
     username: no-reply@sweagle.expert
@@ -41,12 +41,10 @@ sweagle:
     from: no-reply@sweagle.expert
 
 elasticsearch:
-  disabled: false
-  lazyInitialize: true
-  url:
-    host: "{{ groups['indexservers'][0] }}"
-    port: "{{ sweagle_elasticsearch_transport_port }}"
-    scheme: http
+  enabledAtStartup: true #in case elastic is not running, switch to false to start without reporting
+  cluster-name: "{{ sweagle_elasticsearch_cluster }}"
+  url: "{{ groups['indexservers'][0] }}"
+  port: "{{ sweagle_elasticsearch_transport_port }}"
 
 vault:
   servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list for other vault servers

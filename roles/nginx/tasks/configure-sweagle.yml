@@ -15,9 +15,9 @@
   become: true
   tags: [ sweagle, sweagle-web ]
 
-- name: Configure web site
+- name: Deploy SWEAGLE Nginx default conf
   template:
-    src: "{{ sweagle_version }}/default.conf.j2"
+    src: "sweagle-default.conf.j2"
     dest: "/etc/nginx/conf.d/default.conf"
   become: true
   tags: [ sweagle, sweagle-web ]
@@ -29,18 +29,10 @@
   become: true
   tags: [ sweagle, sweagle-web ]
 
-- name: Configure nginx.conf
+- name: Deploy SWEAGLE Nginx conf
   template:
-    src: "{{ sweagle_version }}/nginx.conf.j2"
+    src: "sweagle-nginx.conf.j2"
     dest: "/etc/nginx/nginx.conf"
   become: true
   tags: [ sweagle, sweagle-web ]
-
-# Be sure to restart Nginx to enable other scripts to work
-- name: Restart nginx
-  service:
-    name: nginx
-    enabled: yes
-    state: restarted
-  become: true
-  tags: [ sweagle, sweagle-web ]
+  notify: Restart nginx

@@ -1,8 +1,8 @@
 ---
+# Be sure to restart Nginx to enable other scripts to work
 - name: Restart nginx
   service:
     name: nginx
     enabled: yes
     state: restarted
   become: true
-  tags: [ sweagle, sweagle-web ]

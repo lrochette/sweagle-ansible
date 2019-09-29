@@ -1,6 +1,6 @@
 ---
 # Handler to handle MYSQL tier notifications
-- name: Restart mysql
+- name: Restart MySQL
   service:
     name: "{{ mysql_daemon }}"
     state: restarted

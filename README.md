@@ -4,10 +4,12 @@ This is Ansible playbook to install SWEAGLE on-premise.
 It supports :
 -	Installation with or without prerequisites
 -	Independent installation of each component or full install
--	Idem potent, in case of error, correct, then restart  script
+-	Idem potent, in case of error, correct, then restart script
 -	Initialisation of Vault with automatic capture of init token in SWEAGLE config and automatic unseal
 -	Full silent install or interactive mode (for example, if you don’t put a license key, it will ask for it)
+- All in one server installation or multi-servers splitted by component
 - Installation from local package (when no access to Internet from hosts)
+  - with full scope for Red Hat family, and limited scope for Debian
 
 ## Prerequisites:
 - Ansible 2.4 or higher + package sshpass
@@ -45,6 +47,7 @@ Components available are:
 - Nginx
 - SWEAGLE
 - SWEAGLE-data (load initial data on existing tenant)
+- SWEAGLE-web (only install the webserver tier - Nginx must be there !)
 - System (install prerequisites libs like unzip, or jq)
 - Vault
 
@@ -61,18 +64,17 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 
 ## TROUBLESHOOT
 - Vault 1.1.2 and upper are not supported and doesn't work with SWEAGLE (as of SWEAGLE 3.1.x)
+- Force_local_installation may not work depending on dependencies present or not on target host
+- Settings for ElasticSearch for 3.5.0 requires additional tests
 
 
 ## Todo list
 
-- Add multi-hosts support
-
 - Check versions for prerequisites before installation
-
-- ex: on MongoDB, when another release is installed, remove it before
+ex: on MongoDB, when another release is installed, remove it before
   - add a new parameter mongodb_remove_other_releases: false (by default)
   - add tasks to remove other release
   - currently, plays failed and you should remove manually
   - reproduced on centos 7.x where default mongo is 2.6
 
-- add support for SSL
+- Add support for SSL

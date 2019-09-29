@@ -6,12 +6,14 @@
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
 
-- name: Create SWEAGLE MySQL schemas"
+- name: Create SWEAGLE MySQL schemas
   mysql_db:
-    name: "{{ item }}"
-    state: present
     login_user: "{{ mysql_root_user }}"
     login_password: "{{ mysql_root_password }}"
+    login_host: "127.0.0.1"
+#    login_host: "{{ mysql_bind_address }}"
+    name: "{{ item }}"
+    state: present
   with_items:
     - "{{ sweagle_mysql_db }}"
     - vault
@@ -34,6 +36,8 @@
   mysql_user:
     login_user: "{{ mysql_root_user }}"
     login_password: "{{ mysql_root_password }}"
+    login_host: "127.0.0.1"
+#    login_host: "{{ mysql_bind_address }}"
     name: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password }}"
     priv: "{{ item }}.*:ALL"
@@ -48,7 +52,8 @@
 
 - name: Flush privileges
   shell: >
-    mysql -u {{ mysql_root_user }} -p{{ mysql_root_password }} -e
-    "FLUSH PRIVILEGES;"
+    mysql --host={{ mysql_bind_address }} --user={{ mysql_root_user }} --password={{ mysql_root_password }}
+    --execute="FLUSH PRIVILEGES;"
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
+#    mysql --host={{ mysql_bind_address }} --user={{ mysql_root_user }} --password={{ mysql_root_password }}

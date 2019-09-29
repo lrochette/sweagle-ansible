@@ -1,5 +1,7 @@
 upstream applicationServer {
-        server {{ inventory_hostname }}:{{ sweagle_core_port }};
+    {% for host in groups['appservers'] %}
+        server {{ host }}:{{ sweagle_core_port }};
+    {% endfor %}
 }
 
 ## This is redirect to HTTPS to use if https enabled

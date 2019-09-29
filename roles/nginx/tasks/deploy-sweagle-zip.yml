@@ -1,0 +1,38 @@
+---
+- name: Install unzip from repo
+  package:
+    name: unzip
+    update_cache: yes
+  become: true
+  when: not force_local_installation
+  tags: [ sweagle, sweagle-web ]
+
+- name: Install unzip from local
+  package:
+    name: "{{ item }}"
+    update_cache: yes
+  become: true
+  with_fileglob:
+    - "../../../files/*unzip*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
+  when: force_local_installation
+  tags: [ sweagle, sweagle-web ]
+
+- name: "Check if SWEAGLE package is in {{ playbook_dir }}/files/sweagle"
+  stat:
+    path: "{{ playbook_dir }}/files/sweagle/full_{{ sweagle_version}}.zip"
+  register: sweagleFile
+  tags: [ sweagle, sweagle-web ]
+
+- name: Unzip package "full_{{ sweagle_version }}.zip from local
+  unarchive:
+    src: "../../../files/sweagle/full_{{ sweagle_version}}.zip"
+    dest: /tmp
+  when: sweagleFile.stat.exists
+  tags: [ sweagle, sweagle-web ]
+
+- name: Unzip package "full_{{ sweagle_version }}.zip"
+  unarchive:
+    src: "full_{{ sweagle_version}}.zip"
+    dest: /tmp
+  when: not sweagleFile.stat.exists
+  tags: [ sweagle, sweagle-web ]

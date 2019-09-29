@@ -5,3 +5,5 @@ mysql_repository: "https://dev.mysql.com/get/mysql57-community-release-el{{ ansi
 mysql_packages: ['mysql-community-server', 'mysql-community-client', 'MySQL-python']
 
 mysql_config_dir: "/etc"
+#mysql_log_dir: "/var/log"
+#mysql_log_error: "{{ mysql_log_dir}}/mysqld.log"

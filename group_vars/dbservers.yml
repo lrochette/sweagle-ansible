@@ -4,12 +4,18 @@
 ###   MYSQL
 ###################################################
 mysql_port: "{{ sweagle_mysql_port }}"
+## default 127.0.0.1, only one or all (0.0.0.0) bind address are allowed for MySQL
+mysql_bind_address: "0.0.0.0"
+#mysql_bind_address: "{{ sweagle_mysql_bindip }}"
+
 # MySQL root user and password
 mysql_root_user: root
 mysql_root_password: sweagle3.MYSQL
 mysql_root_password_update: "{{ sweagle_mysql_password_update|default(true) }}"
 
-# not yet supported
+mysql_system_group: "mysql"
+mysql_system_user: "mysql"
+## Not supported yet
 #mysql_data_dir: "/opt/mysql/data"
 #mysql_log_dir: "/opt/mysql/log"
 
@@ -18,8 +24,9 @@ mysql_root_password_update: "{{ sweagle_mysql_password_update|default(true) }}"
 ###   MONGODB
 ###################################################
 mongodb_version: "3.6"
-#comma seperated list for other vault servers
-mongodb_net_bindip: "{% for host in groups['appservers'] %}{{ host }}{% if not loop.last %},{% endif %}{% endfor %}"
+## comma seperated list for other mongodb bind IPs
+## see https://www.mkyong.com/mongodb/mongodb-allow-remote-access/
+mongodb_net_bindip: "127.0.0.1,{% for host in groups['dbservers'] %}{{ hostvars[host].ansible_default_ipv4.address }}{% if not loop.last %},{% endif %}{% endfor %}"
 mongodb_net_port: "{{ sweagle_mongo_port }}"
 mongodb_security_authorization: "disabled"
 

@@ -1,4 +1,5 @@
 # mongod.conf
+# {{ ansible_managed }}
 
 # for documentation of all options, see:
 #   http://docs.mongodb.org/manual/reference/configuration-options/
@@ -27,7 +28,7 @@ processManagement:
 # network interfaces
 net:
   port: "{{ sweagle_mongo_port }}"
-  bindIp: "{{ mongodb_net_bindip }}"  # Listen to local interface only, comment to listen on all interfaces.
+  bindIp: "{{ mongodb_net_bindip }}"
 
 
 security:

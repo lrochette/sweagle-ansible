@@ -1,0 +1,2 @@
+---
+nb_installserver: "{{ groups['installserver'] | length }}"

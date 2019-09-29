@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 
 echo start setting up a new tenant
 
@@ -7,14 +8,14 @@ else
    tenantName="$1"
 fi
 
-sweagleURL="http://localhost:{{ sweagle_core_port }}"
+sweagleURL="http://{{ groups['appservers'][0] }}:{{ sweagle_core_port }}"
 
 adminUserName="admin_$tenantName"
 adminUserPwd="testtest"
 adminUserEmail="$adminUserName@$tenantName.com"
 
 echo "..create the root admin user $adminUserName"
-curl -X POST $sweagleURL"/internal/root/tenant" -F "tenantName="$tenantName -F "tenantDescription="$tenantName"_tenant" -F "username="$adminUserName -F "name="$adminUserName -F "password="$adminUserPwd -F "email="$adminUserEmail
+curl -X POST "$sweagleURL/internal/root/tenant" -F "tenantName="$tenantName -F "tenantDescription="$tenantName"_tenant" -F "username="$adminUserName -F "name="$adminUserName -F "password="$adminUserPwd -F "email="$adminUserEmail
 
 echo "..get authorizationToken"
 response=$(curl -s -X POST $sweagleURL'/oauth/token?grant_type=password&username='$adminUserName'&password='$adminUserPwd -H "authorization: Basic c3dlYWdsZS1jbGllbnQ6c3dlYWdsZVNlY3JldA==")

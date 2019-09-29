@@ -1,5 +1,6 @@
 ---
 mysql_authentication_plugin: mysql_native_password
 
-mysql_data_dir: "/var/lib/mysql"
-mysql_log_dir: "/var/log/mysql"
+#mysql_data_dir: "/var/lib/mysql"
+#mysql_log_dir: "/var/log/mysql"
+#mysql_log_error: "{{ mysql_log_dir}}/error.log"

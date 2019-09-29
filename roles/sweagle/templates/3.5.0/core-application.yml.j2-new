@@ -41,10 +41,12 @@ sweagle:
     from: no-reply@sweagle.expert
 
 elasticsearch:
-  enabledAtStartup: true #in case elastic is not running, switch to false to start without reporting
-  cluster-name: "{{ sweagle_elasticsearch_cluster }}"
-  url: "{{ groups['indexservers'][0] }}"
-  port: "{{ sweagle_elasticsearch_transport_port }}"
+  disabled: false
+  lazyInitialize: true
+  url:
+    host: "{{ groups['indexservers'][0] }}"
+    port: "{{ sweagle_elasticsearch_transport_port }}"
+    scheme: http
 
 vault:
   servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list for other vault servers

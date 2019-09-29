@@ -39,15 +39,23 @@
   when: not force_local_installation
   tags: mysql
 
-- name: Install MySQL packages from local
+- name: Install MySQL packages for Debian from local
+  apt:
+    deb: "{{ item }}"
+  with_items: "{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}"
+  become: true
+  become_user: root
+  when: ansible_os_family == "Debian" and force_local_installation
+  tags: mysql
+
+- name: Install MySQL packages for Red Hat from local
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}
-    {% else %}{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}{% endif %}"
+  with_items: "{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}"
   become: true
   become_user: root
-  when: force_local_installation
+  when: ansible_os_family == "RedHat" and force_local_installation
   tags: mysql
 
 - name: Check mysql service is running
@@ -66,71 +74,8 @@
   check_mode: false
   tags: mysql
 
-# Set root password for MySQL >= 5.7.x.
-- name: Update MySQL root password for localhost root account (5.7.x).
-  shell: >
-    mysql -u {{ mysql_root_user }} -NBe
-    'ALTER USER "{{ mysql_root_user }}"@localhost
-    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
-  become: true
-  become_user: root
-  when: mysql_root_password_update
-    and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
-    and ansible_os_family == "Debian"
-  tags: mysql
-
-# Set root password for MySQL < 5.7.x.
-- name: Update MySQL root password for localhost root account (< 5.7.x).
-  shell: >
-    mysql -NBe
-    'SET PASSWORD FOR "{{ mysql_root_user }}"@localhost = PASSWORD("{{ mysql_root_password }}");'
-  become: true
-  become_user: root
-  when: mysql_root_password_update
-    and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
-    and ansible_os_family == "Debian"
-  tags: mysql
-
-- name: Find temporary root password for Red Hat
-  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
-  register: mysql_root_password_temp
-  when: mysql_root_password_update and ansible_os_family == "RedHat"
-  tags: mysql
-
-- debug:
-    msg: "{{ mysql_root_password_temp.stdout }}"
-  when: mysql_root_password_update and ansible_os_family == "RedHat"
-  tags: mysql
-
-- name: Set new root password for Red Hat
-  shell: >
-    mysql -u {{ mysql_root_user }}  -p"{{ mysql_root_password_temp.stdout }}" --connect-expired-password -e
-    "SET PASSWORD = PASSWORD('{{ mysql_root_password }}');"
-# OR
-#    mysql -u {{ mysql_root_user }} -p{{ mysql_root_password_temp.stdout }} --connect-expired-password -e
-#    'ALTER USER "{{ mysql_root_user }}"@localhost
-#    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
-  become: true
-  become_user: root
-  when: mysql_root_password_update and ansible_os_family == "RedHat"
-  tags: mysql
-
-# Has to be after the password assignment, for idempotency.
-#- name: Configure MySQL
-#  template:
-#    src: "my.cnf.j2"
-#    dest: "{{ mysql_config_dir }}/my.cnf"
-#    mode: preserve
-#  become: true
-#  become_user: root
-#  tags: mysql
-
-- name: Restart mysql to take into account new configuration
-  service:
-    name: "{{ mysql_daemon }}"
-    state: restarted
-  become: true
-  become_user: root
+- name: Include MySQL configuration.yml
+  include_tasks: configure.yml
   tags: mysql
 
 - name: Include SWEAGLE configuration.yml

@@ -57,17 +57,7 @@
 ## Test elasticsearch is installed
 # curl -X GET http://elasticsearch-host:9200
 
-## Nginx must be installed before SWEAGLE
-## So that web package could be unpack directly to nginx after
-
-- hosts: webservers
-  roles:
-    - nginx
-## test with:
-# curl http://127.0.0.1
-## => you should the nginx default page
-
-- hosts: appservers, webservers, installserver
+- hosts: appservers
   roles:
     - jdk
     - vault
@@ -83,6 +73,14 @@
 #cd /opt/SWEAGLE/scripts
 #./startCORE.sh
 
+- hosts: webservers
+  roles:
+    - nginx
 ## test with:
 # curl http://127.0.0.1
 ## => you should get the SWEAGLE login page
+
+## this will load initial data in SWEAGLE tenant
+- hosts: installserver
+  roles:
+    - sweagle-data

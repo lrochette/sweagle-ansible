@@ -2,7 +2,7 @@
 # Variables shared among ALL HOSTS
 #ansible_user: sweagle
 #ansible_ssh_pass: sweagle
-#ansible_become_pass: sweagle
+ansible_become_pass: sweagle
 
 # Variable to force local installation
 force_local_installation: false
@@ -23,23 +23,26 @@ sweagle_service_name: sweagle
 sweagle_tenant: poc
 
 sweagle_core_port: 8081
-sweagle_core_xmx: "1000m"   # Default is 4000m
+sweagle_core_xmx: "512m"   # Default is 4000m
 
 sweagle_taskrunner_port: 8082
 sweagle_taskrunner_xmx: "256m"   # Default is 1000m
 
 sweagle_scriptexecutor_port: 8083
-sweagle_scriptexecutor_xmx: "512m"   # Default is 2000m
+sweagle_scriptexecutor_xmx: "256m"   # Default is 2000m
 
 sweagle_elasticsearch_transport_port: 9300
 sweagle_elasticsearch_cluster: "SWEAGLE_cluster"
 
 sweagle_mongo_port: 27017
+sweagle_mongo_bindip: "{{ groups['dbservers'][0] | default('127.0.0.1') }}"
 sweagle_mongo_db: sweagle
 sweagle_mongo_user: staticTreeUser
 sweagle_mongo_password: staticTreePassword
 
 sweagle_mysql_port: 3306
+sweagle_mysql_bindip: "{{ groups['dbservers'][0] | default('127.0.0.1') }}"
+# {{ hostvars[groups['dbservers'][0]].ansible_default_ipv4.address|default('127.0.0.1') }}
 sweagle_mysql_db: "mdm"
 sweagle_mysql_user: "mdm_user"
 sweagle_mysql_password: "sweagle3.MDM"

@@ -7,13 +7,19 @@ else
    tenantName="$1"
 fi
 
-if [ -n $2 ]; then
+if [ "$2" ]; then
   force_local_installation=$2
 else
   force_local_installation=false
 fi
 
-sweagleURL="http://localhost"
+if [ "$3" ]; then
+  sweagleURL="http://$3"
+else
+  sweagleURL="http://localhost"
+fi
+
+scriptDir=$(dirname "$0")
 sweagleUser="admin_$tenantName"
 sweaglePwd="testtest"
 sweagleAuth="Basic c3dlYWdsZS1jbGllbnQ6c3dlYWdsZVNlY3JldA=="
@@ -64,9 +70,10 @@ function createParsers()
 
   for type in "${parsers[@]}"; do
     if [ "$force_local_installation" = false ]; then
-      git clone "${sweagleExpertGit}/${type}s"
+      echo "= connecting to Git ${sweagleExpertGit}/${type}s"
+      git clone "${sweagleExpertGit}/${type}s" "$scriptDir/${type}s"
     fi
-    for parser in ./${type}s/*.js; do
+    for parser in $scriptDir/${type}s/*.js; do
       name=$(basename $parser|sed 's/\.js//')
       description=$(grep -i "description:" $parser|sed -E 's/^\s*[\/*]+\s*description:\s*//I')
       if [ -z "$description" ]; then
@@ -267,7 +274,7 @@ function createTypedNodes()
 {
   echo "== loading default data model =="
 
-  if [ -f "data/data.json" ]; then
+  if [ -f "$scriptDir/data/data.json" ]; then
     echo "File 'data.json' exists"
   else
     echo "File does not exist.  Please add a json file 'data.json' with the data structure to upload in the same folder where this script is run from."
@@ -295,7 +302,7 @@ function createTypedNodes()
   echo $response
   envNode=$(echo $response|jq .id)
 
-  environments=$(cat data/data.json|jq '.environments|to_entries[].key'|sed 's/\"//g')
+  environments=$(cat $scriptDir/data/data.json|jq '.environments|to_entries[].key'|sed 's/\"//g')
   envNames=()
   envIds=()
 
@@ -303,7 +310,7 @@ function createTypedNodes()
     echo "Creating environment category $e"
     response=$(curl -s -X POST "$sweagleURL/api/v1/data/node?name=$e&typeName=environmentCategory&changeset=$csId&parentNode=$envNode" -H "Authorization: bearer $token")
     parentNode=$(echo $response|jq .id)
-    subenvs=$(cat data/data.json|jq ".environments.$e|to_entries[].key"|sed 's/\"//g')
+    subenvs=$(cat $scriptDir/data/data.json|jq ".environments.$e|to_entries[].key"|sed 's/\"//g')
 
     for s in $subenvs; do
       if [[ ${#s} -gt 4 ]]; then
@@ -329,7 +336,7 @@ function createTypedNodes()
   response=$(curl -s -X POST "$sweagleURL/api/v1/data/node?name=components&changeset=$csId&parentNode=$sampleNodeId" -H "Authorization: bearer $token")
   compNode=$(echo $response|jq .id)
 
-  components=$(cat data/data.json|jq '.components|to_entries[].key'|sed 's/\"//g')
+  components=$(cat $scriptDir/data/data.json|jq '.components|to_entries[].key'|sed 's/\"//g')
 
   for c in $components; do
     echo "Creating component $c"
@@ -350,7 +357,7 @@ function createTypedNodes()
 
   echo "serverNode Id: $serverNode"
 
-  servers=$(cat data/data.json|jq '.servers|to_entries[].key'|sed 's/\"//g')
+  servers=$(cat $scriptDir/data/data.json|jq '.servers|to_entries[].key'|sed 's/\"//g')
 
   for server in $servers; do
     echo "Creating server $server"
@@ -366,7 +373,7 @@ function createDataModel
 
   echo "Creating Data Model"
 
-  response=$(curl -s -X POST "$sweagleURL/api/v1/data/bulk-operations/dataLoader/upload?nodePath=sample&format=json&autoApprove=true" -H "Authorization: bearer $token" -H "Content-Type: application/json" -d "@data/data.json")
+  response=$(curl -s -X POST "$sweagleURL/api/v1/data/bulk-operations/dataLoader/upload?nodePath=sample&format=json&autoApprove=true" -H "Authorization: bearer $token" -H "Content-Type: application/json" -d "@$scriptDir/data/data.json")
 
   approveChangeset
 }
@@ -376,7 +383,7 @@ function createIncludes()
 {
   createChangeset
 
-  servers=$(cat data/data.json|jq '.servers|to_entries[].key'|sed 's/\"//g')
+  servers=$(cat $scriptDir/data/data.json|jq '.servers|to_entries[].key'|sed 's/\"//g')
 
   echo "Starting server includes"
 
@@ -520,6 +527,7 @@ function createRolesAndPolicies
 
 getAuthenticationToken
 setPreferences
+createRolesAndPolicies
 createParsers
 createTags
 createMdiTypes
@@ -531,4 +539,3 @@ applyTags
 createMetadatasets
 createWorkspace
 applyInheritance
-createRolesAndPolicies

@@ -1,8 +1,8 @@
 ---
 ## To run it:
-# ansible-playbook install_appservers.yml -i ./inventories/test/hosts.yml
+# ansible-playbook install_appservers.yml -i -i ./inventories/multi-hosts/hosts.yml
 
-- hosts: appservers, webservers, installserver
+- hosts: appservers
   roles:
     - jdk
     - vault

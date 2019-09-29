@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 net:
-  bindIp: '127.0.0.1'
+  bindIp: '{{ mongodb_net_bindip }}'
   {% if mongodb_major_version is version("3.6", "<") -%}
   http:
     enabled: {{ mongodb_net_http_enabled | to_nice_json }}

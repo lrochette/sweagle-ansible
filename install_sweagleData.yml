@@ -1,0 +1,8 @@
+---
+## To run it:
+# ansible-playbook install_sweagleData.yml -i -i ./inventories/multi-hosts/hosts.yml
+
+# this will load initial data in SWEAGLE tenant
+- hosts: installserver
+  roles:
+    - sweagle-data

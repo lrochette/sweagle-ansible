@@ -1,10 +1,16 @@
 ---
 ## To run it:
-# ansible-playbook install_webservers.yml -i ./inventories/test/hosts.yml
+# ansible-playbook install_webservers.yml -i ./inventories/multi-hosts/hosts.yml
 
 - hosts: webservers
   roles:
     - nginx
+
 ## test with:
 # curl http://127.0.0.1
-## => you should the nginx default page
+## => you should the nginx default page in middle of installation
+
+## Then after full install
+## test with:
+# curl http://127.0.0.1
+## => you should get the SWEAGLE login page

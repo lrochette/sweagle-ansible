@@ -55,6 +55,6 @@
   tags: [ sweagle, sweagle-core ]
 
 - name: Wait for core to startup
-  wait_for: host=localhost port={{ sweagle_core_port }} delay=15 connect_timeout=5 timeout=120
+  wait_for: host="{{ inventory_hostname }}" port={{ sweagle_core_port }} delay=15 connect_timeout=5 timeout=120
   when: sweagle_create_services
   tags: [ sweagle, sweagle-core ]

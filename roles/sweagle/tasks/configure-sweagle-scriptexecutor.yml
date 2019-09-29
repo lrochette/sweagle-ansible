@@ -1,5 +1,5 @@
 ---
-- name: configure scriptexecutor application.yml
+- name: Configure scriptexecutor application.yml
   template:
     src: "{{ sweagle_version }}/scriptexecutor-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/scriptExecutor/application.yml"
@@ -21,6 +21,6 @@
   tags: [ sweagle, sweagle-scriptexecutor ]
 
 - name: Wait for scriptexecutor to startup
-  wait_for: host=localhost port={{ sweagle_scriptexecutor_port }} delay=15 connect_timeout=5 timeout=60
+  wait_for: host="{{ inventory_hostname }}" port={{ sweagle_scriptexecutor_port }} delay=15 connect_timeout=5 timeout=60
   when: sweagle_create_services
   tags: [ sweagle, sweagle-scriptexecutor ]
