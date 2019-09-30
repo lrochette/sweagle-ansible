@@ -34,13 +34,16 @@
   roles:
     - system
 
-- hosts: dbservers
+- hosts: mysql
   roles:
     - mysql
 ## Check mysql connection
 # mysql -u mdm_user -pmdm_password
 # use mdm
 ## => you should get connected to mdm database
+
+- hosts: mongodb
+  roles:
     - mongodb
 ## Check mongo connection
 # mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle

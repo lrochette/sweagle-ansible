@@ -1,14 +1,17 @@
 ---
 ## To run it:
-# ansible-playbook install_dbservers.yml -i ./inventories/test/hosts.yml
+# ansible-playbook install_dbservers.yml -i ./inventories/multi-hosts/hosts.yml
 
-- hosts: dbservers
+- hosts: mysql
   roles:
     - mysql
 ## Check mysql connection
 # mysql -u mdm_user -pmdm_password
 # use mdm
 ## => you should get connected to mdm database
+
+- hosts: mongodb
+  roles:
     - mongodb
 ## Check mongo connection
 # mongo -u staticTreeUser -p staticTreePassword localhost:27017/sweagle

@@ -14,7 +14,6 @@
   become: true
   become_user: root
   ignore_errors: true
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core, systemf ]
 
 #- name: Allow 'wheel' group to have passwordless sudo
@@ -60,7 +59,6 @@
     src: "/tmp/{{ sweagle_version }}/full/"
     dest: "{{ sweagle_installation_folder }}"
   delegate_to: "{{ inventory_hostname }}"
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Set ownership in "{{ sweagle_installation_folder }}"
@@ -77,14 +75,12 @@
     path: "{{ sweagle_installation_folder }}/scripts/config/appRelease.settings"
     regexp: '\d+\.\d+\.\d+'
     replace: "{{ sweagle_version }}"
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
   file:
     dest: "{{ sweagle_installation_folder }}/scripts"
     mode: a+x
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 #- name: make shell scripts in "{{ sweagle_installation_folder }}/scripts" executable
 #  shell: "chmod +x {{sweagle_installation_folder }}/scripts/*.sh"
@@ -94,20 +90,16 @@
   template:
     src: "{{ sweagle_version }}/appConfig.settings.j2"
     dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Configure scriptexecutor
   include_tasks: configure-sweagle-scriptexecutor.yml
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-scriptexecutor ]
 
 - name: Configure core
   include_tasks: configure-sweagle-core.yml
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-core ]
 
 - name: Configure taskrunner
   include_tasks: configure-sweagle-taskrunner.yml
-  when: inventory_hostname in groups['appservers']
   tags: [ sweagle, sweagle-taskrunner ]

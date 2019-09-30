@@ -1,11 +1,8 @@
 ---
 # Variables shared among ALL HOSTS
-#ansible_user: sweagle
-#ansible_ssh_pass: sweagle
-ansible_become_pass: sweagle
 
 # Variable to force local installation
-force_local_installation: false
+force_local_installation: true
 
 # Variable to set if RHEL SELinux is enabled
 # check if we cannot detect this automatically from a system variable ?
@@ -32,22 +29,24 @@ sweagle_scriptexecutor_port: 8083
 sweagle_scriptexecutor_xmx: "256m"   # Default is 2000m
 
 sweagle_elasticsearch_transport_port: 9300
+sweagle_elasticsearch_host: "{{ groups['indexservers'][0] }}"
 sweagle_elasticsearch_cluster: "SWEAGLE_cluster"
 
 sweagle_mongo_port: 27017
-sweagle_mongo_bindip: "{{ groups['dbservers'][0] | default('127.0.0.1') }}"
+sweagle_mongo_host: "{{ groups['mongodb'][0] | default('127.0.0.1') }}"
 sweagle_mongo_db: sweagle
 sweagle_mongo_user: staticTreeUser
 sweagle_mongo_password: staticTreePassword
 
 sweagle_mysql_port: 3306
-sweagle_mysql_bindip: "{{ groups['dbservers'][0] | default('127.0.0.1') }}"
+sweagle_mysql_host: "{{ groups['mysql'][0] | default('127.0.0.1') }}"
 # {{ hostvars[groups['dbservers'][0]].ansible_default_ipv4.address|default('127.0.0.1') }}
 sweagle_mysql_db: "mdm"
 sweagle_mysql_user: "mdm_user"
 sweagle_mysql_password: "sweagle3.MDM"
-# Set this value to false if playbook has already run and you don't need to reasssign the value
-sweagle_mysql_password_update: true
+## This is to change mysql root password value (TO DO for first installation)
+## Set this value to false if playbook has already run or if you don't need to reasssign the value
+sweagle_mysql_password_update: true  
 
 sweagle_vault_port: 8200
 # Set this value to false if vault has alreayd been initialized

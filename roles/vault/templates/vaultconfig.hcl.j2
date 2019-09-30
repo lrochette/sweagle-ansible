@@ -1,5 +1,5 @@
 storage "mysql" {
-address = "{{ sweagle_mysql_bindip }}:{{ sweagle_mysql_port }}"
+address = "{{ sweagle_mysql_host }}:{{ sweagle_mysql_port }}"
 username = "{{ sweagle_mysql_user }}"
 password = "{{ sweagle_mysql_password }}"
 database = "{{ vault_backend_db | default('vault') }}"

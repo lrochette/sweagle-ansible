@@ -3,4 +3,4 @@
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
 
-sweagle_installation_folder: /opt/SWEAGLE/core
+sweagle_installation_folder: /opt/sweagle

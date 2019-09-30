@@ -6,7 +6,7 @@
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
 - name: Get list of MongoDB user
-  shell: mongo "{{ sweagle_mongo_bindip }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
+  shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getUsers()'
   register: mongo_users
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
@@ -19,7 +19,7 @@
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
 - name: Create MongoDB SWEAGLE Databases
-  shell: mongo "{{ sweagle_mongo_bindip }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getSiblingDB("{{ item }}")'
+  shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getSiblingDB("{{ item }}")'
   with_items:
     - "{{ sweagle_mongo_db }}"
     - admin
@@ -42,7 +42,7 @@
 
 
 - name: Create MongoDB SWEAGLE Users
-  shell: mongo "{{ sweagle_mongo_bindip }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ sweagle_mongo_db }}"}]}))'
+  shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'printjson(db.createUser({ user:"{{ sweagle_mongo_user }}", pwd:"{{ sweagle_mongo_password }}", roles:[{ role:"readWrite", db:"{{ sweagle_mongo_db }}"}]}))'
   when: user_output.rc != 0
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 

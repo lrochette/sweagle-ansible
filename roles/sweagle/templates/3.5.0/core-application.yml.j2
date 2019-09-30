@@ -10,18 +10,18 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://{{ sweagle_mysql_bindip }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://{{ sweagle_mysql_host }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
     username: "{{ sweagle_mysql_user }}"
     password: "{{ sweagle_mysql_password}}"
   data:
     mongodb:
-      #host: {{ sweagle_mongo_bindip }}
+      #host: {{ sweagle_mongo_host }}
       #port: {{ sweagle_mongo_port }}
       #database: {{ sweagle_mongo_db }}
       #username: {{ sweagle_mongo_user }}
       #password: {{ sweagle_mongo_password }}
       #authentication-database: sweagle
-      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@{{ sweagle_mongo_bindip }}:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
+      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@{{ sweagle_mongo_host }}:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
   mail:
     host: smtp-auth.mailprotect.be
     username: no-reply@sweagle.expert
@@ -43,11 +43,11 @@ sweagle:
 elasticsearch:
   enabledAtStartup: true #in case elastic is not running, switch to false to start without reporting
   cluster-name: "{{ sweagle_elasticsearch_cluster }}"
-  url: "{{ groups['indexservers'][0] }}"
+  url: "{{ sweagle_elasticsearch_host }}"
   port: "{{ sweagle_elasticsearch_transport_port }}"
 
 vault:
-  servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list for other vault servers
+  servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma separated list for other vault servers
   token: "{{ sweagle_vault_token }}"
   scheme: http
   enabled: true
@@ -61,7 +61,7 @@ executor:
   replace-url: api/v1/script-executor/replace
 
 cache:
- members: {% for host in groups['appservers'] %}{{ host }}:5701{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list of the other cache members
+ members: {% for host in groups['appservers'] %}{{ host }}:5701{% if not loop.last %},{% endif %}{% endfor %} #comma separated list of the other cache members
  port: 5701 #optional
  portCount: 100 #optional
 
