@@ -1,3 +1,6 @@
+---
+jdk_install_dir: "/opt/jdk"
+
 es_version: "6.6.2"
 es_data_dirs:
   - "/opt/elasticsearch/data"
