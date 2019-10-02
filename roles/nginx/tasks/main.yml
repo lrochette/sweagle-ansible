@@ -49,8 +49,8 @@
 
 - name: Deploy SWEAGLE zip
   include_tasks: deploy-sweagle-zip.yml
-  tags: [ sweagle, sweagle-web ]
+  tags: [ nginx, sweagle, sweagle-web ]
 
 - name: Configure SWEAGLE website
   include_tasks: configure-sweagle.yml
-  tags: [ sweagle, sweagle-web ]
+  tags: [ nginx, sweagle, sweagle-web ]
