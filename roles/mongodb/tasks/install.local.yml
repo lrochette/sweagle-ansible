@@ -5,7 +5,19 @@
     mongodb_major_version: "{{ mongodb_version[0:3] }}"
   tags: mongodb
 
-- name: Install mongodb from local packages
+- name: Install mongodb prerequisites packages from local
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mongodb/prereqs/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/mongodb/prereqs/*.rpm').split(',') | sort }}{% endif %}"
+  when: force_local_installation
+  # Ignore errors for this task as missing some prerequisites may not be blocking
+  ignore_errors: true
+  tags: mongodb
+
+- name: Install mongodb packages from local
   package:
     name: "{{ item }}"
     state: present
