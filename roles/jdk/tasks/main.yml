@@ -1,37 +1,82 @@
 ---
 # Install JDK
-- name: Install jdk 1.8 for Debian from local packages
-  apt:
-    deb: "{{ item }}"
-  become: true
-  with_items: "{{ lookup('fileglob', '../../../files/jdk/*_amd64.deb').split(',') | sort }}"
-  when: force_local_installation and ansible_os_family == 'Debian'
+- name: Install jdk 1.8 from local
+  when: force_local_installation
   tags: jdk
+  block:
+    - name: Create installation folder "{{ jdk_install_dir }}"
+      file:
+        path: "{{ jdk_install_dir }}"
+        state: directory
 
-- name: Install jdk 1.8 for Red Hat from local packages
-  package:
-    name: "{{ item }}"
-    state: present
-  become: true
-  with_items: "{{ lookup('fileglob', '../../../files/jdk/*.rpm').split(',') | sort }}"
-  when: force_local_installation and ansible_os_family == 'RedHat'
-  tags: jdk
+    - name: Untar jdk package
+      unarchive:
+        src: "{{ item }}"
+        dest: "{{ jdk_install_dir }}"
+        extra_opts: ['--strip-components=1']
+      with_items: "{{ lookup('fileglob', '../../../files/jdk/*.gz').split(',') | sort }}"
 
-- name: Install jdk 1.8 for Debian family
-  package:
-    name: openjdk-8-jdk
-    state: present
-  become: true
-  when: force_local_installation == false and ansible_os_family == 'Debian'
-  tags: jdk
+    - name: 'Create {{ jdk_profile_file }} if it does not exist'
+      copy:
+        content:  ''
+        dest:     '{{ jdk_profile_file }}'
+        force:    false
 
-- name: Install jdk 1.8 for Red Hat family
-  package:
-    name: java-1.8.0-openjdk
-    state: present
-  become: true
-  when: force_local_installation == false and ansible_os_family == 'RedHat'
+    - name: 'Set JAVA_HOME in {{ jdk_profile_file  }} to {{ jdk_install_dir }}'
+      lineinfile:
+        path:     '{{ jdk_profile_file }}'
+        regexp:   '^export JAVA_HOME=.*'
+        line:     'export JAVA_HOME={{ jdk_install_dir }}'
+
+    - name: 'Add $JAVA_HOME/bin in {{ jdk_profile_file }} to $PATH'
+      lineinfile:
+        path:     '{{ jdk_profile_file }}'
+        regexp:   '^export PATH=.*'
+        line:     'export PATH=${PATH}:${JAVA_HOME}/bin'
+
+    - name: Update alternatives
+      alternatives:
+        name:     "{{ item }}"
+        link:     "/usr/bin/{{ item }}"
+        path:     "{{ jdk_install_dir }}/bin/{{ item }}"
+        priority: "1"
+      with_items:
+          - jar
+          - java
+#- name: Install jdk 1.8 for Debian from local packages
+#  apt:
+#    deb: "{{ item }}"
+#  become: true
+#  with_items: "{{ lookup('fileglob', '../../../files/jdk/*_amd64.deb').split(',') | sort }}"
+#  when: force_local_installation
+#  tags: jdk
+
+#- name: Install jdk 1.8 for Red Hat from local packages
+#  package:
+#    name: "{{ item }}"
+#    state: present
+#  become: true
+#  with_items: "{{ lookup('fileglob', '../../../files/jdk/*.rpm').split(',') | sort }}"
+#  when: force_local_installation and ansible_os_family == 'RedHat'
+#  tags: jdk
+
+- name: Install jdk 1.8 from repo
+  when: not force_local_installation
   tags: jdk
+  block:
+    - name: Install jdk 1.8 for Debian family
+      package:
+        name: openjdk-8-jdk
+        state: present
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Install jdk 1.8 for Red Hat family
+      package:
+        name: java-1.8.0-openjdk
+        state: present
+      become: true
+      when: ansible_os_family == 'RedHat'
 
 - name: Check Java version
   command: java -version
