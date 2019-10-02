@@ -5,18 +5,17 @@ Create a folder for these components to put their packages
 - elasticsearch
       - elasticsearch-6.6.1
 
-- jdk: you should have (in this order)
-      - 1-java-1.8.0-openjdk-headless
-      - java-1.8.0-openjdk
+- jdk: you should have jdk package in gz format
 
 - mongodb: you should have at least these packages
+      - /prereqs/* (all packages required for list below)
       - mongodb-org-server
       - mongodb-org-shell
-      - numactl
-      - python-bson
+      - policycoreutils-python-2.5-33.el7.x86_64
       - python-pymongo
 
 - mysql: you should have (in this order)
+      - /prereqs/net-tools-2.0-0.20150915git.4.mga6.x86_64
       - 1-mysql-community-common-5.7.25-1.el7.x86_64
       - 2-mysql-community-libs-5.7.25-1.el7.x86_64
       - mysql-community-client-5.7.25-1.el7.x86_64
