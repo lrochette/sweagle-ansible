@@ -39,24 +39,47 @@
   when: not force_local_installation
   tags: mysql
 
-- name: Install MySQL packages for Debian from local
-  apt:
-    deb: "{{ item }}"
-  with_items: "{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}"
-  become: true
-  become_user: root
-  when: ansible_os_family == "Debian" and force_local_installation
+- name: Install MySQL packages from local
+  when: force_local_installation
   tags: mysql
+  block:
+    - name: Install MySQL prerequisites packages for Debian
+      apt:
+        deb: "{{ item }}"
+      with_items: "{{ lookup('fileglob', '../../../files/mysql/prereqs/*.deb').split(',') | sort }}"
+      become: true
+      become_user: root
+      # Ignore errors for this task as missing some prerequisites may not be blocking
+      ignore_errors: true
+      when: ansible_os_family == "Debian"
 
-- name: Install MySQL packages for Red Hat from local
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}"
-  become: true
-  become_user: root
-  when: ansible_os_family == "RedHat" and force_local_installation
-  tags: mysql
+    - name: Install MySQL packages for Debian
+      apt:
+        deb: "{{ item }}"
+      with_items: "{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}"
+      become: true
+      become_user: root
+      when: ansible_os_family == "Debian"
+
+    - name: Install MySQL prerequisites packages for Red Hat
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ lookup('fileglob', '../../../files/mysql/prereqs/*.rpm').split(',') | sort }}"
+      become: true
+      become_user: root
+      # Ignore errors for this task as missing some prerequisites may not be blocking
+      ignore_errors: true
+      when: ansible_os_family == "RedHat"
+
+    - name: Install MySQL packages for Red Hat
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}"
+      become: true
+      become_user: root
+      when: ansible_os_family == "RedHat"
 
 - name: Check mysql service is running
   service:

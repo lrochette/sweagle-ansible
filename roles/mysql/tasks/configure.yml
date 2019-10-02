@@ -77,6 +77,8 @@
   become: true
   become_user: root
   when: mysql_root_password_update and ansible_os_family == "RedHat"
+  # Ignore errors for this task as maybe user password has already been updated in previous run
+  ignore_errors: true
   tags: mysql
 
 # Has to be after the password assignment, for idempotency.
