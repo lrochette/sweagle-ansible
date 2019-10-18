@@ -3,7 +3,7 @@
   template:
     src: "{{ sweagle_version }}/taskrunner-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/taskRunner/application.yml"
-  tags: [ sweagle-taskrunner, sweagle ]
+  tags: [ sweagle, sweagle-taskrunner ]
 
 - name: Create service taskrunner
   shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleTaskRunner {{ sweagle_installation_folder }}/bin/taskRunner task-runner-1.0.0.jar {{ sweagle_taskrunner_xmx }}"

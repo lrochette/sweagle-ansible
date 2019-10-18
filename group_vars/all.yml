@@ -9,7 +9,7 @@ force_local_installation: true
 system_sel_enabled: false
 
 # Shared SWEAGLE variables
-sweagle_version: "3.5.0"
+sweagle_version: "3.6.0"
 sweagle_installation_folder: /opt/sweagle
 sweagle_create_services: true
 # If you don't feed license here, ansible will ask it during installation process
@@ -17,6 +17,7 @@ sweagle_license_key: ""
 sweagle_system_user: sweagle
 sweagle_system_group: sweagle
 sweagle_service_name: sweagle
+# Put here the customer name, it will be added as suffix to "admin_" for first user creation
 sweagle_tenant: poc
 
 sweagle_core_port: 8081
@@ -46,7 +47,7 @@ sweagle_mysql_user: "mdm_user"
 sweagle_mysql_password: "sweagle3.MDM"
 ## This is to change mysql root password value (TO DO for first installation)
 ## Set this value to false if playbook has already run or if you don't need to reasssign the value
-sweagle_mysql_password_update: true  
+sweagle_mysql_password_update: true
 
 sweagle_vault_port: 8200
 # Set this value to false if vault has alreayd been initialized

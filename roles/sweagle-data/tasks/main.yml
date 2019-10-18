@@ -61,12 +61,19 @@
   tags: [ sweagle, sweagle-data ]
 
 - name: Copy local content of SWEAGLE repositories
-  synchronize:
-    src: "../../../files/sweagle/sweagleExpert/"
-    dest: "{{ sweagle_installation_folder }}/scripts/"
-    recursive: yes
-  when: force_local_installation
   tags: [ sweagle, sweagle-data ]
+  when: force_local_installation
+  block:
+    - name: Try with synchronize
+      synchronize:
+        src: "../../../files/sweagle/sweagleExpert/"
+        dest: "{{ sweagle_installation_folder }}/scripts/"
+        recursive: yes
+  rescue:
+    - name: Synchronize failed, copy instead (please wait for slower process to finish)
+      copy:
+        src: "../../../files/sweagle/sweagleExpert/"
+        dest: "{{ sweagle_installation_folder }}/scripts/"
 
 - name: Copy load initial data script
   copy:

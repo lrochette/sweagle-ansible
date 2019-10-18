@@ -45,7 +45,7 @@ Components available are:
 - MongoDB
 - MySQL
 - Nginx
-- SWEAGLE
+- SWEAGLE (all prerequisites components should be present)
 - SWEAGLE-data (load initial data on existing tenant)
 - SWEAGLE-web (only install the webserver tier - Nginx must be there !)
 - System (install prerequisites libs like unzip, or jq)
@@ -56,7 +56,7 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 
 
 ## TESTED ON
-- Ansible 2.4.2 and 2.5.1
+- Ansible 2.4.2, 2.5.1, and 2.8.5
 - Ubuntu 18.04
 - CentOS 7.6.1810
 - Sweagle 2.1.9, 3.1.0, 3.5.0
