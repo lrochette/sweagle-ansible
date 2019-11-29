@@ -28,7 +28,7 @@
   become: true
   become_user: root
   with_fileglob:
-    - "../../../files/nginx/*nginx*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
+    - "../../../files/{{ ansible_os_family }}/nginx/*nginx*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
   when: force_local_installation
   tags: nginx
 

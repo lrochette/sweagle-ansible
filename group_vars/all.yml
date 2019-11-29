@@ -3,14 +3,16 @@
 
 # Variable to force local installation
 force_local_installation: true
+# Root folder that will be used for sweagle, elasticsearch, jdk, mongo data and log, and vault installation
+root_installation_folder: "/opt"
 
 # Variable to set if RHEL SELinux is enabled
 # check if we cannot detect this automatically from a system variable ?
 system_sel_enabled: false
 
 # Shared SWEAGLE variables
-sweagle_version: "3.6.0"
-sweagle_installation_folder: /opt/sweagle
+sweagle_version: "3.8.0"
+sweagle_installation_folder: "{{ root_installation_folder }}/sweagle"
 sweagle_create_services: true
 # If you don't feed license here, ansible will ask it during installation process
 sweagle_license_key: ""
@@ -29,7 +31,10 @@ sweagle_taskrunner_xmx: "256m"   # Default is 1000m
 sweagle_scriptexecutor_port: 8083
 sweagle_scriptexecutor_xmx: "256m"   # Default is 2000m
 
-sweagle_elasticsearch_transport_port: 9300
+sweagle_ml_port: 8084
+sweagle_ml_xmx: "256m"   # Default is 2000m
+
+sweagle_elasticsearch_port: 9200
 sweagle_elasticsearch_host: "{{ groups['indexservers'][0] }}"
 sweagle_elasticsearch_cluster: "SWEAGLE_cluster"
 
@@ -51,7 +56,7 @@ sweagle_mysql_password_update: true
 
 sweagle_vault_port: 8200
 # Set this value to false if vault has alreayd been initialized
-#sweagle_vault_auto_unseal: true
+sweagle_vault_auto_unseal: true
 # Vault token is obtained after init
 sweagle_vault_token: ""
 
@@ -59,4 +64,4 @@ sweagle_vault_token: ""
 sweagle_web_root_dir: "/usr/share/nginx/sweagle"
 #sweagle_web_ssl: false         # If enabled, don't forget to change sweagle_web_port to 443
 sweagle_web_port: 80
-sweagle_web_log_dir: "/opt/nginx/log"
+sweagle_web_log_dir: "{{ root_installation_folder }}/nginx/log"

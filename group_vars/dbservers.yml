@@ -30,8 +30,8 @@ mongodb_net_bindip: "127.0.0.1,{% for host in groups['mongodb'] %}{{ hostvars[ho
 mongodb_net_port: "{{ sweagle_mongo_port }}"
 mongodb_security_authorization: "disabled"
 
-mongodb_storage_dbpath: "/opt/mongodb/data"
-mongodb_systemlog_path: "/opt/mongodb/log/{{ mongodb_daemon_name }}.log"   # Log file to send write to instead of stdout
+mongodb_storage_dbpath: "{{ root_installation_folder }}/mongodb/data"
+mongodb_systemlog_path: "{{ root_installation_folder }}/mongodb/log/{{ mongodb_daemon_name }}.log"   # Log file to send write to instead of stdout
 
 mongodb_user_admin_name: sweagle
 mongodb_user_admin_password: sweagle

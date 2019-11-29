@@ -59,7 +59,7 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 - Ansible 2.4.2, 2.5.1, and 2.8.5
 - Ubuntu 18.04
 - CentOS 7.6.1810
-- Sweagle 2.1.9, 3.1.0, 3.5.0
+- Sweagle 2.1.9, 3.1.0, 3.5.0, 3.8.0
 
 
 ## TROUBLESHOOT

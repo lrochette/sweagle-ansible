@@ -21,6 +21,6 @@
   tags: [ sweagle, sweagle-taskrunner ]
 
 - name: Wait for taskrunner to startup
-  wait_for: host="{{ inventory_hostname }}" port={{ sweagle_taskrunner_port }} delay=15 connect_timeout=5 timeout=60
+  wait_for: host="{{ inventory_hostname }}" port={{ sweagle_taskrunner_port }} delay=15 connect_timeout=5 timeout=120
   when: sweagle_create_services
   tags: [ sweagle, sweagle-taskrunner ]

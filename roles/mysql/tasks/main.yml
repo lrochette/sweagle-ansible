@@ -46,7 +46,7 @@
     - name: Install MySQL prerequisites packages for Debian
       apt:
         deb: "{{ item }}"
-      with_items: "{{ lookup('fileglob', '../../../files/mysql/prereqs/*.deb').split(',') | sort }}"
+      with_items: "{{ lookup('fileglob', '../../../files/Debian/mysql/prereqs/*.deb').split(',') | sort }}"
       become: true
       become_user: root
       # Ignore errors for this task as missing some prerequisites may not be blocking
@@ -56,7 +56,7 @@
     - name: Install MySQL packages for Debian
       apt:
         deb: "{{ item }}"
-      with_items: "{{ lookup('fileglob', '../../../files/mysql/*.deb').split(',') | sort }}"
+      with_items: "{{ lookup('fileglob', '../../../files/Debian/mysql/*.deb').split(',') | sort }}"
       become: true
       become_user: root
       when: ansible_os_family == "Debian"
@@ -65,7 +65,7 @@
       package:
         name: "{{ item }}"
         state: present
-      with_items: "{{ lookup('fileglob', '../../../files/mysql/prereqs/*.rpm').split(',') | sort }}"
+      with_items: "{{ lookup('fileglob', '../../../files/RedHat/mysql/prereqs/*.rpm').split(',') | sort }}"
       become: true
       become_user: root
       # Ignore errors for this task as missing some prerequisites may not be blocking
@@ -76,7 +76,7 @@
       package:
         name: "{{ item }}"
         state: present
-      with_items: "{{ lookup('fileglob', '../../../files/mysql/*.rpm').split(',') | sort }}"
+      with_items: "{{ lookup('fileglob', '../../../files/RedHat/mysql/*.rpm').split(',') | sort }}"
       become: true
       become_user: root
       when: ansible_os_family == "RedHat"

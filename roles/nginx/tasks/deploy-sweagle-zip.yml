@@ -13,7 +13,7 @@
     update_cache: yes
   become: true
   with_fileglob:
-    - "../../../files/*unzip*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
+    - "../../../files/{{ ansible_os_family }}/*unzip*.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}"
   when: force_local_installation
   tags: [ nginx, sweagle, sweagle-web ]
 

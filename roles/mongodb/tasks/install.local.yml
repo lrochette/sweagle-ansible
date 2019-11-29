@@ -10,8 +10,8 @@
     name: "{{ item }}"
     state: present
   become: true
-  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mongodb/prereqs/*.deb').split(',') | sort }}
-    {% else %}{{ lookup('fileglob', '../../../files/mongodb/prereqs/*.rpm').split(',') | sort }}{% endif %}"
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/Debian/mongodb/prereqs/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/RedHat/mongodb/prereqs/*.rpm').split(',') | sort }}{% endif %}"
   when: force_local_installation
   # Ignore errors for this task as missing some prerequisites may not be blocking
   ignore_errors: true
@@ -22,7 +22,7 @@
     name: "{{ item }}"
     state: present
   become: true
-  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/mongodb/*.deb').split(',') | sort }}
-    {% else %}{{ lookup('fileglob', '../../../files/mongodb/*.rpm').split(',') | sort }}{% endif %}"
+  with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/Debian/mongodb/*.deb').split(',') | sort }}
+    {% else %}{{ lookup('fileglob', '../../../files/RedHat/mongodb/*.rpm').split(',') | sort }}{% endif %}"
   when: force_local_installation
   tags: mongodb

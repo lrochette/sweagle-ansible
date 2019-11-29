@@ -41,13 +41,15 @@ sweagle:
     from: no-reply@sweagle.expert
 
 elasticsearch:
-  enabledAtStartup: true #in case elastic is not running, switch to false to start without reporting
-  cluster-name: "{{ sweagle_elasticsearch_cluster }}"
-  url: "{{ sweagle_elasticsearch_host }}"
-  port: "{{ sweagle_elasticsearch_port }}"
+  disabled: false
+  lazyInitialize: true
+  url:
+    host: "{{ groups['indexservers'][0] }}"
+    port: "{{ sweagle_elasticsearch_port }}"
+    scheme: http
 
 vault:
-  servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma separated list for other vault servers
+  servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list for other vault servers
   token: "{{ sweagle_vault_token }}"
   scheme: http
   enabled: true
@@ -61,7 +63,7 @@ executor:
   replace-url: api/v1/script-executor/replace
 
 cache:
- members: {% for host in groups['appservers'] %}{{ host }}:5701{% if not loop.last %},{% endif %}{% endfor %} #comma separated list of the other cache members
+ members: {% for host in groups['appservers'] %}{{ host }}:5701{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list of the other cache members
  port: 5701 #optional
  portCount: 100 #optional
 

@@ -48,7 +48,7 @@
 - name: install screen, jq and telnet on Debian from local
   apt:
     deb: "{{ item }}"
-  with_items: "{{ lookup('fileglob', '../../../files/*_amd64.deb').split(',') | sort }}"
+  with_items: "{{ lookup('fileglob', '../../../files/Debian/*_amd64.deb').split(',') | sort }}"
   become: true
   when: ansible_os_family == 'Debian' and force_local_installation
   tags: system
@@ -59,7 +59,7 @@
   package:
     pkg: "{{ item }}"
     state: present
-  with_items: "{{ lookup('fileglob', '../../../files/*.rpm').split(',') | sort }}"
+  with_items: "{{ lookup('fileglob', '../../../files/RedHat/*.rpm').split(',') | sort }}"
   become: true
   when: ansible_os_family == 'RedHat' and force_local_installation
   tags: system

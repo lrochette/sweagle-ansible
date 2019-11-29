@@ -1,0 +1,26 @@
+---
+- name: Configure ml application.yml
+  template:
+    src: "{{ sweagle_version }}/ml-application.yml.j2"
+    dest: "{{ sweagle_installation_folder }}/bin/ml/application.yml"
+  tags: [ sweagle, sweagle-ml ]
+
+- name: Create service scriptexecutor
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleML {{ sweagle_installation_folder }}/bin/scriptExecutor script-ml-{{ sweagle_version }}.jar {{ sweagle_ml_xmx }}"
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-ml ]
+
+- name: Enable and start ml service
+  service:
+    name: "sweagleML"
+    state: started
+    enabled: yes
+  become: true
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-ml ]
+
+- name: Wait for ml to startup
+  wait_for: host="{{ inventory_hostname }}" port={{ sweagle_ml_port }} delay=15 connect_timeout=5 timeout=120
+  when: sweagle_create_services
+  tags: [ sweagle, sweagle-ml ]
