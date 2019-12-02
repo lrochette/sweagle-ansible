@@ -28,6 +28,7 @@ more /etc/ansible/ansible.cfg
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
+
 (be aware that checks will fail on tasks requiring update to occur)
 
 ## For full installation (including prerequisites)
@@ -39,6 +40,7 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml--tags swe
 
 ## To install only a specific component or prerequisite
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
+
 Components available are:
 - Elasticsearch
 - Jdk
@@ -52,6 +54,7 @@ Components available are:
 - Vault
 
 Tags must be put in lowercase, example to do only MySQL:
+
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
 
 
@@ -76,5 +79,7 @@ ex: on MongoDB, when another release is installed, remove it before
   - add tasks to remove other release
   - currently, plays failed and you should remove manually
   - reproduced on centos 7.x where default mongo is 2.6
+
+- For Vault, read keys* file to add auto-unseal even if install fails after vault init
 
 - Add support for SSL
