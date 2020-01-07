@@ -1,5 +1,5 @@
 ---
-jdk_install_dir: "/opt/jdk"
+jdk_install_dir: "/{ root_installation_folder }}/jdk"
 
 vault_version: "0.7.2"
 # WARNING: SWEAGLE not compatible with latest vault 1.1.2

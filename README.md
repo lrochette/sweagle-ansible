@@ -20,11 +20,16 @@ more /etc/ansible/ansible.cfg
 - Copy your SWEAGLE full package zip file to
   - /roles/sweagle/files
   - /files/sweagle when force_local_installation is set to true
-- update /inventories/all-in-one/group_vars/all.yml with:
-  - your root password for ansible become to work
-  - your SWEAGLE license in parameter sweagle_license_key for silent install
+
+- Update your inventories files with your root password for Ansible become to work
+  - this is in /inventories/all-in-one/all.yml for full installation on one host
+  - this is in /inventories/multi-hosts/hosts.yml for installation on multiple hosts
+
+- Update playbook properties with your desired settings (for custom installation path, ports to use, etc) in
+  - /group_vars/all.yml
+  - you can put here your SWEAGLE license in parameter sweagle_license_key for silent install
 (if you don't put your license, then playbook will ask for it when installing SWEAGLE component)
-- if you set force_local_installation to true, be sure to put all required packages files in /files folder (see ./files/README.txt for details)
+- if you set force_local_installation to true, be sure to put all required packages files in /files folder (see ./files/README.md for details)
 
 ## Test with
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
@@ -36,7 +41,7 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml
 
 ## For SWEAGLE installation (prerequisites already installed)
 - check before that prerequisites are well installed, then:
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sweagle
 
 ## To install only a specific component or prerequisite
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
@@ -53,7 +58,7 @@ Components available are:
 - System (install prerequisites libs like unzip, or jq)
 - Vault
 
-Tags must be put in lowercase, example to do only MySQL:
+Tags must be put in lowercase, example to install only MySQL:
 
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
 
@@ -83,3 +88,5 @@ ex: on MongoDB, when another release is installed, remove it before
 - For Vault, read keys* file to add auto-unseal even if install fails after vault init
 
 - Add support for SSL
+
+- Manage also only upgrade of SWEAGLE
