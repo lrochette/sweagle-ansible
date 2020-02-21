@@ -80,4 +80,22 @@ server {
                 proxy_set_header Host $host;
                 proxy_cache_bypass $http_upgrade;
         }
+
+        location /cli/ {
+                alias /usr/share/nginx/downloads/cli;
+                default_type application/octet-stream;
+                location = /cli/macos {
+                    add_header Content-Disposition 'attachment; filename="sweagle"';
+                    try_files /sweagle-macos = 404;
+                }
+                location = /cli/linux {
+                    add_header Content-Disposition 'attachment; filename="sweagle"';
+                    try_files /sweagle-linux = 404;
+                }
+                location = /cli/windows {
+                    add_header Content-Disposition 'attachment; filename="sweagle.exe"';
+                    try_files /sweagle-win.exe = 404;
+                }
+        }
+
 }
