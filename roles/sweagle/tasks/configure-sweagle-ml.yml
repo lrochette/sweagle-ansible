@@ -5,8 +5,8 @@
     dest: "{{ sweagle_installation_folder }}/bin/ml/application.yml"
   tags: [ sweagle, sweagle-ml ]
 
-- name: Create service scriptexecutor
-  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleML {{ sweagle_installation_folder }}/bin/scriptExecutor script-ml-{{ sweagle_version }}.jar {{ sweagle_ml_xmx }}"
+- name: Create service ml
+  shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleML {{ sweagle_installation_folder }}/bin/ml script-ml-{{ sweagle_version }}.jar {{ sweagle_ml_xmx }}"
   become: true
   when: sweagle_create_services
   tags: [ sweagle, sweagle-ml ]
