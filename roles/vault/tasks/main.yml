@@ -82,10 +82,12 @@
   become: true
   tags: [ vault, sweagle, sweagle-vault ]
 
-- name: Copy vault service to server
+# Doesn't erase if exists, because it may contain unseal post script
+- name: Copy vault service to server (only if it doesn't exists)
   template:
     src: vault.service.j2
     dest: "/usr/lib/systemd/system/vault.service"
+    force: no
   become: true
   tags: [ vault, sweagle, sweagle-vault ]
 

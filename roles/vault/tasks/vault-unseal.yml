@@ -31,6 +31,7 @@
   service:
     state: restarted
     name: vault
+    daemon_reload: yes
   become: true
   when: vault_auto_unseal
   tags: [ vault, sweagle, sweagle-vault ]
