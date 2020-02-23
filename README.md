@@ -2,7 +2,7 @@
 
 This is Ansible playbook to install SWEAGLE on-premise.
 It supports :
--	Installation with or without prerequisites
+-	Installation only SWEAGLE or SWEAGLE with prerequisites
 -	Independent installation of each component or full install
 -	Idem potent, in case of error, correct, then restart script
 -	Initialisation of Vault with automatic capture of init token in SWEAGLE config and automatic unseal
@@ -10,6 +10,7 @@ It supports :
 - All in one server installation or multi-servers splitted by component
 - Installation from local package (when no access to Internet from hosts)
   - with full scope for Red Hat family, and limited scope for Debian
+- SSL configuration for Nginx
 
 ## Prerequisites:
 - Ansible 2.4 or higher + package sshpass
@@ -20,6 +21,13 @@ more /etc/ansible/ansible.cfg
 - Copy your SWEAGLE full package zip file to
   - /roles/sweagle/files
   - /files/sweagle when force_local_installation is set to true
+
+- For SSL, copy your certificate and private key files in  /files/sweagle
+  - to generate a self-signed certificate, use:
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./files/sweagle/sweagle.key -out ./files/sweagle/sweagle.pem
+
+- when local installation, put all components and prerequisites files in /files
+(see /files/README.md for details)
 
 - Update your inventories files with your root password for Ansible become to work
   - this is in /inventories/all-in-one/all.yml for full installation on one host
@@ -66,8 +74,8 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 ## TESTED ON
 - Ansible 2.4.2, 2.5.1, and 2.8.5
 - Ubuntu 18.04
-- CentOS 7.6.1810
-- Sweagle 2.1.9, 3.1.0, 3.5.0, 3.8.0
+- CentOS 7.6.1810, 7.7
+- Sweagle 2.1.9, 3.1.0, 3.5.0, 3.8.0, 3.10.0
 
 
 ## TROUBLESHOOT
@@ -87,6 +95,4 @@ ex: on MongoDB, when another release is installed, remove it before
 
 - For Vault, read keys* file to add auto-unseal even if install fails after vault init
 
-- Add support for SSL
-
-- Manage also only upgrade of SWEAGLE
+- Manage also  upgrade of SWEAGLE

@@ -11,7 +11,7 @@ root_installation_folder: "/opt"
 system_sel_enabled: false
 
 # Shared SWEAGLE variables
-sweagle_version: "3.8.0"
+sweagle_version: "3.10.0"
 sweagle_installation_folder: "{{ root_installation_folder }}/sweagle"
 sweagle_create_services: true
 # If you don't feed license here, ansible will ask it during installation process
@@ -32,7 +32,7 @@ sweagle_scriptexecutor_port: 8083
 sweagle_scriptexecutor_xmx: "2000m"   # Default is 2000m
 
 sweagle_ml_port: 8084
-sweagle_ml_xmx: "1000m"   # Default is 2000m
+sweagle_ml_xmx: "2000m"   # Default is 2000m
 
 sweagle_elasticsearch_port: 9200
 sweagle_elasticsearch_host: "{{ groups['indexservers'][0] }}"
@@ -62,6 +62,6 @@ sweagle_vault_token: ""
 
 ## WEB settings
 sweagle_web_root_dir: "/usr/share/nginx/sweagle"
-#sweagle_web_ssl: false         # If enabled, don't forget to change sweagle_web_port to 443
-sweagle_web_port: 80
+sweagle_web_ssl: true         # If enabled, don't forget to change sweagle_web_port to 443, and put your key files in nginx files directory
+sweagle_web_port: 443
 sweagle_web_log_dir: "{{ root_installation_folder }}/nginx/log"

@@ -29,6 +29,22 @@
   become: true
   tags: [ nginx, sweagle, sweagle-web ]
 
+- name: Copy SSL certificate
+  copy:
+    src: "../../../files/sweagle/sweagle.pem"
+    dest: "{{ nginx_ssl_dir }}/sweagle.pem"
+  become: true
+  when: sweagle_web_ssl
+  tags: [ nginx, sweagle, sweagle-web ]
+
+- name: Copy SSL certificate key
+  copy:
+    src: "../../../files/sweagle/sweagle.key"
+    dest: "{{ nginx_ssl_dir }}/sweagle.key"
+  become: true
+  when: sweagle_web_ssl
+  tags: [ nginx, sweagle, sweagle-web ]
+
 - name: Deploy SWEAGLE Nginx conf
   template:
     src: "sweagle-nginx.conf.j2"

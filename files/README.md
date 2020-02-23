@@ -41,8 +41,10 @@ Create a folder for these components to put their packages
       - nginx-1.14.2-1.el7_4.ngx.x86_64
 
 - sweagle: you should have
-      /full_{{YOUR VERSION}}.zip
-      /upgrade_{{YOUR VERSION}}.zip (if you just want to upgrade an existing installation)
+      /full-{{YOUR VERSION}}.zip
+      /upgrade-{{YOUR VERSION}}.zip (if you just want to upgrade an existing installation)
+      /sweagle.key (to enable SSL, this is your private key file)
+      /sweagle.pem (to enable SSL, this is your public certificate key)
       /sweagleExpert/exporters with cloning of https://github.com/sweagleExpert/exporters.git
       /sweagleExpert/mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
       /sweagleExpert/nodetypes with cloning of https://github.com/sweagleExpert/nodetypes.git
