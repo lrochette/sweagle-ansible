@@ -1,7 +1,7 @@
 ---
 jdk_install_dir: "{{ root_installation_folder }}/jdk"
 
-es_version: "6.6.2"
+es_version: "6.8.6"
 es_data_dirs:
   - "{{ root_installation_folder }}/elasticsearch/data"
 es_log_dir: "{{ root_installation_folder }}/elasticsearch/log"
@@ -15,4 +15,4 @@ es_api_port: 9200
 # Don't use repository installation if forced to local installation
 #es_use_repository: "{{ 'false' if (force_local_installation) else 'true' }}"
 es_use_repository: "{{ not force_local_installation }}"
-es_custom_package_url: "{% if force_local_installation %}../../../files/{{ ansible_os_family}}/elasticsearch/elasticsearch-6.6.1.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}{% endif %}"
+es_custom_package_url: "{% if force_local_installation %}../../../files/{{ ansible_os_family}}/elasticsearch/elasticsearch-{{ es_version }}.{{ 'deb' if (ansible_os_family == 'Debian') else 'rpm' }}{% endif %}"

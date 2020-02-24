@@ -3,6 +3,8 @@ Put here all packages files if you want to use force_local_install = true
 Create a folder for these components to put their packages
 
 - jdk: you should have jdk package in gz format
+  - since 3.10, script executor will rely on GraalVM jdk (jdk1.8 v19.2 or higher)
+  - other components still rely on JDK 1.8 (for openJDK taken from https://adoptopenjdk.net/releases.html)
 
 - <OS family> = Debian
       - all Debian family (Ubuntu, ...) DEB packages
