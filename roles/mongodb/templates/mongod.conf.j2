@@ -2,7 +2,7 @@
 
 net:
   bindIp: {{ mongodb_net_bindip }}
-  {% if mongodb_major_version | version_compare("3.6", "<") -%}
+  {% if mongodb_major_version is version("3.6", "<") -%}
   http:
     enabled: {{ mongodb_net_http_enabled | to_nice_json }}
   {% endif -%}
@@ -71,7 +71,7 @@ operationProfiling:
   slowOpThresholdMs: {{ mongodb_operation_profiling_slow_op_threshold_ms }}
   mode: {{ mongodb_operation_profiling_mode }}
 
-{% if mongodb_major_version | version_compare("4.0", ">=") -%}
+{% if mongodb_major_version is version("4.0", ">=") -%}
 cloud:
   monitoring:
     free:

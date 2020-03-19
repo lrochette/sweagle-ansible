@@ -9,7 +9,7 @@
 
 - name: Add repository nginx-release (CentOS6/CentOS7)
   yum: name="http://nginx.org/packages/centos/{{ansible_distribution_major_version}}/noarch/RPMS/nginx-release-centos-{{ansible_distribution_major_version}}-0.el{{ansible_distribution_major_version}}.ngx.noarch.rpm"
-  when: nginx_repo|failed
+  when: nginx_repo is failed
   tags: nginx
 
 - name: Install nginx from repo

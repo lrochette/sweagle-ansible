@@ -32,7 +32,7 @@
 
 - name: Unzip package "full-{{ sweagle_version }}.zip"
   unarchive:
-    src: "full-{{ sweagle_version}}.zip"
+    src: "../../sweagle/files/full-{{ sweagle_version}}.zip"
     dest: /tmp
   when: not sweagleFile.stat.exists
   tags: [ nginx, sweagle, sweagle-web ]
