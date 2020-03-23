@@ -23,7 +23,7 @@
 
 ## For SWEAGLE installation (prerequisites already installed)
 ## (check before that prerequisites are well installed)
-# ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml--tags sweagle
+# ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sweagle
 
 ## To install only a specifif component or prerequisite
 # ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"

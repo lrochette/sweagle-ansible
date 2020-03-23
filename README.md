@@ -55,16 +55,16 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sw
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
 
 Components available are:
-- Elasticsearch
-- Jdk
-- MongoDB
-- MySQL
-- Nginx
-- SWEAGLE (all prerequisites components should be present)
-- SWEAGLE-data (load initial data on existing tenant)
-- SWEAGLE-web (only install the webserver tier - Nginx must be there !)
-- System (install prerequisites libs like unzip, or jq)
-- Vault
+- elasticsearch
+- jdk
+- mongodb
+- mysql
+- nginx
+- sweagle (all prerequisites components should be present)
+- sweagle-data (load initial data on existing tenant)
+- sweagle-web (only install the webserver tier - Nginx must be there !)
+- system (install prerequisites libs like unzip, or jq)
+- vault
 
 Tags must be put in lowercase, example to install only MySQL:
 
