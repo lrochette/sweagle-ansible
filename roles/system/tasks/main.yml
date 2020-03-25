@@ -1,4 +1,9 @@
 ---
+- name: Verify Ansible version requirements
+  assert:
+    that: "ansible_version.full is version_compare('2.4', '>=')"
+    msg: "You must update Ansible to at least v2.4 to use this playbook !"
+
 - name: disable firewall
   systemd:
     name: firewalld
