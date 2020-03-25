@@ -1,7 +1,7 @@
 ---
 mysql_daemon: mysqld
 
-mysql_repository: "https://dev.mysql.com/get/mysql57-community-release-el{{ ansible_distribution_major_version }}-9.noarch.rpm"
+mysql_repository: "https://dev.mysql.com/get/mysql57-community-release-el{{ ansible_distribution_major_version }}-12.noarch.rpm"
 mysql_packages: ['mysql-community-server', 'mysql-community-client', 'MySQL-python']
 
 mysql_config_dir: "/etc"
