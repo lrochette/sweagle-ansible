@@ -47,6 +47,9 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
 ## For full installation (including prerequisites)
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml
 
+- If localhost installation
+ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --connection local
+
 ## For SWEAGLE installation (prerequisites already installed)
 - check before that prerequisites are well installed, then:
 ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sweagle
