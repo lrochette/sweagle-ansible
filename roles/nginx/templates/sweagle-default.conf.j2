@@ -20,7 +20,7 @@ server {
         #listen [::]:{{ sweagle_web_port }} default_server;
 
         #should be uncommented when the certificate gets installed on the machine
-    {% if "sweagle_web_ssl" %}
+    {% if sweagle_web_ssl is defined and sweagle_web_ssl is sameas true %}
         ssl on;
         #this is public key file
         ssl_certificate /etc/ssl/sweagle.pem;
