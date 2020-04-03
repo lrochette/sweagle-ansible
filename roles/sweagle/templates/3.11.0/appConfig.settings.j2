@@ -1,0 +1,26 @@
+sweaglServer="{{ inventory_hostname }}"
+sweaglPortNbr="{{ sweagle_core_port }}"
+
+
+backupRoot="{{ sweagle_installation_folder }}/backup"
+backupFolder=$(date +'backup-'%F--%T)
+
+sweaglRootPath="{{ sweagle_installation_folder }}"
+
+sweaglCorePath="bin/core"
+sweaglCoreName="core-$sweaglVersion.jar"
+
+sweaglDataLoaderPath="bin/dataloader"
+sweaglDataLoaderName="DataLoader.jar"
+
+sweaglEdgePath="bin/edge"
+sweaglEdgeName="edgeservice-$sweaglVersion.jar"
+
+sweaglVaultPath="bin/vault"
+
+sweaglScriptsPath="/scripts"
+
+dbUserName="{{ sweagle_mysql_user }}"
+dbUserPassword="{{ sweagle_mysql_password }}"
+dbSchemaName="{{ sweagle_mysql_db }}"
+dbServerName="{{ sweagle_mysql_host }}"

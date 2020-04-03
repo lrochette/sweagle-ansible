@@ -1,0 +1,26 @@
+server:
+  port: "{{ sweagle_taskrunner_port }}"
+  use-forward-headers: true
+
+logging:
+  file: "{{ sweagle_installation_folder }}/logs/sweagle_task_runner.log"
+
+sweagle-auth:
+  oauth-url: "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/oauth/token"
+  token: c3dlYWdsZS1jbGllbnQ6c3dlYWdsZVNlY3JldA==
+  username: dl1_sweagle
+  password: test1234
+
+cron-strings:
+  item-count-calculator:         0  0  0 * * ? # At 00:00:00am every day
+  mdi-completion-calculator:      0  0  1 * * ? # At 01:00:00am every day
+  mdi-usage-calculator:           0 20  1 * * ? # At 01:20:00am every day
+  valid-mdi-usage-calculator:     0 0 23 * * ?  # At 23:00:00pm every day
+  mdi-daily-activity-calculator:  0 30 23 * * ? # At 23:30:00pm every day
+
+rest-url:
+  item-count-calculator: "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/api/v1/data/report/all/item-count"
+  mdi-completion-calculator: "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/api/v1/data/report/all/mdiNameCompletion"
+  mdi-usage-calculator: "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/api/v1/data/report/all/monthlyMDINameUsage"
+  valid-mdi-usage-calculator: "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/api/v1/data/report/cron/monthlyValidMDINames"
+  mdi-daily-activity-calculator:  "http://{{ inventory_hostname }}:{{ sweagle_core_port }}/api/v1/report/all/dailyMDIActivity"

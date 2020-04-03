@@ -78,7 +78,8 @@ ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags my
 - Ansible 2.4.2, 2.5.1, 2.8.5 and 2.9.6
 - Ubuntu 18.04
 - CentOS 7.6.1810, 7.7
-- Sweagle 2.1.9, 3.1.0, 3.5.0, 3.8.0, 3.9.0, 3.10.0
+- Sweagle 3.1.0, 3.5.0, 3.8.0, 3.9.0, 3.10.0, 3.11.0
+  - for 3.11.0 and higher, be sure to use GraalVM JDK for ScriptExecutor
 - ElasticSearch 6.6.2 (for SWEAGLE below 3.10), 6.8.6 (for SWEAGLE 3.10 and higher)
 
 
