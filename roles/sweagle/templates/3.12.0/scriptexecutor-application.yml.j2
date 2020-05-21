@@ -1,0 +1,11 @@
+server:
+  port: "{{ sweagle_scriptexecutor_port }}" #this is the scriptExecutor port
+
+logging:
+  file: "{{ sweagle_installation_folder }}/logs/sweagle_scriptExecutor.log"
+
+execution:
+  control:
+    max-cpu-time-seconds: 30
+    core-thread-pool-size: 1
+    max-thread-pool-size: 1
