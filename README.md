@@ -18,13 +18,11 @@ It supports :
 more /etc/ansible/ansible.cfg
 
 ## WARNING
-- Copy your SWEAGLE full package zip file to
-  - /roles/sweagle/files
-  - /files/sweagle when force_local_installation is set to true
+- Copy your SWEAGLE full package zip file to `/files/sweagle` when force_local_installation is set to true
 
 - For SSL, copy your certificate and private key files in  /files/sweagle
   - to generate a self-signed certificate, use:
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./files/sweagle/sweagle.key -out ./files/sweagle/sweagle.pem
+`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./files/sweagle/sweagle.key -out ./files/sweagle/sweagle.pem`
 
 - when local installation, put all components and prerequisites files in /files
 (see /files/README.md for details)
@@ -40,22 +38,22 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./files/sweagle
 - if you set force_local_installation to true, be sure to put all required packages files in /files folder (see ./files/README.md for details)
 
 ## Test with
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --check`
 
 (be aware that checks will fail on tasks requiring update to occur)
 
 ## For full installation (including prerequisites)
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml`
 
 - If localhost installation
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --connection local
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --connection local`
 
 ## For SWEAGLE installation (prerequisites already installed)
 - check before that prerequisites are well installed, then:
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sweagle
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags sweagle`
 
 ## To install only a specific component or prerequisite
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags "<COMPONENT>"
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags <COMPONENT>`
 
 Components available are:
 - elasticsearch
@@ -70,8 +68,7 @@ Components available are:
 - vault
 
 Tags must be put in lowercase, example to install only MySQL:
-
-ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql
+`ansible-playbook all-install.yml -i ./inventories/all-in-one/hosts.yml --tags mysql`
 
 
 ## TESTED ON
