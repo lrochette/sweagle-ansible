@@ -1,0 +1,146 @@
+environment:
+  name: localsweagle
+
+server:
+  port: "{{ sweagle_core_port }}" #this is the core port
+  tomcat: #this is for the HTTPS part
+    remote_ip_header: x-forwarded-for
+    protocol_header: x-forwarded-proto
+
+logging:
+  file: "{{ sweagle_installation_folder }}/logs/sweagle_core.log"
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://{{ sweagle_mysql_host }}:{{ sweagle_mysql_port }}/{{ sweagle_mysql_db }}?useSSL=false&serverTimezone=UTC"
+    username: "{{ sweagle_mysql_user }}"
+    password: "{{ sweagle_mysql_password}}"
+  data:
+    mongodb:
+      #host: {{ sweagle_mongo_host }}
+      #port: {{ sweagle_mongo_port }}
+      #database: {{ sweagle_mongo_db }}
+      #username: {{ sweagle_mongo_user }}
+      #password: {{ sweagle_mongo_password }}
+      #authentication-database: sweagle
+      uri: "mongodb://{{ sweagle_mongo_user }}:{{ sweagle_mongo_password }}@{{ sweagle_mongo_host }}:{{ sweagle_mongo_port }}/{{ sweagle_mongo_db }}?ssl=false&authSource={{ sweagle_mongo_db }}&retryWrites=true"
+  mail:
+    host: smtp-auth.mailprotect.be
+    username: no-reply@sweagle.expert
+    password: mailUserPassword
+    protocol: smtp
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+
+sweagle:
+  mail:
+    enabled: true
+    from: no-reply@sweagle.expert
+  ldap:
+    base: dc=example,dc=com
+    enabled: false
+    primaryURL: ldap://34.76.199.96:389
+    username: cn=admin,dc=example,dc=com
+    password: myPassw@rd!
+    mappingUsername: sn
+    mappingExternalId: uid
+    mappingPersonObject: person
+    mappingGroupObject: groupOfNames
+    mappingFullName: cn
+    mappingEmail: mail
+    domain: dc=example,dc=com
+    usersOU: ou=users
+    defaultTenantId: 23937135
+  saml:
+    enabled: false
+    serverURL: https://testing.sweagle.com
+    scheme: https
+    serverName: testing.sweagle.com
+    serverPort: 443
+    includeServerPortInRequestURL: false
+    contextPath: /
+    enableLoadBalancer: true
+    postLogoutURL: /
+    localEntityId: /api/saml/metadata
+    mappingFirstName: firstName
+    mappingLastName: lastName
+    mappingGroups: group
+    mappingExternalId: externalId
+    mappingEmail: email
+    metadataURL: http://package.sweagle.com/metadata2.xml
+    key-alias: spring
+    key-store: classpath:keystore.jks
+    key-store-password: secret
+    entityId: http://www.okta.com/exk9882pivMU2pVug4x6
+    successCallbackURL: /login?authenticationToken=
+    entityBaseURL: /api
+    defaultRoleId:
+    maxAuthenticationAge: 86400
+  oauth2:
+    enabled: false
+    connect-timeout: 60
+    read-timeout: 60
+    write-timeout: 60
+    logHttpRequest: true
+    request-scope: user.read
+    request-client-id: dd731573-224b-490a-a451-481b8d1bcc63
+    request-url-authorize: https://login.microsoftonline.com/5a47d63b-1b7e-4d2d-9333-750184dcbc99/oauth2/v2.0/token
+    request-url-user: https://graph.microsoft.com/v1.0/me
+    request-basic-authentication: ZGQ3MzE1NzMtMjI0Yi00OTBhLWE0NTEtNDgxYjhkMWJjYzYzOmQ5d3ZZbm53dTh1bnE4SncwNzZJTTV4a2ptdTg4VC8yRFdDckUrUGxNNm89
+    mapping-groups: scope
+    mapping-access-token: access_token
+    mapping-name: displayName
+    mapping-mail: mail
+    mapping-external-id: id
+
+cache:
+  members: {% for host in groups['appservers'] %}{{ host }}:5701{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list of the other cache members
+  port: 5701 #optional
+  portCount: 100 #optional
+
+elasticsearch:
+  disabled: false
+  lazyInitialize: true
+  url:
+    host: {{ groups['indexservers'][0] }}
+    port: {{ sweagle_elasticsearch_port }}
+    scheme: http
+
+executor:
+  enabled: true
+  protocol: http
+  servers: "{{ inventory_hostname }}:{{ sweagle_scriptexecutor_port }}"
+  test-server: "{{ inventory_hostname }}:{{ sweagle_scriptexecutor_port }}" #this is scriptExecutor URL for unpublished parser runs - can be an ipaddress
+  parse-url: api/v1/script-executor/parse
+  validate-url: api/v1/script-executor/validate
+  replace-url: api/v1/script-executor/replace
+
+fetcher:
+  protocol: http
+  server: localhost:8080
+  fetch-url: fetcher/fetch
+
+ml:
+  protocol: http
+  server: "{{ inventory_hostname }}:{{ sweagle_ml_port }}"
+  recognize:
+    enabled: true
+    url: api/v1/massquery?filter=true&costfunction=2
+  root-cause:
+    enabled: true
+    url: api/v1/rootcause?algorithm=fpgrowth
+
+vault:
+  servers: {% for host in groups['appservers'] %}{{ host }}:{{ sweagle_vault_port }}{% if not loop.last %},{% endif %}{% endfor %} #comma seperated list for other vault servers
+  token: "{{ sweagle_vault_token }}"
+  scheme: http
+  enabled: true
+
+license:
+  key: {{ sweagle_license_key }}

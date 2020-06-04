@@ -11,7 +11,7 @@ root_installation_folder: "/opt"
 system_sel_enabled: false
 
 # Shared SWEAGLE variables
-sweagle_version: "3.10.0"
+sweagle_version: "3.13.0"
 sweagle_installation_folder: "{{ root_installation_folder }}/sweagle"
 sweagle_create_services: true
 # If you don't feed license here, ansible will ask it during installation process

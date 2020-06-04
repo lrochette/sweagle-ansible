@@ -55,3 +55,7 @@ Create a folder for these components to put their packages
 
 - vault
       - vault_0.7.2_linux_386.zip
+
+(For 3.13 and upward)
+- mysql-jdbc: you should have
+      /mysql-connector-java-8.0.13.tar.gz downloaded from https://downloads.mysql.com/archives/c-j/

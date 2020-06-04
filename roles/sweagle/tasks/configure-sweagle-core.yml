@@ -39,10 +39,44 @@
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
   tags: [ sweagle, sweagle-core ]
 
-- name: Create service core
+- name: Create JDBC lib installation folder "{{ sweagle_installation_folder }}/bin/core/lib" (version>=3.13)
+  file:
+    path: "{{ sweagle_installation_folder }}/bin/core/lib"
+    state: directory
+    owner: "{{ sweagle_system_user }}"
+    group: "{{ sweagle_system_group }}"
+  when: sweagle_version is version_compare('3.13', '>=')
+  tags: [ sweagle, sweagle-core ]
+
+- name: Untar JDBC driver package (version>=3.13)
+  unarchive:
+    src: "{{ item }}"
+    dest: "{{ sweagle_installation_folder }}/bin/core/lib"
+    extra_opts: ['--strip-components=1']
+  with_items: "{{ lookup('fileglob', '../../../files/mysql-jdbc/mysql*.gz').split(',') | sort }}"
+  when: sweagle_version is version_compare('3.13', '>=')
+  tags: [ sweagle, sweagle-core ]
+
+- name: Copy script to create service core (version>=3.13)
+  copy:
+    src: "createService_v2.sh"
+    dest: "{{ sweagle_installation_folder }}/scripts/createService_v2.sh"
+    mode: a+x
+    group: "{{ sweagle_system_group }}"
+    owner: "{{ sweagle_system_user }}"
+  when: sweagle_create_services and sweagle_version is version_compare('3.13', '>=')
+  tags: [ sweagle, sweagle-core ]
+
+- name: Create service core (version>=3.13)
+  shell: "{{ sweagle_installation_folder }}/scripts/createService_v2.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar {{ jdk_install_dir }}/bin/java {{ sweagle_core_xmx }}"
+  become: true
+  when: sweagle_create_services and sweagle_version is version_compare('3.13', '>=')
+  tags: [ sweagle, sweagle-core ]
+
+- name: Create service core (version<3.13)
   shell: "{{ sweagle_installation_folder }}/scripts/createService.sh sweagleCore {{ sweagle_installation_folder }}/bin/core core-{{ sweagle_version }}.jar {{ sweagle_core_xmx }}"
   become: true
-  when: sweagle_create_services
+  when: sweagle_create_services and sweagle_version is version_compare('3.13', '<')
   tags: [ sweagle, sweagle-core ]
 
 - name: Enable and start core service
