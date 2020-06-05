@@ -56,11 +56,11 @@ function writeServiceFile() {
 	if [ "$serviceName" == "sweagleCore" ]; then
 			echo "Adding mysql-connector"
 			echo
-			if [ ! -f "$pathToComponent/lib/mysql-connector-java"* ]; then
+			if [ ! -f "$pathToComponent/libs/mysql-connector-java"* ]; then
 					echo "Mysql connector not found"
 			else
 					echo "Mysql connector found. Continue.."
-					lib=$(ls -t "$pathToComponent/lib/mysql"* | head -1)
+					lib=$(ls -t "$pathToComponent/libs/mysql"* | head -1)
 					locArg="$locArg -Dloader.path=$lib"
 					echo "New args: $locArg"
 			fi

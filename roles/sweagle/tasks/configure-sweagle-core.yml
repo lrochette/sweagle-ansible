@@ -39,9 +39,9 @@
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
   tags: [ sweagle, sweagle-core ]
 
-- name: Create JDBC lib installation folder "{{ sweagle_installation_folder }}/bin/core/lib" (version>=3.13)
+- name: Create JDBC lib installation folder "{{ sweagle_installation_folder }}/bin/core/libs" (version>=3.13)
   file:
-    path: "{{ sweagle_installation_folder }}/bin/core/lib"
+    path: "{{ sweagle_installation_folder }}/bin/core/libs"
     state: directory
     owner: "{{ sweagle_system_user }}"
     group: "{{ sweagle_system_group }}"
@@ -51,7 +51,7 @@
 - name: Untar JDBC driver package (version>=3.13)
   unarchive:
     src: "{{ item }}"
-    dest: "{{ sweagle_installation_folder }}/bin/core/lib"
+    dest: "{{ sweagle_installation_folder }}/bin/core/libs"
     extra_opts: ['--strip-components=1']
   with_items: "{{ lookup('fileglob', '../../../files/mysql-jdbc/mysql*.gz').split(',') | sort }}"
   when: sweagle_version is version_compare('3.13', '>=')
