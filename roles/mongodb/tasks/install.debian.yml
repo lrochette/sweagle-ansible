@@ -113,5 +113,7 @@
     name: pymongo
     state: "{{ mongodb_pymongo_pip_version is defined | ternary('present', 'latest') }}"
     version: "{{ mongodb_pymongo_pip_version | default(omit) }}"
-  when: mongodb_pymongo_from_pip | bool
+  when:
+    - not "{{ ansible_check_mode }}"
+    - mongodb_pymongo_from_pip | bool
   tags: mongodb
