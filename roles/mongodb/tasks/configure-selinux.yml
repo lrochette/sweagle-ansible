@@ -7,7 +7,9 @@
     name: policycoreutils-python
     state: present
   become: true
-  when: not force_local_installation
+  when:
+    - not "{{ ansible_check_mode }}"
+    - not force_local_installation
   tags: mongodb
 
 - name: Install policycoreutils-python package from local
