@@ -50,7 +50,7 @@
     - vault
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
-  ignore_errors: "{{ ansible_check_mode }}"
+  when: not "{{ ansible_check_mode }}"
 
 - name: Flush privileges
   shell: >
@@ -58,5 +58,5 @@
     --execute="FLUSH PRIVILEGES;"
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
-  ignore_errors: "{{ ansible_check_mode }}"
+  when: not "{{ ansible_check_mode }}"
 #    mysql --host={{ mysql_bind_address }} --user={{ mysql_root_user }} --password={{ mysql_root_password }}
