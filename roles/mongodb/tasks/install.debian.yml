@@ -79,10 +79,13 @@
   notify:
     - reload systemd
   tags: mongodb
+  register: mongodb_service
 
 - name: Add symlink for systemd
   file: src=/lib/systemd/system/mongodb.service dest=/etc/systemd/system/multi-user.target.wants/mongodb.service state=link
-  when: ansible_service_mgr == "systemd"
+  when:
+    - mongodb_service.stat.exists == true
+    - ansible_service_mgr == "systemd"
   become: true
   notify:
     - reload systemd
