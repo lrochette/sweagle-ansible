@@ -19,7 +19,7 @@
     - vault
   become: true
   tags: [mysql, sweagle, sweagle-mysql]
-  ignore_errors: "{{ ansible_check_mode }}"
+  when: not "{{ ansible_check_mode }}"
 
 #- name: Grant all privileges on SWEAGLE MySQL schemas to "{{ sweagle_mysql_user }}" for Red Hat
 #  shell: >

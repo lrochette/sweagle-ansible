@@ -96,7 +96,7 @@
   changed_when: false
   check_mode: false
   tags: mysql
-  ignore_errors: "{{ ansible_check_mode }}"
+  when: not "{{ ansible_check_mode }}"
 
 - name: Include MySQL configuration.yml
   include_tasks: configure.yml
