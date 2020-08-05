@@ -17,7 +17,6 @@
   register: user_output
   ignore_errors: true
   tags: [ mongodb, sweagle, sweagle-mongodb ]
-  when: not "{{ ansible_check_mode }}"
 
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getSiblingDB("{{ item }}")'
