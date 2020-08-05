@@ -10,13 +10,13 @@
     prompt: "Please paste your vault token"
     echo: true
   register: result
-  when: sweagle_vault_token is undefined or sweagle_vault_token == ""
+  when: not ansible_check_mode and ( sweagle_vault_token is undefined or sweagle_vault_token == "" )
   tags: [ sweagle, sweagle-core ]
 
 - name: Set vault token
   set_fact:
     sweagle_vault_token: "{{ result.user_input }}"
-  when: not ansible_check_mode and (sweagle_vault_token is undefined or sweagle_vault_token == "")
+  when: not ansible_check_mode and ( sweagle_vault_token is undefined or sweagle_vault_token == "" )
   tags: [ sweagle, sweagle-core ]
 
 - name: Get user input - License key
