@@ -44,7 +44,7 @@
     and not ansible_check_mode
   tags: mysql
   args:
-      creates: /var/lib/mysql/root_pwd.txt
+      creates: /var/lib/mysql/root_pwd.flag
 
 
 # Set root password for MySQL < 5.7.x.
