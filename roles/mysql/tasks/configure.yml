@@ -42,7 +42,7 @@
     and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
     and ansible_os_family == "Debian"
   tags: mysql
-  when: not "{{ ansible_check_mode }}"
+  when: not -ansible_check_mode
 
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
@@ -55,7 +55,7 @@
     and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
     and ansible_os_family == "Debian"
   tags: mysql
-  when: not "{{ ansible_check_mode }}"
+  when: not -ansible_check_mode
 
 - name: Find temporary root password for Red Hat
   shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"

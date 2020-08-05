@@ -83,7 +83,7 @@
 - name: Add symlink for systemd
   file: src=/lib/systemd/system/mongodb.service dest=/etc/systemd/system/multi-user.target.wants/mongodb.service state=link
   when:
-    - not "{{ ansible_check_mode }}"
+    - not -ansible_check_mode
     - ansible_service_mgr == "systemd"
   become: true
   notify:
@@ -114,6 +114,6 @@
     state: "{{ mongodb_pymongo_pip_version is defined | ternary('present', 'latest') }}"
     version: "{{ mongodb_pymongo_pip_version | default(omit) }}"
   when:
-    - not "{{ ansible_check_mode }}"
+    - not -ansible_check_mode
     - mongodb_pymongo_from_pip | bool
   tags: mongodb
