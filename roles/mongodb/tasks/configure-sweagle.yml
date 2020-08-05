@@ -22,7 +22,7 @@
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getSiblingDB("{{ item }}")'
   with_items:
-    - "{{ sweagle_mongo_db }}"
+    - not "{{ sweagle_mongo_db }}"
     - admin
   when:
     - user_output.rc != 0
