@@ -33,7 +33,7 @@
 # Set root password for MySQL >= 5.7.x.
 - name: Update MySQL root password for localhost root account (5.7.x).
   shell: >
-    mysql -u {{ mysql_root_user }} -NBe
+    mysql --socket {{ mysql_socket }} -u {{ mysql_root_user }} -NBe
     'ALTER USER "{{ mysql_root_user }}"@localhost
     IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
   become: true
