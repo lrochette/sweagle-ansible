@@ -114,7 +114,7 @@
 
 - name: Init made but no init token defined
   debug: msg="Vault has already been initialized, but no token provided. Please, enter token manually in SWEAGLE all.yml."
-  when: init_status.rc == 0
+  when: not "{{ ansible_check_mode }}" and init_status.rc == 0
     and (vault_token is undefined or vault_token == "")
   tags: [ vault, sweagle, sweagle-vault ]
 
