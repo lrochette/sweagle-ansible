@@ -25,8 +25,8 @@
     - not "{{ sweagle_mongo_db }}"
     - admin
   when:
-    - user_output.rc != 0
     - not "{{ ansible_check_mode }}"
+    - user_output.rc != 0
   tags: [ mongodb, sweagle, sweagle-mongodb ]
 
 #- name: Create MongoDB SWEAGLE user
