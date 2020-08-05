@@ -94,6 +94,7 @@
     recurse: yes
   tags: [ sweagle, sweagle-core, sweagle-ml, sweagle-scriptexecutor, sweagle-taskrunner ]
   when: not ansible_check_mode
+  become_user: "{{ sweagle_system_user }}"
 
 - name: Configure appConfig.settings
   template:
