@@ -56,6 +56,7 @@
 
 - name: Copy content to installation folder
   tags: [ sweagle, sweagle-core, sweagle-scriptexecutor, sweagle-taskrunner ]
+  when: not ansible_check_mode
   block:
     - name: Try with synchronize
       synchronize:
