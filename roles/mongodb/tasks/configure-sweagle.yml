@@ -21,7 +21,7 @@
 - name: Create MongoDB SWEAGLE Databases
   shell: mongo "{{ inventory_hostname }}:{{ mongodb_net_port }}/{{ sweagle_mongo_db }}" --eval 'db.getSiblingDB("{{ item }}")'
   with_items:
-    - not "{{ sweagle_mongo_db }}"
+    - "{{ sweagle_mongo_db }}"
     - admin
   when: not ansible_check_mode and user_output.rc != 0
   tags: [ mongodb, sweagle, sweagle-mongodb ]
