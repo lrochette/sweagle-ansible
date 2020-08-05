@@ -31,7 +31,7 @@
     dest: "{{ vault_install_dir }}"
     remote_src: True
   become: true
-  when: not force_local_installation
+  when: not "{{ ansible_check_mode }}" and not force_local_installation
   tags: vault
 
 - name: Download and install vault {{ vault_version }} from LOCAL
