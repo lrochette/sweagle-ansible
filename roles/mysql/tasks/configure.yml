@@ -43,6 +43,8 @@
     and ansible_os_family == "Debian"
     and not ansible_check_mode
   tags: mysql
+  args:
+      creates: /var/lib/mysql/root_pwd.txt
 
 
 # Set root password for MySQL < 5.7.x.

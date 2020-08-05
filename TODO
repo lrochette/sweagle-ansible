@@ -1,0 +1,4 @@
+it seems mysql does not allow connection for root on localhost on further runs
+of ansible
+  => not idempotent
+  Error: Access denied for user 'root'@'localhost' (using password: NO)
