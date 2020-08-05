@@ -57,6 +57,7 @@
 - name: Copy content to installation folder
   tags: [ sweagle, sweagle-core, sweagle-scriptexecutor, sweagle-taskrunner ]
   when: not ansible_check_mode
+  become: true
   block:
     - name: Try with synchronize
       synchronize:
@@ -100,7 +101,7 @@
     dest: "{{ sweagle_installation_folder }}/scripts/config/appConfig.settings"
   tags: [ sweagle, sweagle-core, sweagle-ml, sweagle-scriptexecutor, sweagle-taskrunner ]
   when: not ansible_check_mode
-  
+
 #- name: Configure ml
 #  include_tasks: configure-sweagle-ml.yml
 #  tags: [ sweagle, sweagle-ml ]
