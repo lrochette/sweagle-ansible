@@ -33,7 +33,8 @@
     link: /usr/bin/java
   when: ansible_os_family == 'RedHat' and java_full_path is defined
   tags: elasticsearch
-
+  become: yes
+  
 - name: Refresh java repo
   become: yes
   apt: update_cache=yes
