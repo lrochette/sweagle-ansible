@@ -25,4 +25,6 @@
   with_items: "{% if ansible_os_family == 'Debian' %}{{ lookup('fileglob', '../../../files/Debian/mongodb/*.deb').split(',') | sort }}
     {% else %}{{ lookup('fileglob', '../../../files/RedHat/mongodb/*.rpm').split(',') | sort }}{% endif %}"
   when: force_local_installation
+  # Ignore errors for this task as missing some prerequisites may not be blocking
+  ignore_errors: true
   tags: mongodb
