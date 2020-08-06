@@ -52,13 +52,13 @@
   tags: system
 
 - name: install jq on CentOs from repo
-#   tasks:
-#     - name: Add repository
-#       yum_repository:
-#         name: epel
-#         description: EPEL YUM repo
-#         baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-#         gpgcheck: yes
+  tasks:
+    - name: Add repository
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+        gpgcheck: yes
 #     - rpm_key:
 #         state: present
 #         key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
