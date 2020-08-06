@@ -13,7 +13,7 @@
   when: ansible_os_family == 'RedHat'
   tags: system
   ignore_errors: yes
-  
+
 - name: install screen, jq and telnet on Debian family from repo
   package:
     pkg: "{{ item }}"
@@ -33,10 +33,20 @@
   with_items:
     - screen
     - telnet
-    - epel-release
     - jq
   become: true
   when: ansible_os_family == 'RedHat' and not force_local_installation
+  tags: system
+
+- name: install epel-release on Red Hat family from repo
+  package:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+  become: true
+  when: ansible_os_family == 'RedHat' and not force_local_installation and
+    not ansible_distribution == "CentOS"
   tags: system
 
 ## Doesn't work for Debian on Ansible 2.5
