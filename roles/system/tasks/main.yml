@@ -51,14 +51,13 @@
     - ansible_distribution != "CentOS"
   tags: system
 
-#- name: install jq on CentOs from repo
-
-- tasks:
+- name: install jq on CentOs from repo
   become: true
   when:
     - ansible_distribution == "CentOS"
     - not force_local_installation
-  - name: Add repository
+  tasks:
+    - name: Add repository
       yum_repository:
         name: epel
         description: EPEL YUM repo
