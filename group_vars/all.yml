@@ -2,7 +2,7 @@
 # Variables shared among ALL HOSTS
 
 # Variable to force local installation
-force_local_installation: False
+force_local_installation: true
 # Root folder that will be used for sweagle, elasticsearch, jdk, mongo data and log, and vault installation
 root_installation_folder: "/opt"
 
