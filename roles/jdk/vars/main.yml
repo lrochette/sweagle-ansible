@@ -1,2 +1,5 @@
 ---
 jdk_install_dir: "/opt/jdk"
+
+# Variable to force local installation
+force_local_installation: true
