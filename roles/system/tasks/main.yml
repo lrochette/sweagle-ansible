@@ -45,13 +45,17 @@
     - jq
     - epel-release
   become: true
-  when: ansible_os_family == 'RedHat' and not force_local_installation and
-    not ansible_distribution == "CentOS"
+  when:
+    - ansible_os_family == 'RedHat'
+    - not force_local_installation
+    - ansible_distribution != "CentOS"
   tags: system
 
 - name: install jq on CentOs from repo
   become: true
-  when: ansible_distribution == "CentOS" and not force_local_installation
+  when:
+    - ansible_distribution == "CentOS"
+    - not force_local_installation
   tasks:
     - name: Add repository
       yum_repository:
@@ -59,12 +63,11 @@
         description: EPEL YUM repo
         baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
         gpgcheck: yes
-
     - rpm_key:
         state: present
         key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-
     - yum: name=jq
+
 ## Doesn't work for Debian on Ansible 2.5
 #- name: install screen, jq and telnet from local
 #  package:
