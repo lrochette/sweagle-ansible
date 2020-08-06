@@ -38,6 +38,7 @@
     src: "{{ sweagle_version }}/core-application.yml.j2"
     dest: "{{ sweagle_installation_folder }}/bin/core/application.yml"
   tags: [ sweagle, sweagle-core ]
+  become: true
 
 - name: Create JDBC lib installation folder "{{ sweagle_installation_folder }}/bin/core/libs" (version>=3.13)
   file:
