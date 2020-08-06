@@ -1,4 +1,7 @@
 ---
+# Variable to force local installation
+force_local_installation: true
+
 mysql_daemon: mysqld
 
 mysql_repository: "https://dev.mysql.com/get/mysql57-community-release-el{{ ansible_distribution_major_version }}-12.noarch.rpm"
