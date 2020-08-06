@@ -48,6 +48,7 @@
     group: "{{ sweagle_system_group }}"
   when: sweagle_version is version_compare('3.13', '>=')
   tags: [ sweagle, sweagle-core ]
+  become: true
 
 - name: Untar JDBC driver package (version>=3.13)
   unarchive:
