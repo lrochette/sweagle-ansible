@@ -12,7 +12,8 @@
   become: true
   when: ansible_os_family == 'RedHat'
   tags: system
-
+  ignore_errors: yes
+  
 - name: install screen, jq and telnet on Debian family from repo
   package:
     pkg: "{{ item }}"
