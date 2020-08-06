@@ -50,6 +50,7 @@
     name:
       - python-devel
       - python-pip
+    state: present
   become: true
   when: mongodb_pymongo_from_pip | bool
   tags: mongodb
