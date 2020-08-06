@@ -37,36 +37,45 @@
   when: ansible_os_family == 'RedHat' and not force_local_installation
   tags: system
 
+- name: install epel-release from fedoraproject
+  package:
+    pkg: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+    state: present
+    become: true
+  when:
+    - not force_local_installation
+    - ansible_distribution != "CentOS"
+  tags: system
+
 - name: install jq, epel-release on Red Hat family from repo
   package:
     pkg: "{{ item }}"
     state: present
   with_items:
-    - jq
     - epel-release
+    - jq
   become: true
   when:
     - ansible_os_family == 'RedHat'
     - not force_local_installation
-    - ansible_distribution != "CentOS"
   tags: system
 
-- name: install jq on CentOs from repo
-  become: yes
-  tasks:
-    - name: Add repository
-      yum_repository:
-        name: epel
-        description: EPEL YUM repo
-        baseurl: https://download.fedoraproject.org/pub/epel/7/x86_64/
-        gpgcheck: yes
-    - rpm_key:
-        state: present
-        key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-    - yum: name=jq
-  when:
-    - ansible_distribution == "CentOS"
-    - not force_local_installation
+# - name: install jq on CentOs from repo
+#   become: yes
+#   tasks:
+#     - name: Add repository
+#       yum_repository:
+#         name: epel
+#         description: EPEL YUM repo
+#         baseurl: https://download.fedoraproject.org/pub/epel/7/x86_64/
+#         gpgcheck: yes
+#     - rpm_key:
+#         state: present
+#         key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+#     - yum: name=jq
+#   when:
+#     - ansible_distribution == "CentOS"
+#     - not force_local_installation
 
 ## Doesn't work for Debian on Ansible 2.5
 #- name: install screen, jq and telnet from local
