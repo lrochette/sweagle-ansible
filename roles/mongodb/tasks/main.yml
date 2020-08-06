@@ -8,6 +8,8 @@
     - "{{ ansible_os_family }}.yml"
   tags: [ mongodb, sweagle, sweagle-mongo ]
 
+-debug:
+    msg: "For insytall: {{ force_local_installation }}"
 - name: include installation tasks
   include_tasks: "{{ item }}"
   with_first_found:
