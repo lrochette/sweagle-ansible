@@ -26,7 +26,7 @@
   when: ansible_os_family == 'Debian' and not force_local_installation
   tags: system
 
-- name: install screen, jq and telnet on Red Hat family from repo
+- name: install screen and telnet on Red Hat family from repo
   package:
     pkg: "{{ item }}"
     state: present
@@ -37,7 +37,7 @@
   when: ansible_os_family == 'RedHat' and not force_local_installation
   tags: system
 
-- name: install jq,  epel-release on Red Hat family from repo
+- name: install jq, epel-release on Red Hat family from repo
   package:
     pkg: "{{ item }}"
     state: present
@@ -52,12 +52,13 @@
   tags: system
 
 - name: install jq on CentOs from repo
+
+tasks:
   become: true
   when:
     - ansible_distribution == "CentOS"
     - not force_local_installation
-  tasks:
-    - name: Add repository
+  - name: Add repository
       yum_repository:
         name: epel
         description: EPEL YUM repo
