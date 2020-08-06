@@ -39,6 +39,7 @@
     name:
       - python-devel
       - python-pip
+    state: present
   when: mongodb_pymongo_from_pip
   tags: mongodb
 
