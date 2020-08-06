@@ -51,7 +51,7 @@
     - ansible_distribution != "CentOS"
   tags: system
 
-- name: install jq on CentOs from repo
+#- name: install jq on CentOs from repo
 
 tasks:
   become: true
