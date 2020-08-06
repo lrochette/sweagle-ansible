@@ -9,7 +9,7 @@
   tags: [ mongodb, sweagle, sweagle-mongo ]
 
 - debug:
-  msg: "For insytall: {{ force_local_installation }}"
+    msg: "Forced install: {{ force_local_installation }}"
 
 - name: include installation tasks
   include_tasks: "{{ item }}"
