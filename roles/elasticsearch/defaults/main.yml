@@ -1,4 +1,7 @@
 ---
+# Variable to force local installation
+force_local_installation: true
+
 es_version: "6.8.6"
 es_use_snapshot_release: false
 es_enable_xpack: true
