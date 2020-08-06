@@ -56,7 +56,7 @@ sweagle_mysql_password_update: true
 
 sweagle_vault_port: 8200
 # Set this value to false if vault has already been initialized
-sweagle_vault_auto_unseal: true
+sweagle_vault_auto_unseal: false
 # Vault token is obtained after init
 sweagle_vault_token: ""
 
