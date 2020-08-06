@@ -2,3 +2,6 @@
 java: "{{ es_java | default('java-1.8.0-openjdk.x86_64') }}"
 default_file: "/etc/sysconfig/elasticsearch"
 es_home: "/usr/share/elasticsearch"
+
+# Variable to force local installation
+force_local_installation: true
