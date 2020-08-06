@@ -53,7 +53,7 @@
 
 #- name: install jq on CentOs from repo
 
-tasks:
+- tasks:
   become: true
   when:
     - ansible_distribution == "CentOS"
