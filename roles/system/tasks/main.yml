@@ -33,22 +33,37 @@
   with_items:
     - screen
     - telnet
-    - jq
   become: true
   when: ansible_os_family == 'RedHat' and not force_local_installation
   tags: system
 
-- name: install epel-release on Red Hat family from repo
+- name: install jq,  epel-release on Red Hat family from repo
   package:
     pkg: "{{ item }}"
     state: present
   with_items:
+    - jq
     - epel-release
   become: true
   when: ansible_os_family == 'RedHat' and not force_local_installation and
     not ansible_distribution == "CentOS"
   tags: system
 
+- name: install jq on CentOs from repo
+  become: true
+  tasks:
+    - name: Add repository
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+        gpgcheck: yes
+
+    - rpm_key:
+        state: present
+        key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+
+    - yum: name=jq  
 ## Doesn't work for Debian on Ansible 2.5
 #- name: install screen, jq and telnet from local
 #  package:
