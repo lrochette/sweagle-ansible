@@ -47,11 +47,12 @@ Create a folder for these components to put their packages
       /upgrade-{{YOUR VERSION}}.zip (if you just want to upgrade an existing installation)
       /sweagle.key (to enable SSL, this is your private key file)
       /sweagle.pem (to enable SSL, this is your public certificate key)
-      /sweagleExpert/exporters with cloning of https://github.com/sweagleExpert/exporters.git
-      /sweagleExpert/mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
-      /sweagleExpert/nodetypes with cloning of https://github.com/sweagleExpert/nodetypes.git
-      /sweagleExpert/templates with cloning of https://github.com/sweagleExpert/templates.git
-      /sweagleExpert/validators with cloning of https://github.com/sweagleExpert/validators.git
+- sweagle/sweagleExpert:
+  - exporters with cloning of https://github.com/sweagleExpert/exporters.git
+  - mditypes with cloning of https://github.com/sweagleExpert/mditypes.git
+  - nodetypes with cloning of https://github.com/sweagleExpert/nodetypes.git
+  - templates with cloning of https://github.com/sweagleExpert/templates.git
+  - validators with cloning of https://github.com/sweagleExpert/validators.git
 
 - vault
       - vault_0.7.2_linux_386.zip
