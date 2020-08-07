@@ -103,7 +103,7 @@
   package:
     pkg: "{{ item }}"
     state: present
-  with_items: "{{ lookup('fileglob', '../../../files/RedHat/*.rpm').split(',') | sort }}"
+  with_fileglob: "../../../files/RedHat/*.rpm"
   become: true
   when: ansible_os_family == 'RedHat' and force_local_installation
   tags: system
